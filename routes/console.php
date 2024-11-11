@@ -1,0 +1,3 @@
+<?php
+
+//comandos de consola
