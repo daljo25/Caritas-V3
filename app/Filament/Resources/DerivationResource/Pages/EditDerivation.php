@@ -27,7 +27,8 @@ class EditDerivation extends EditRecord
                             Blade::render('pdf.derivation', ['record' => $record])
                         )->stream();
                     }, 'Hoja de Derivación.pdf');
-                })
+                }),
+            Actions\DeleteAction::make(),
         ];
     }
 }
