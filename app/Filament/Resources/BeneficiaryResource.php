@@ -71,6 +71,10 @@ class BeneficiaryResource extends Resource
                                         Forms\Components\TextInput::make('name')
                                             ->required()
                                             ->maxLength(255)
+                                            ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'El :Attribute ya esta registrado.',
+                                            ])
                                             ->label('Nombres y Apellidos'),
                                             Forms\Components\TextInput::make('id')
                                             ->maxLength(255)
@@ -83,7 +87,10 @@ class BeneficiaryResource extends Resource
                                         Forms\Components\TextInput::make('dni')
                                             ->maxLength(255)
                                             ->label('DNI / NIE / PAS')
-                                            ->unique(ignoreRecord: true),
+                                            ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'El :Attribute ya esta registrado.',
+                                            ]),
                                         Forms\Components\DatePicker::make('expiration_date')
                                             ->label('Fecha de Vencimiento'),
                                         Country::make('nationality')
@@ -96,6 +103,10 @@ class BeneficiaryResource extends Resource
                                             ->maxLength(255),
                                         Forms\Components\TextInput::make('phone')
                                             ->label('Número de Telefono')
+                                            ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'El :Attribute ya esta registrado.',
+                                            ])
                                             ->tel()
                                             ->maxLength(255),
                                         Forms\Components\TextInput::make('email')
