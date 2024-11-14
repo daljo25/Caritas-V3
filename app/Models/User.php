@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser // y aparecer esto
+class User extends Authenticatable //implements FilamentUser // y aparecer esto
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -49,8 +49,8 @@ class User extends Authenticatable implements FilamentUser // y aparecer esto
         ];
     }
 
-    public function canAccessPanel(Panel $panel): bool
+    /* public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@sagradocorazonbellavista.com') && $this->hasVerifiedEmail();
-    }
+    } */
 }
