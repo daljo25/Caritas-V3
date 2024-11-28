@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
 {
@@ -30,7 +31,7 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
 
         return [
             $beneficiary->state,
-            $beneficiary->expedient,
+            $beneficiary->id,
             $beneficiary->name,
             $beneficiary->dni,
             $ageGroups['-2'],
@@ -51,7 +52,7 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
     {
         return [
             'Estado',
-            'Expediente',
+            'Nº',
             'Nombre',
             'DNI',
             '-2 años',
@@ -70,7 +71,14 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
      */
     public function title(): string
     {
-        return 'Beneficiarios';
+        return 'Listado de Usuarios';
+    }
+    /**
+     * Descargar el archivo la hoja de Excel.
+     */
+    public function download()
+    {
+        return Excel::download(new BeneficiaryExport());
     }
 
     /**
@@ -83,28 +91,19 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
             '2a8' => 0,
             '8a14' => 0,
             '14a18' => 0,
-            '+18' => 1,
-            'total' => 1,
+            '+18' => 0,
+            'total' => 0,
         ];
-        if ($beneficiary->Family->isEmpty()) {
-            return $groups;
-        }
-        else {
-            $groups=[
-                '-2' => 0,
-                '2a8' => 0,
-                '8a14' => 0,
-                '14a18' => 0,
-                '+18' => 1,
-                'total' => 0,
-                ] ;
-        }
-        // Obtener la fecha actual para calcular las edades
+
         $today = Carbon::now();
 
-        foreach ($beneficiary->Family as $familyMember) {
-            // Calcular la edad usando la fecha de nacimiento
-            $age = $today->diffInYears(Carbon::parse($familyMember->birth_date));
+        $processMember = function ($birthDate) use ($today, &$groups) {
+            if (!$birthDate || !Carbon::hasFormat($birthDate, 'Y-m-d')) {
+                return; // Ignorar fechas inválidas
+            }
+
+            $birthDate = Carbon::parse($birthDate);
+            $age = $birthDate->diff($today)->y; // Años completos
 
             if ($age < 2) {
                 $groups['-2']++;
@@ -117,10 +116,21 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
             } else {
                 $groups['+18']++;
             }
+
+            $groups['total']++;
+        };
+
+        // Procesar el beneficiario principal
+        if ($beneficiary && $beneficiary->birth_date) {
+            $processMember($beneficiary->birth_date);
         }
 
-        // Calcular el total de familiares
-        $groups['total'] = array_sum($groups);
+        // Procesar familiares
+        if ($beneficiary && $beneficiary->Family) {
+            foreach ($beneficiary->Family as $familyMember) {
+                $processMember($familyMember->birth_date);
+            }
+        }
 
         return $groups;
     }
