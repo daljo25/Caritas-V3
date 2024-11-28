@@ -42,14 +42,14 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
         if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
             $startDate = $this->filters['start_date'];
             $endDate = $this->filters['end_date'];
-    
-            $query->where(function($q) use ($startDate, $endDate) {
+
+            $query->where(function ($q) use ($startDate, $endDate) {
                 $q->whereBetween('start_date', [$startDate, $endDate])
-                  ->orWhereBetween('end_date', [$startDate, $endDate])
-                  ->orWhere(function($q) use ($startDate, $endDate) {
-                      $q->where('start_date', '<=', $startDate)
-                        ->where('end_date', '>=', $endDate);
-                  });
+                    ->orWhereBetween('end_date', [$startDate, $endDate])
+                    ->orWhere(function ($q) use ($startDate, $endDate) {
+                        $q->where('start_date', '<=', $startDate)
+                            ->where('end_date', '>=', $endDate);
+                    });
             });
         } elseif (!empty($this->filters['start_date'])) {
             $query->where('start_date', '>=', $this->filters['start_date']);
@@ -72,7 +72,7 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
         $ageGroups = $this->getFamilyMemberAgeGroups($beneficiary);
 
         return [
-            $beneficiary->expedient,
+            $beneficiary->id,
             $beneficiary->name,
             $beneficiary->dni,
             $ageGroups['-2'],
@@ -85,8 +85,8 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
             $beneficiary->phone,
             $aid->status,
             $aid->paid_by,
-            $aid->type, 
-            $aid->approved_amount, 
+            $aid->type,
+            $aid->approved_amount,
             Carbon::parse($aid->start_date)->format('d-m-Y'), // Formato de la fecha
             Carbon::parse($aid->end_date)->format('d-m-Y'), // Formato de la fecha
         ];
@@ -98,7 +98,7 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
     public function headings(): array
     {
         return [
-            'Expediente',
+            'Nº',
             'Nombre',
             'DNI',
             'Menos de 2 años',
@@ -128,7 +128,8 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
     /**
      * Descargar el archivo la hoja de Excel.
      */
-    public function download() {
+    public function download()
+    {
         return Excel::download(new AidExport($this->filters));
     }
 
@@ -142,28 +143,19 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
             '2a8' => 0,
             '8a14' => 0,
             '14a18' => 0,
-            '+18' => 1, // Predeterminado si no hay familiares
-            'total' => 1, // El propio beneficiario cuenta como adulto
+            '+18' => 0,
+            'total' => 0,
         ];
-
-        if ($beneficiary->Family->isEmpty()) {
-            return $groups;
-        }
-        else {
-            $groups=[
-                '-2' => 0,
-                '2a8' => 0,
-                '8a14' => 0,
-                '14a18' => 0,
-                '+18' => 1,
-                'total' => 0,
-                ] ;
-        }
 
         $today = Carbon::now();
 
-        foreach ($beneficiary->Family as $familyMember) {
-            $age = $today->diffInYears(Carbon::parse($familyMember->birth_date));
+        $processMember = function ($birthDate) use ($today, &$groups) {
+            if (!$birthDate || !Carbon::hasFormat($birthDate, 'Y-m-d')) {
+                return; // Ignorar fechas inválidas
+            }
+
+            $birthDate = Carbon::parse($birthDate);
+            $age = $birthDate->diff($today)->y; // Años completos
 
             if ($age < 2) {
                 $groups['-2']++;
@@ -176,9 +168,21 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
             } else {
                 $groups['+18']++;
             }
+
+            $groups['total']++;
+        };
+
+        // Procesar el beneficiario principal
+        if ($beneficiary && $beneficiary->birth_date) {
+            $processMember($beneficiary->birth_date);
         }
 
-        $groups['total'] = array_sum($groups);
+        // Procesar familiares
+        if ($beneficiary && $beneficiary->Family) {
+            foreach ($beneficiary->Family as $familyMember) {
+                $processMember($familyMember->birth_date);
+            }
+        }
 
         return $groups;
     }
