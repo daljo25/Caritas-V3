@@ -4,16 +4,19 @@ namespace App\Filament\Resources\AidResource\Pages;
 
 use App\Exports\AidExport;
 use App\Filament\Resources\AidResource;
+use App\Jobs\UpdateAidsStatusJob;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Blade;
 use App\Models\Aid;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
+use Filament\Actions\Modal\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ListAids extends ListRecords
@@ -23,6 +26,23 @@ class ListAids extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            //Actualizar estados manualmente
+            Actions\Action::make('Actualizar')
+                ->label('Actualizar Estados')
+                ->color('danger')
+                ->icon('tabler-refresh')
+                ->requiresConfirmation()
+                ->action(function () {
+                    $results = (new UpdateAidsStatusJob())->handle();
+                    $terminadas = $results['ayudas'];
+
+                    Notification::make()
+                        ->title('Estados Actualizados')
+                        ->body("$terminadas ayudas terminadas.")
+                        ->success()
+                        ->send();
+                }),
+            //exportar en excel el listado de ayudas
             Actions\Action::make('Export')
                 ->label('Listado de Ayudas')
                 ->color('info')
@@ -54,8 +74,6 @@ class ListAids extends ListRecords
                         ->label('Nombre del Archivo')
                         ->placeholder('Lista de Ayudas')
                         ->suffix('.xlsx'),
-
-
                 ])
                 ->action(function (array $data) {
                     // Procesar los datos del formulario
@@ -64,15 +82,16 @@ class ListAids extends ListRecords
                         'status' => $data['status'] ?? [],
                         'start_date' => $data['start_date'] ?? null,
                         'end_date' => $data['end_date'] ?? null,
-                        
+
                     ];
 
                     // Crear una instancia de AidExport con los filtros proporcionados
                     $export = new AidExport($filters);
                     $filename = $data['filename'] ?? 'Lista de Ayudas';
                     // Descargar el archivo de Excel
-                    return Excel::download( $export, $filename.'.xlsx');
+                    return Excel::download($export, $filename . '.xlsx');
                 }),
+            //generar pdf de la carta al COVIRAN
             Actions\Action::make('COVIRAN')
                 ->label('COVIRAN')
                 ->color('success')
@@ -84,11 +103,6 @@ class ListAids extends ListRecords
                         )->stream();
                     }, 'COVIRAN ' . date('m-Y') . '.pdf');
                 }),
-            /* Actions\Action::make('export')
-                ->label('Lista de Ayudas')
-                ->color('info')
-                ->icon('tabler-file-type-xls')
-                ->url('aids/export/aids'), */
             Actions\CreateAction::make(),
         ];
     }

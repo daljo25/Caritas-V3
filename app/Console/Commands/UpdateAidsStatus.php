@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Aid;
-use Carbon\Carbon;
+use App\Jobs\UpdateAidsStatusJob;
 use Illuminate\Console\Command;
 
 class UpdateAidsStatus extends Command
@@ -28,11 +27,8 @@ class UpdateAidsStatus extends Command
     public function handle()
     {
         // Actualizar de 'Aceptada' a 'Terminada' si han pasado el tiempo transcurrido
-        $affectedRows = Aid::where('status', 'Aceptada')
-            ->where('end_date', '<', Carbon::now())
-            ->update(['status' => 'Terminada']);
-
-        $this->info("Ayudas actualizadas con éxito: $affectedRows");
+        UpdateAidsStatusJob::dispatchSync();
+        $this->info("Ayudas actualizadas con éxito.");
     }
     
 }

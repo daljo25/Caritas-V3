@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Beneficiary;
-use Carbon\Carbon;
+use App\Jobs\UpdateBeneficiariesStateJob;
 use Illuminate\Console\Command;
 
 class UpdateBeneficiariesState extends Command
@@ -27,18 +26,7 @@ class UpdateBeneficiariesState extends Command
      */
     public function handle()
     {
-        $threeMonthsAgo = Carbon::now()->subMonths(3);
-
-        // Actualizar de 'Activo' a 'Pasivo' si han pasado 3 meses desde la última actualización
-        $pasivos =Beneficiary::where('state', 'Activo')
-            ->where('updated_at', '<=', $threeMonthsAgo)
-            ->update(['state' => 'Pasivo']);
-
-        // Actualizar de 'Pasivo' a 'Archivado' si han pasado 3 meses desde la última actualización
-        $archivados = Beneficiary::where('state', 'Pasivo')
-            ->where('updated_at', '<=', $threeMonthsAgo)
-            ->update(['state' => 'Archivado']);
-
-        $this->info("Se actualizaron $pasivos beneficiarios a pasivos y $archivados beneficiarios a archivados.");
+        UpdateBeneficiariesStateJob::dispatchSync();
+        $this->info('Estados de beneficiarios actualizados con éxito.');
     }
 }
