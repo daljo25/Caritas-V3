@@ -150,6 +150,10 @@ class AidResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label('Tipo de Ayuda')
                     ->searchable(),

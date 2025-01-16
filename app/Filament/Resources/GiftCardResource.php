@@ -88,6 +88,10 @@ class GiftCardResource extends Resource
                     ->label('Ayuda')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('aid.beneficiary.name')
+                    ->label('Usuario')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('issuer')
                     ->label('Emisor')
                     ->searchable(),
@@ -99,13 +103,13 @@ class GiftCardResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('aid_status')
-                    ->label('Entregada?') 
-                    ->boolean() 
-                    ->getStateUsing(fn($record) => !is_null($record->aid_id)) 
-                    ->trueIcon('tabler-circle-check') 
-                    ->falseIcon('tabler-circle-x') 
-                    ->trueColor('success') 
-                    ->falseColor('danger'), 
+                    ->label('¿Entregada?')
+                    ->boolean()
+                    ->getStateUsing(fn($record) => !is_null($record->aid_id))
+                    ->trueIcon('tabler-circle-check')
+                    ->falseIcon('tabler-circle-x')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

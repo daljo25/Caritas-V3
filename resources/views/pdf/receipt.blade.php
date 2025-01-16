@@ -85,7 +85,7 @@
                 <td width="50%" class="noborder">
                     <h2>RECEPCION DE AYUDA</h2>
                 </td>
-                <td width="50%" class="Recibo noborder">Recibo de Ayuda Nº._________</td>
+                <td width="50%" class="Recibo noborder">Recibo de Ayuda Nº. {{$record->id}} </td>
             </tr>
         </table>
 
@@ -96,7 +96,7 @@
         <table>
             <tr>
                 <td width="10%">D./Dña.</td>
-                <td width="90%"><strong>{{ $record->Beneficiary->expedient }} {{ $record->Beneficiary->name }}</strong></td>
+                <td width="90%"><strong>{{ $record->Beneficiary->id }} {{ $record->Beneficiary->name }}</strong></td>
 
             </tr>
         </table>

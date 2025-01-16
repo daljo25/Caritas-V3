@@ -92,17 +92,29 @@ class ListAids extends ListRecords
                     return Excel::download($export, $filename . '.xlsx');
                 }),
             //generar pdf de la carta al COVIRAN
-            Actions\Action::make('COVIRAN')
-                ->label('COVIRAN')
+            Actions\Action::make('GiftCard')
+                ->label('listado de Tarjetas')
                 ->color('success')
                 ->icon('tabler-printer')
                 ->action(function (Aid $aid) {
                     return response()->streamDownload(function () use ($aid) {
                         echo FacadePdf::loadHtml(
-                            Blade::render('pdf.coviran', ['record' => $aid])
+                            Blade::render('pdf.gift-cards', ['record' => $aid])
                         )->stream();
-                    }, 'COVIRAN ' . date('m-Y') . '.pdf');
+                    }, 'Listado de Tarjetas ' . date('m-Y') . '.pdf');
                 }),
+                /* //generar pdf de la carta al COVIRAN
+            Actions\Action::make('COVIRAN')
+            ->label('COVIRAN')
+            ->color('success')
+            ->icon('tabler-printer')
+            ->action(function (Aid $aid) {
+                return response()->streamDownload(function () use ($aid) {
+                    echo FacadePdf::loadHtml(
+                        Blade::render('pdf.coviran', ['record' => $aid])
+                    )->stream();
+                }, 'COVIRAN ' . date('m-Y') . '.pdf');
+            }), */
             Actions\CreateAction::make(),
         ];
     }
