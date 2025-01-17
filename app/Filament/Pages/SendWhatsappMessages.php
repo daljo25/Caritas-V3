@@ -48,7 +48,7 @@ class SendWhatsappMessages extends Page
                 ->required(),
             Textarea::make('message')
                 ->label('Mensaje')
-                ->helperText('Usa usar los simbolos para formatear tu texto como en WhatsApp: *negrita*, _cursiva_, ~tachado~ y ``monoespaciado``.')
+                ->helperText('Usa usar los simbolos para formatear tu texto: *negrita*, _cursiva_, ~tachado~ y ``monoespaciado``.')
                 ->required(),
         ];
     }
@@ -92,7 +92,8 @@ class SendWhatsappMessages extends Page
             Action::make('generateLinks')
                 ->label('Generar Links')
                 ->color('success')
-                ->action('generateLinks'),
+                ->action('generateLinks')
+                ->icon('tabler-brand-whatsapp'),
         ];
     }
 }
