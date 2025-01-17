@@ -72,11 +72,9 @@ class GiftCardResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number')
                     ->label('Número')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('pin')
                     ->label('PIN')
-                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('amount')
@@ -90,14 +88,13 @@ class GiftCardResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('aid.beneficiary.name')
                     ->label('Usuario')
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('issuer')
                     ->label('Emisor')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('exp')
-                    ->label('Expiración')
-                    ->searchable(),
+                    ->label('Expiración'),
                 Tables\Columns\TextColumn::make('delivery_date')
                     ->label('Fecha de entrega')
                     ->date()

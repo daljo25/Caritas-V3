@@ -93,9 +93,9 @@ class ListAids extends ListRecords
                 }),
             //generar pdf de la carta al COVIRAN
             Actions\Action::make('GiftCard')
-                ->label('listado de Tarjetas')
+                ->label('Listado de Tarjetas')
                 ->color('success')
-                ->icon('tabler-printer')
+                ->icon('tabler-credit-card')
                 ->action(function (Aid $aid) {
                     return response()->streamDownload(function () use ($aid) {
                         echo FacadePdf::loadHtml(
