@@ -93,8 +93,7 @@
 <br><br>
 <table>
     <tr class="text-center bold">
-        <td>RECIBO</td>
-        <td>NUMERO</td>
+        <td>RECIBI</td>
         <td>TITULAR</td>
         <td>DNI/NIE/PAS</td>
         <td>TARJETAS</td>
@@ -102,12 +101,18 @@
     </tr>
     @foreach (Aid::where('type', 'Alimentacion e higiene')
              ->where('status', 'Aceptada')
-             ->with('Beneficiary', 'giftCards')
+             ->where('paid_by', 'Diocesana')
+             ->with(['Beneficiary', 'giftCards' => function ($query) {
+                 // Filtrar giftCards por el mes en curso
+                 $query->whereBetween('delivery_date', [
+                     now()->startOfMonth()->toDateString(), // Fecha de inicio del mes (01 de enero de 2025)
+                     now()->endOfMonth()->toDateString()   // Fecha de fin del mes (31 de enero de 2025)
+                 ]);
+             }])
              ->get() as $aid)
              
         <tr class="text-center">
             <td>{{$aid->id}}</td>
-            <td>{{$aid->Beneficiary->id}}</td>
             <td>{{$aid->Beneficiary->name}}</td>
             <td>{{$aid->Beneficiary->dni}}</td>
             <td>
@@ -124,7 +129,6 @@
     @endforeach
     <tr class="text-center">
         <td>{{$cont}} {{ $cont > 1 ? 'Familias' : 'Familia'}}</td>
-        <td></td>
         <td></td>
         <td></td>
         <td>Total</td>
