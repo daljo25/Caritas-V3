@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\GiftCardResource\Pages;
 use App\Filament\Resources\GiftCardResource\RelationManagers;
+use App\Models\Aid;
 use App\Models\GiftCard;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -47,10 +48,42 @@ class GiftCardResource extends Resource
                     ->numeric()
                     ->inputMode('decimal'),
                 Forms\Components\Select::make('aid_id')
-                    ->label('Ayuda')
-                    ->relationship('aid', 'id',)
-                    ->searchable()
-                    ->preload(),
+                ->label('Ayuda')
+                ->searchable()
+                ->options(function () {
+                    return Aid::query()
+                        ->with('beneficiary') // Cargar la relación `beneficiary`
+                        ->where('status', 'Aceptada') // Filtrar solo los Aid con status = 'Aceptada'
+                        ->get()
+                        ->pluck('beneficiary.name', 'id') // Obtener el nombre del Beneficiary y el id del Aid
+                        ->mapWithKeys(function ($name, $id) {
+                            return [$id => "{$id} - {$name}"]; // Formatear la salida: "id - nombre"
+                        })
+                        ->toArray();
+                })
+                ->getSearchResultsUsing(function (string $search) {
+                    return Aid::query()
+                        ->with('beneficiary') // Cargar la relación `beneficiary`
+                        ->where('status', 'Aceptada') // Filtrar solo los Aid con status = 'Aceptada'
+                        ->where(function ($query) use ($search) {
+                            $query->where('id', 'like', "%{$search}%") // Buscar por `id` del Aid
+                                  ->orWhereHas('beneficiary', function ($query) use ($search) {
+                                      $query->where('name', 'like', "%{$search}%"); // Buscar por nombre del Beneficiary
+                                  });
+                        })
+                        ->limit(50) // Limitar resultados para mejorar el rendimiento
+                        ->get()
+                        ->pluck('beneficiary.name', 'id') // Obtener el nombre del Beneficiary y el id del Aid
+                        ->mapWithKeys(function ($name, $id) {
+                            return [$id => "{$id} - {$name}"]; // Formatear la salida: "id - nombre"
+                        })
+                        ->toArray();
+                })
+                ->getOptionLabelUsing(function ($value) {
+                    $aid = Aid::with('beneficiary')->find($value); // Buscar el Aid con su Beneficiary
+                    return $aid ? "{$aid->id} - {$aid->beneficiary->name}" : null; // Formatear la salida: "id - nombre"
+                })
+                ->preload(), 
                 Forms\Components\TextInput::make('issuer')
                     ->label('Emisor')
                     ->maxLength(255),
