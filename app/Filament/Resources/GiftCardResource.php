@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\GiftCardResource\Pages;
 use App\Filament\Resources\GiftCardResource\RelationManagers;
+use App\Filament\Widgets\GiftCardStats;
+use App\Filament\Widgets\StatsOverview;
 use App\Models\Aid;
 use App\Models\GiftCard;
 use Filament\Forms;
@@ -177,4 +179,11 @@ class GiftCardResource extends Resource
             'edit' => Pages\EditGiftCard::route('/{record}/edit'),
         ];
     }
+
+    public static function getWidgets(): array
+{
+    return [
+        GiftCardStats::class,
+    ];
+}
 }

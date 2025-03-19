@@ -5,6 +5,8 @@ namespace App\Filament\Resources\GiftCardResource\Pages;
 use App\Exports\GiftCardExport;
 use App\Filament\Imports\GiftCardImporter;
 use App\Filament\Resources\GiftCardResource;
+use App\Filament\Widgets\GiftCardStats;
+use App\Filament\Widgets\StatsOverview;
 use App\Models\Aid;
 use Filament\Actions;
 use Filament\Forms\Components\DatePicker;
@@ -23,7 +25,7 @@ class ListGiftCards extends ListRecords
         return [
             //exportar en excel el listado de tarjetas
             Actions\Action::make('Export')
-                ->label('Listado de Ayudas')
+                ->label('Listado de Tarjetas')
                 ->color('success')
                 ->icon('tabler-file-type-xls')
                 ->modalSubmitActionLabel('Exportar')
@@ -71,5 +73,16 @@ class ListGiftCards extends ListRecords
                 ->Importer(GiftCardImporter::class),
             Actions\CreateAction::make(),
         ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            GiftCardStats::class,
+        ];
+    }
+    public function getHeaderWidgetsColumns(): int | array
+    {
+        return 5;
     }
 }
