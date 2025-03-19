@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GiftCardResource\Pages;
-use App\Filament\Resources\GiftCardResource\RelationManagers;
 use App\Filament\Widgets\GiftCardStats;
-use App\Filament\Widgets\StatsOverview;
 use App\Models\Aid;
 use App\Models\GiftCard;
 use Filament\Forms;
@@ -13,8 +11,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GiftCardResource extends Resource
 {
