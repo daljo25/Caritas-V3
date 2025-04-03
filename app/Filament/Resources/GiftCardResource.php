@@ -119,6 +119,7 @@ class GiftCardResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('aid.beneficiary.name')
                     ->label('Usuario')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('issuer')
                     ->label('Emisor')
