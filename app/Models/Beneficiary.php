@@ -27,6 +27,9 @@ class Beneficiary extends Model
     public function Appointments():HasMany{
         return $this->hasMany(Appointment::class);
     }
+    public function Attendances():HasMany{
+        return $this->hasMany(Attendance::class);
+    }
 
 
     //cast
