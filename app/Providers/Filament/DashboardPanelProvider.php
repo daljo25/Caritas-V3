@@ -29,6 +29,7 @@ class DashboardPanelProvider extends PanelProvider
             ->path('')
             ->login()
             ->passwordReset()
+            ->unsavedChangesAlerts()
             ->emailVerification()
             ->profile(isSimple: false)
             ->spa()
