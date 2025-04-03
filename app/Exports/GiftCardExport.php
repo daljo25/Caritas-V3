@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class GiftcardExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
+class GiftCardExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
 {
     protected $filters;
 
