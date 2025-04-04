@@ -1,0 +1,100 @@
+# LICENCIA DE SOFTWARE PARA CÁRITAS PARROQUIALES
+
+**© 2025 Daljomar Morillo [daljo25](https://github.com/daljo25)**
+
+  
+
+## 1. TÍTULO
+
+Licencia de Uso Restringido para el Sistema de Gestión Parroquial
+
+## 2. DEFINICIONES
+
+**"Licenciante"**: Daljomar Morillo [daljo25](https://github.com/daljo25), creador y propietario del software.
+**"Licenciatario"**: La parroquia u organización autorizada para usar el software.
+**"Software"**: El sistema de gestión para Cáritas (incluyendo código, documentación y recursos).
+**"Instancia"**: Cada instalación independiente del software (ya sea en VPS, servidor compartido o local). 
+
+## 3. DERECHOS Y RESTRICCIONES
+
+### 3.1. Derechos Otorgados
+
+✅ **Uso Autorizado:**
+
+Instalación en una o más parroquias bajo supervisión del Licenciante o un técnico autorizado.
+Modificaciones solo para adaptaciones locales (ej: campos personalizados, logos).
+
+✅ **Distribución Controlada:**
+
+El software no puede venderse ni redistribuirse públicamente. 
+Solo se permite compartirlo con otras Cáritas parroquiales previa autorización escrita.  
+
+### 3.2. Restricciones
+
+❌ Prohibido:
+
+Usar el software en organizaciones no católicas o sin vinculación parroquial.
+Alquilar, vender o sublicenciar el código a terceros.
+Eliminar avisos de copyright o licencia.
+Usar el software para fines comerciales (ej: vender servicios basados en él).
+
+## 4. INSTALACIÓN Y SOPORTE
+
+### 4.1. Requisitos Técnicos
+
+Cada parroquia puede instalarlo en:
+
+VPS dedicado (ej: Ubuntu + CloudPanel).
+Servidor compartido (con cPanel/Plesk).
+Hosting administrado (si el Licenciante lo aprueba).
+
+### 4.2. Soporte y Mantenimiento
+
+El Licenciante no está obligado a dar soporte técnico gratuito.
+Se puede ofrecer soporte bajo acuerdo separado (mantenimiento anual, personalización, etc.).
+
+## 5. MODIFICACIONES Y DERIVADOS
+
+### 5.1. Modificaciones Permitidas
+
+Cambiar estilos (CSS) y textos para adaptarlo a la parroquia.
+Añadir módulos siempre que no se redistribuyan.
+
+### 5.2. Obligaciones al Modificar
+
+Notificar al Licenciante sobre cambios significativos.
+No eliminar créditos ni licencias originales. 
+
+## 6. GESTIÓN MULTIPARROQUIA
+
+✅ Si se usa en un mismo VPS para varias parroquias:
+
+Cada instalación debe tener:
+
+Base de datos independiente.
+Dominio/Subdominio separado (ej: caritas.parroquia1.org, caritas.parroquia2.org).
+No se permite usar una sola instalación para múltiples parroquias (cada una debe tener su propia instancia).
+
+## 7. PROTECCIÓN LEGAL
+
+### 7.1. Propiedad Intelectual
+
+El código fuente sigue siendo propiedad del Licenciante.
+El Licenciatario no adquiere derechos de autor al usarlo.
+
+### 7.2. Terminación
+
+La licencia se revoca automáticamente si:
+
+Se usa en organizaciones no autorizadas.
+Se incumple alguna cláusula de esta licencia.
+
+### 8. ACEPTACIÓN
+
+⚠️ Al instalar el software, el Licenciatario acepta:
+
+Usarlo solo para fines parroquiales.
+
+No compartirlo sin permiso por escrito. 
+
+Respetar los términos de modificación.

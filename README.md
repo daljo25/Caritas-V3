@@ -1,93 +1,78 @@
-# Caritas-V3
+# Sistema de Gestión Parroquial Caritas-V3
 
-Caritas-V3 es una aplicación web para gestionar usuarios, voluntarios, ayudas, donantes y donaciones. Está construida con Laravel 12 y utiliza FilamentPHP 3 para el panel de administración.
+Aplicación web para la gestión integral de Cáritas parroquiales, desarrollada con Laravel 12 y FilamentPHP 3.
 
-## Características
+## 📜 Licencia y Uso
+**Este software tiene una licencia propietaria restringida**:
+- Uso exclusivo para Cáritas parroquiales autorizadas
+- Prohibida su redistribución sin autorización expresa
+- Modificaciones permitidas solo para adaptaciones locales
+- Requiere acuerdo escrito para instalación en nuevas parroquias
 
-- Gestión de Usuarios
-- Gestión de Voluntarios
-- Gestión de Ayudas
-- Gestión de donantes
-- Gestión de donaciones
-- Panel de administración con FilamentPHP
-- Autenticación de usuarios
+[Ver licencia completa](LICENSE)
 
-## Requisitos
+## ✨ Características Principales
+- **Gestión de beneficiarios** (usuarios/asistentes)
+- **Administración de voluntarios**
+- **Control de ayudas y donaciones**
+- **Registro de donantes**
+- **Panel administrativo** con:
+  - Tableros de control
+  - Reportes personalizables
+  - Gestión de permisos
 
-- PHP 8.13 o superior
-- Composer
-- Node.js y npm
-- MySQL o cualquier otra base de datos compatible con Laravel
+## 🚀 Requisitos Técnicos
+- PHP 8.2+
+- Composer 2.5+
+- MySQL 8.0+/MariaDB 10.3+
+- Node.js 18+ (solo para compilación de assets)
 
-## Instalación
+## ⚙️ Instalación (Para parroquias autorizadas)
 
-Sigue estos pasos para configurar y ejecutar el proyecto localmente.
+### 1. Preparación del entorno
+```bash
+git clone https://github.com/daljo25/Caritas-V3.git --branch stable
+cd Caritas-V3
+```
+### 2. Configuración inicial
+```bash
+composer install --no-dev
+cp .env.example .env
+php artisan key:generate`
+```
+### 3. Configuración de base de datos
+Editar el archivo .env con tus credenciales y luego ejecutar:
+```bash
+php artisan migrate
+```
+### 4. Compilación de frontend (opcional)
+```bash
+npm install && npm run build
+```
+🔐 Acceso al Sistema
+URL administrativa: /login
 
-1. Clonar el repositorio:
+Credenciales iniciales: (proporcionadas por el administrador/licenciante)
 
-    ```bash
-    git clone https://github.com/daljo25/Caritas-V3.git
-    cd Caritas-V3
-    ```
+⚠️ Notas Importantes
+Cada parroquia debe tener su propia instalación independiente
 
-2. Instalar dependencias de PHP con Composer:
+Para instalaciones multi-parroquia en un mismo servidor:
 
-    ```bash
-    composer install
-    ```
+Se requieren bases de datos separadas
 
-3. Instalar dependencias de Node.js con npm:
+Dominios/subdominios independientes
 
-    ```bash
-    npm install
-    ```
+Prohibido usar en organizaciones no parroquiales
 
-4. Copiar el archivo `.env.example` a `.env` y configurar la base de datos y otras variables de entorno:
+📬 Soporte y Contacto
+Para solicitudes de:
 
-    ```bash
-    cp .env.example .env
-    ```
+Nueva instalación autorizada
 
-5. Generar la clave de la aplicación:
+Soporte técnico
 
-    ```bash
-    php artisan key:generate
-    ```
+Personalizaciones
 
-6. Ejecutar las migraciones:
-
-    ```bash
-    php artisan migrate
-    ```
-
-7. Compilar los assets de frontend:
-
-    ```bash
-    npm run build
-    ```
-
-8. Iniciar el servidor de desarrollo:
-
-    ```bash
-    composer run dev
-    ```
-
-## Uso
-
-Después de seguir los pasos de instalación, puedes acceder a la aplicación en `http://localhost:8000`. Utiliza el panel de administración de Filament.
-
-## Panel de Administración
-
-El panel de administración de Filament está disponible en `http://localhost:8000/login`.
-
-## Contribuir
-
-Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request para discutir los cambios propuestos.
-
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
-
-## Contacto
-
-Para cualquier pregunta o comentario, por favor contacta a [daljo25](https://github.com/daljo25].
+Contactar al desarrollador:
+Daljomar Morillo [daljo25](https://github.com/daljo25)
