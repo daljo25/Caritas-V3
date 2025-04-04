@@ -49,12 +49,12 @@ php artisan migrate
 ```bash
 npm install && npm run build
 ```
-🔐 Acceso al Sistema
+## 🔐 Acceso al Sistema
 URL administrativa: /login
 
 Credenciales iniciales: (proporcionadas por el administrador/licenciante)
 
-⚠️ Notas Importantes
+## ⚠️ Notas Importantes
 Cada parroquia debe tener su propia instalación independiente
 
 Para instalaciones multi-parroquia en un mismo servidor:
@@ -65,7 +65,8 @@ Dominios/subdominios independientes
 
 Prohibido usar en organizaciones no parroquiales
 
-📬 Soporte y Contacto
+## 📬 Soporte y Contacto
+
 Para solicitudes de:
 
 Nueva instalación autorizada
