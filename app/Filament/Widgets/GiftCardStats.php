@@ -2,8 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\GiftCard;
 use Carbon\Carbon;
+use App\Models\GiftCard;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -11,33 +11,63 @@ class GiftCardStats extends BaseWidget
 {
     protected function getStats(): array
     {
-        // Tarjetas sin entregar
-        $tarjetasSinEntregar = GiftCard::whereNull('delivery_date')->count();
-        $totalSinEntregar = GiftCard::whereNull('delivery_date')->sum('amount');
+        $stats = [];
 
-        // Tarjetas entregadas
-        $tarjetasEntregadas = GiftCard::whereNotNull('delivery_date')->count();
-        $totalEntregadas = GiftCard::whereNotNull('delivery_date')->sum('amount');
+        // --- Tarjetas Recibidas ---
+        $quarterDataTotal = [];
+        $amountsTotal = [];
 
-        // Total general de tarjetas
-        $totalTarjetas = GiftCard::count();
-        $montoTotal = GiftCard::sum('amount');
+        // --- Tarjetas por Entregar ---
+        $quarterDataPending = [];
+        $amountsPending = [];
 
-        return [
-            Stat::make('Tarjetas sin entregar', $tarjetasSinEntregar)
-                ->description('Total: € ' . number_format($totalSinEntregar, 2))
-                ->descriptionIcon('heroicon-o-x-circle')
-                ->color('danger'),
+        // --- Tarjetas Entregadas ---
+        $quarterDataDelivered = [];
+        $amountsDelivered = [];
 
-            Stat::make('Tarjetas entregadas', $tarjetasEntregadas)
-                ->description('Total: € ' . number_format($totalEntregadas, 2))
-                ->descriptionIcon('heroicon-o-check-circle')
-                ->color('success'),
+        for ($q = 1; $q <= 4; $q++) {
+            $start = Carbon::createFromDate(now()->year, ($q - 1) * 3 + 1, 1)->startOfDay();
+            $end = (clone $start)->addMonths(2)->endOfMonth()->endOfDay();
 
-            Stat::make('Total de tarjetas', $totalTarjetas)
-                ->description('Monto total: € ' . number_format($montoTotal, 2))
-                ->descriptionIcon('heroicon-o-credit-card')
-                ->color('gray'),
-        ];
+            // Recibidas
+            $quarterDataTotal[] = GiftCard::whereBetween('created_at', [$start, $end])->count();
+            $amountsTotal[] = '€ ' . number_format(GiftCard::whereBetween('created_at', [$start, $end])->sum('amount'), 2);
+
+            // Por entregar
+            $quarterDataPending[] = GiftCard::whereNull('delivery_date')->whereBetween('created_at', [$start, $end])->count();
+            $amountsPending[] = '€ ' . number_format(GiftCard::whereNull('delivery_date')->whereBetween('created_at', [$start, $end])->sum('amount'), 2);
+
+            // Entregadas
+            $quarterDataDelivered[] = GiftCard::whereNotNull('delivery_date')->whereBetween('delivery_date', [$start, $end])->count();
+            $amountsDelivered[] = '€ ' . number_format(GiftCard::whereNotNull('delivery_date')->whereBetween('delivery_date', [$start, $end])->sum('amount'), 2);
+        }
+
+        
+        // Stat 1: Tarjetas por entregar
+        $stats[] = Stat::make('Tarjetas por Entregar del Año ' . now()->year, implode(' | ', $quarterDataPending))
+        ->description(implode(' | ', $amountsPending))
+        ->chart($quarterDataPending)
+        ->descriptionIcon('heroicon-o-clock')
+        ->color('warning');
+        
+        // Stat 2: Tarjetas entregadas
+        $stats[] = Stat::make('Tarjetas Entregadas del Año ' . now()->year, implode(' | ', $quarterDataDelivered))
+        ->description(implode(' | ', $amountsDelivered))
+        ->chart($quarterDataDelivered)
+        ->descriptionIcon('heroicon-o-check-circle')
+        ->color('success');
+        
+        // Stat 3: Todas las tarjetas
+        $stats[] = Stat::make('Tarjetas Recibidas del Año ' . now()->year, implode(' | ', $quarterDataTotal))
+            ->description(implode(' | ', $amountsTotal))
+            ->chart($quarterDataTotal)
+            ->descriptionIcon('heroicon-o-calendar')
+            ->color('info');
+        return $stats;
+    }
+
+    protected function getColumns(): int
+    {
+        return 3; // Puedes ajustar según tu diseño
     }
 }
