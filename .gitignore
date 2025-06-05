@@ -22,3 +22,5 @@ yarn-error.log
 /.zed
 app/Models/User.php
 app/Models/User.php
+composer.lock
+package-lock.json
