@@ -55,45 +55,45 @@ class AidResource extends Resource
                             ->label('Tipo de Ayuda')
                             ->required()
                             ->options([
-                                'Lucha Contra la Pobresa Energetica' => [
+                                'Lucha Contra la Pobreza Energética' => [
                                     'Pago de suministro' => 'Pago de suministro',
                                     'Mejora de aislamiento' => 'Mejora de aislamiento',
-                                    'Adquision y reposicion de elementos luminosos de bajo consumo' => 'Adquision y reposicion de elementos luminosos de bajo consumo',
-                                    'Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipamoientos' => 'Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipamoientos',
-                                    'Otras nececidades basicas de energia' => 'Otras nececidades basicas de energia',
+                                    'Adquisición y reposición de elementos luminosos de bajo consumo' => 'Adquisición y reposición de elementos luminosos de bajo consumo',
+                                    'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos',
+                                    'Otras necesidades básicas de energía' => 'Otras necesidades básicas de energía',
                                 ],
                                 'Gastos Relativos a la Vivienda' => [
                                     'Impago de alquiler' => 'Impago de alquiler',
-                                    'Impago de credito hipotecario' => 'Impago de credito hipotecario',
+                                    'Impago de crédito hipotecario' => 'Impago de crédito hipotecario',
                                     'Gastos derivados de las alternativas al alquiler' => 'Gastos derivados de las alternativas al alquiler',
-                                    'Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia Energetica' => 'Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia Energetica',
-                                    'Equipamiento basico del Hogar' => 'Equipamiento basico del Hogar',
-                                    'Roperia (Ropa, Zapatos, Uniformes, Lenceria del Hogar, etc.)' => 'Roperia (Ropa, Zapatos, Uniformes, Lenceria del Hogar, etc.)',
-                                    'Reparacion de Vehiculo' => 'Reparacion de Vehiculo',
-                                    'Otras nececidades basicas de vivienda' => 'Otras nececidades basicas de vivienda',
+                                    'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética',
+                                    'Equipamiento básico del hogar' => 'Equipamiento básico del hogar',
+                                    'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)' => 'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)',
+                                    'Reparación de vehículo' => 'Reparación de vehículo',
+                                    'Otras necesidades básicas de vivienda' => 'Otras necesidades básicas de vivienda',
                                 ],
-                                'Gastos Relativos a la reduccion de la Brecha Digital' => [
-                                    'Pago de Telefonia e Internet' => 'Pago de Telefonia e Internet',
-                                    'Equipamiento Digital' => 'Equipamiento Digital',
-                                    'Otras nececidades basicas de la brecha digital' => 'Otras nececidades basicas de la brecha digital',
+                                'Gastos Relativos a la Reducción de la Brecha Digital' => [
+                                    'Pago de telefonía e internet' => 'Pago de telefonía e internet',
+                                    'Equipamiento digital' => 'Equipamiento digital',
+                                    'Otras necesidades básicas de la brecha digital' => 'Otras necesidades básicas de la brecha digital',
                                 ],
-                                'Gastos Relativos a la Educacion y Formacion' => [
-                                    'Material Escolar' => 'Material Escolar',
-                                    'Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)' => 'Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)',
-                                    'Gastos de Transporte' => 'Gastos de Transporte',
-                                    'Otras nececidades basicas de educacion' => 'Otras nececidades basicas de educacion',
+                                'Gastos Relativos a la Educación y Formación' => [
+                                    'Material escolar' => 'Material escolar',
+                                    'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)' => 'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)',
+                                    'Gastos de transporte' => 'Gastos de transporte',
+                                    'Otras necesidades básicas de educación' => 'Otras necesidades básicas de educación',
                                 ],
                                 'Gastos Relativos a la Salud' => [
-                                    'Material farmaceutico(farmacos, copagos, etc.)' => 'Material farmaceutico(farmacos, copagos, etc.)',
-                                    'Optica y ortopedia' => 'Optica y ortopedia',
-                                    'Odontologia' => 'Odontologia',
-                                    'Servicios terapeuticos' => 'Servicios terapeuticos',
-                                    'Otras nececidades basicas de salud' => 'Otras nececidades basicas de salud',
+                                    'Material farmacéutico (fármacos, copagos, etc.)' => 'Material farmacéutico (fármacos, copagos, etc.)',
+                                    'Óptica y ortopedia' => 'Óptica y ortopedia',
+                                    'Odontología' => 'Odontología',
+                                    'Servicios terapéuticos' => 'Servicios terapéuticos',
+                                    'Otras necesidades básicas de salud' => 'Otras necesidades básicas de salud',
                                 ],
-                                'Otras Necesidades Basicas' => [
-                                    'Alimentacion e higiene' => 'Alimentacion e higiene',
-                                    'Gastos de Transporte o Viajes' => 'Gastos de Transporte o Viajes',
-                                    'Otras nececidades basicas' => 'Otras nececidades basicas',
+                                'Otras Necesidades Básicas' => [
+                                    'Alimentación e higiene' => 'Alimentación e higiene',
+                                    'Gastos de transporte o viajes' => 'Gastos de transporte o viajes',
+                                    'Otras necesidades básicas' => 'Otras necesidades básicas',
                                 ]
                             ]),
                         Forms\Components\Select::make('status')

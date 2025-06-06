@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Settings\GeneralSettings;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -19,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Outerweb\FilamentSettings\Filament\Plugins\FilamentSettingsPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -37,9 +39,11 @@ class DashboardPanelProvider extends PanelProvider
             ->globalSearch(false)
             ->maxContentWidth(MaxWidth::Full)
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogo(asset('images/logo.svg'))
+            ->brandLogo(setting('app.logo') ?? asset('images/logo.svg'))
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('images/favicon.svg'))
+            ->favicon(setting('app.favicon') ?? asset('images/favicon.ico'))
+            ->darkModeBrandLogo(setting('app.darklogo') ?? asset('images/logo-dark.svg'))
+            ->brandName(setting('app.name') ?? 'Parroquia')
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -66,9 +70,13 @@ class DashboardPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
+                FilamentSettingsPlugin::make()
+                    ->pages([
+                        GeneralSettings::class,
+                    ]),
                 EasyFooterPlugin::make()
                     ->footerEnabled()
-                    ->withSentence('Caritas Bellavista')
+                    ->withSentence(setting('app.name'))
                     ->withGithub(showLogo: true, showUrl: true)
                     ->withLogo(
                         'https://avatars.githubusercontent.com/u/7244602',
