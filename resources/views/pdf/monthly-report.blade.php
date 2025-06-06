@@ -88,7 +88,7 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
     </thead>
     <tbody>
         <tr>
-            <td>Recaudacion en la Colecta</td>
+            <td>Recaudación en la Colecta</td>
             <td class="text-center">{{ number_format($record->collection, 2, ',', '.') }}</td>
             <td></td>
             <td></td>
@@ -112,7 +112,7 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
             <td></td>
         </tr>
         <tr>
-            <td>Recibido de C. Diosesana, el 50% de los recibos cobrados por ella.</td>
+            <td>Recibido de C. Diocesana, el 50% de los recibos cobrados por ella.</td>
             <td class="text-center">{{ number_format($record->diosesano_receipt, 2, ',', '.') }}</td>
             <td></td>
             <td></td>
@@ -136,19 +136,19 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
             <td></td>
         </tr>
         <tr>
-            <td>Transferencia hecha al Fondo Comun Diosesano, el 50% de Colecta y recibos de socios, cobrados por nosotros.</td>
+            <td>Transferencia hecha al Fondo Común Diocesano, el 50% de Colecta y recibos de socios, cobrados por nosotros.</td>
             <td></td>
             <td class="text-center">{{ number_format($trasferencia_diosesano, 2, ',', '.') }}</td>
             <td></td>
         </tr>
         <tr>
-            <td>Transferencia a C. Diosesana por Campañas</td>
+            <td>Transferencia a C. Diocesana por Campañas</td>
             <td></td>
             <td class="text-center">{{ number_format($record->transfer_campaign, 2, ',', '.') }}</td>
             <td></td>
         </tr>
         <tr>
-            <td>Transferencia a C. Diosesana por Otros Conceptos</td>
+            <td>Transferencia a C. Diocesana por Otros Conceptos</td>
             <td></td>
             <td class="text-center">{{ number_format($record->transfer_other, 2, ',', '.') }}</td>
             <td></td>
@@ -160,7 +160,7 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
             <td></td>
         </tr>
         <tr>
-            <td>Gastos de Salud (medicamentos, ortopedia, optica, ortodoncia, etc)</td>
+            <td>Gastos de Salud (medicamentos, ortopedia, óptica, ortodoncia, etc)</td>
             <td></td>
             <td class="text-center">{{ number_format($record->health, 2, ',', '.') }}</td>
             <td></td>
@@ -172,13 +172,13 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
             <td></td>
         </tr>
         <tr>
-            <td>Gastos para Alimentacion e Higiene Personal</td>
+            <td>Gastos para Alimentación e Higiene Personal</td>
             <td></td>
             <td class="text-center">{{ number_format($record->food, 2, ',', '.') }}</td>
             <td></td>
         </tr>
         <tr>
-            <td>Gastos de Recibos de Suministros Basicos (comunidad, electricidad, agua, gas)</td>
+            <td>Gastos de Recibos de Suministros Básicos (comunidad, electricidad, agua, gas)</td>
             <td></td>
             <td class="text-center">{{ number_format($record->supplies_receipt, 2, ',', '.') }}</td>
             <td></td>
@@ -190,13 +190,13 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
             <td></td>
         </tr>
         <tr>
-            <td>Proyectos especificos parroquiales</td>
+            <td>Proyectos específicos parroquiales</td>
             <td></td>
             <td class="text-center">{{ number_format($record->parish_project, 2, ',', '.') }}</td>
             <td></td>
         </tr>
         <tr>
-            <td>Gastos Generales (incluye mantemimiento)</td>
+            <td>Gastos Generales (incluye mantenimiento)</td>
             <td></td>
             <td class="text-center">{{ number_format($record->general_expense, 2, ',', '.') }}</td>
             <td></td>
@@ -248,12 +248,12 @@ $trasferencia_diosesano = $record->transfer_collection + $record->transfer_membe
     </thead>
 </table>
 
-<p class="text-justify">Reciban, como siempre, nuestro agradecimiento por su colaboracion. Muchas Gracias. DIOS SE LO PAGUE</p><br><br>
+<p class="text-justify">Reciban, como siempre, nuestro agradecimiento por su colaboración. Muchas Gracias. DIOS SE LO PAGUE</p><br><br>
 
 <table>
     <tr>
-        <td class="text-center noborder">Sevilla, a {{ date("d/m/Y") }}</td>
-        <td class="text-center noborder">Fdo. Sabino Antolí. <br>Director de Caritas Parroquial </td>
+        <td class="text-center noborder">{{setting('parish.city')}}, a {{ date("d/m/Y") }}</td>
+        <td class="text-center noborder">Fdo. {{setting('parish.caritas_director')}} <br>Director de Caritas Parroquial </td>
     </tr>
 </table>
 

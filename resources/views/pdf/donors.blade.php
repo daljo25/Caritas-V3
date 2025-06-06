@@ -84,7 +84,7 @@
     <table>
         <tr>
             <td class="noborder" width="30%">
-                <img src="https://caritas.sagradocorazonbellavista.com/images/logo-v.svg" alt="logo" class="logo">
+                <img src="{{ public_path('storage/' . setting('caritas.vertical_logo')) }}" alt="logo" class="logo">
             </td>
             <td class="text-center noborder" colspan="17">
                 <h1>Lista de Donantes Año {{ $year }}</h1>

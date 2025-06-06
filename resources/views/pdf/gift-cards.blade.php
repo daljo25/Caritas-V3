@@ -75,20 +75,19 @@
 
     <table>
         <tr>
-            <td class="noborder"><img src="https://caritas.sagradocorazonbellavista.com/images/logo-v.svg" alt="logo" class="logo"></td>
-            <td class="text-right noborder">CARITAS PARROQUIAL DEL <br>
-                SAGRADO CORAZON DE JESUS <br>
-                Calle Soria 5, Bellavista <br>
-                41014 Sevilla</td>
+            <td class="noborder"><img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="logo" class="logo"></td>
+            <td class="text-right noborder">{{setting('parish.caritas_name')}}<br>
+                {{setting('parish.address')}} <br>
+                {{setting('parish.zip_code')}} {{setting('parish.city')}}</td>
         </tr>
         <tr>
             <td class="noborder"></td>
-            <td class="text-right noborder">Sevilla, a {{ date("d/m/Y") }}</td>
+            <td class="text-right noborder">{{setting('parish.city')}}, a {{ date("d/m/Y") }}</td>
         </tr>
     </table>
 <br><br>
     <p class="text-center bold">
-        Relacion de Ayudas del Mes.
+        Relación de Ayudas del Mes.
     </p>
 <br><br>
 <table>
@@ -99,7 +98,7 @@
         <td>TARJETAS</td>
         <td>CANTIDAD</td>
     </tr>
-    @foreach (Aid::where('type', 'Alimentacion e higiene')
+    @foreach (Aid::where('type', 'Alimentación e higiene')
              ->where('status', 'Aceptada')
              ->where('paid_by', 'Diocesana')
              ->with(['Beneficiary', 'giftCards' => function ($query) {
@@ -137,7 +136,7 @@
 </table>
 <br><br><br><br>
 <div class="text-center">
-    Fdo. Sabino Antoli Garcia <br>
+    Fdo. {{setting('parish.caritas_director')}} <br>
     Director de Caritas Parroquial
 </div>
 </body>

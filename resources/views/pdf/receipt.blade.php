@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    
+
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -22,10 +22,12 @@
             font-size: 18px;
             text-decoration: underline;
         }
+
         .logo {
             width: 200px;
             height: auto;
         }
+
         .icon {
             width: 15px;
             height: auto;
@@ -65,6 +67,7 @@
             vertical-align: top;
             height: 80px;
         }
+
         .text-justify {
             text-align: justify;
         }
@@ -78,14 +81,13 @@
         <table>
             <tr>
                 <td colspan="2" width="50%" class="noborder"><img
-                        src="https://caritas.sagradocorazonbellavista.com/images/caritas-diosesana.png" alt="Logo"
-                        class="logo" /></td>
+                        src="{{ public_path('storage/' . setting('caritas.logo')) }}" alt="Logo" class="logo" /></td>
             </tr>
             <tr>
                 <td width="50%" class="noborder">
-                    <h2>RECEPCION DE AYUDA</h2>
+                    <h2>RECEPCIÓN DE AYUDA</h2>
                 </td>
-                <td width="50%" class="Recibo noborder">Recibo de Ayuda Nº. {{$record->id}} </td>
+                <td width="50%" class="Recibo noborder">Recibo de Ayuda Nº. {{ $record->id }} </td>
             </tr>
         </table>
 
@@ -110,105 +112,171 @@
         <p class="text-justify">
             <strong>Ha recibido la cantidad de
                 {{ $record->approved_amount }} euros en concepto de
-                AYUDA para cubrir la/s nececidad/es especificadas a
-                continuacion:</strong>
+                AYUDA para cubrir la/s necesidad/es especificadas a
+                continuación:</strong>
         </p>
-            <article class="text-justify">
-                <strong><mark>LUCHA CONTRA LA POBRESA ENERGETICA</mark></strong>
-            </article>
+        <article class="text-justify">
+            <strong><mark>LUCHA CONTRA LA POBREZA ENERGÉTICA</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Pago de suministro" ? "square-x" : "square"}}.webp" class="icon" />Pago de suministro</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Adquision y reposicion de elementos luminosos de bajo consumo" ? "square-x" : "square"}}.webp" class="icon" />Adquision y reposicion de elementos luminosos de bajo consumo</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Pago de suministro' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Pago de suministro</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Adquisición y reposición de elementos luminosos de bajo consumo' ? 'square-x' : 'square' . '.webp')) }}"
+                        class="icon" />Adquisición y reposición de elementos luminosos de bajo consumo</td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Mejora de aislamiento" ? "square-x" : "square"}}.webp" class="icon" />Mejora de aislamiento</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipamoientos" ? "square-x" : "square"}}.webp" class="icon" />Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipamoientos
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Mejora de aislamiento' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Mejora de aislamiento</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Adecuación, mejora, reparación y/o mantenimiento de instalaciones y
+                    equipamientos
                 </td>
             </tr>
             <tr>
-                <td colspan="2" width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas de energia" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas de energia</td>
+                <td colspan="2" width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de energía' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas de energía</td>
             </tr>
         </table>
-            <article class="text-justify">
-                <br />
-                <strong><mark>GASTOS RELATIVOS A LA VIVIENDA</mark></strong>
-            </article>
+        <article class="text-justify">
+            <br />
+            <strong><mark>GASTOS RELATIVOS A LA VIVIENDA</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Impago de Alquiler" ? "square-x" : "square"}}.webp" class="icon" />Impago de Alquiler</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Impago de credito hipotecario" ? "square-x" : "square"}}.webp" class="icon" />Impago de credito hipotecario</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Impago de Alquiler' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Impago de Alquiler</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Impago de crédito hipotecario' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Impago de crédito hipotecario</td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Gastos derivados de las alternativas al alquiler" ? "square-x" : "square"}}.webp" class="icon" />Gastos derivados de las alternativas al alquiler</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia Energetica" ? "square-x" : "square"}}.webp" class="icon" />Adecuacion, mejora, reparacion y/o mantenimiento de instalaciones y equipos NO
-                    relacionados con la eficiencia Energetica</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Gastos derivados de las alternativas al alquiler' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Gastos derivados de las alternativas al alquiler</td>
+                <td width="50%"><img
+                        src="{{ public_path(
+                            'images/' .
+                                ($record->type ===
+                                'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO
+                                           relacionados con la eficiencia Energética'
+                                    ? 'square-x'
+                                    : 'square') .
+                                '.webp',
+                        ) }}"
+                        class="icon" />Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO
+                    relacionados con la eficiencia Energética</td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Equipamiento basico del Hogar" ? "square-x" : "square"}}.webp" class="icon" />Equipamiento basico del Hogar</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Roperia (Ropa, Zapatos, Uniformes, Lenceria del Hogar, etc.)" ? "square-x" : "square"}}.webp" class="icon" />Roperia (Ropa, Zapatos, Uniformes, Lenceria del Hogar, etc.)</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Equipamiento básico del Hogar' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Equipamiento básico del Hogar</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Ropería (Ropa, Zapatos, Uniformes, Lencería del Hogar, etc.)' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Ropería (Ropa, Zapatos, Uniformes, Lencería del Hogar, etc.)</td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Reparacion de Vehiculo" ? "square-x" : "square"}}.webp" class="icon" />Reparacion de Vehiculo</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas de vivienda" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas de vivienda</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Reparación de Vehiculo' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Reparación de Vehiculo</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de vivienda' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas de vivienda</td>
             </tr>
         </table>
-            <article class="text-justify">
-                <br />
-                <strong><mark>GASTOS RELATIVOS A LA REDUCCION DE LA BRECHA DIGITAL</mark></strong>
-            </article>
+        <article class="text-justify">
+            <br />
+            <strong><mark>GASTOS RELATIVOS A LA REDUCCIÓN DE LA BRECHA DIGITAL</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Pago de Telefonia e Internet" ? "square-x" : "square"}}.webp" class="icon" />Pago de Telefonia e Internet</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Equipamiento Digital" ? "square-x" : "square"}}.webp" class="icon" />Equipamiento Digital</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Pago de Telefonía e Internet' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Pago de Telefonía e Internet</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Equipamiento Digital' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Equipamiento Digital</td>
             </tr>
             <tr>
-                <td colspan="2" width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas de la brecha digital" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas de la brecha digital</td>
+                <td colspan="2" width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de la brecha digital' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas de la brecha digital</td>
             </tr>
         </table>
-            <article class="text-justify">
-                <br />
-                <strong><mark>GASTOS RELATIVOS A LA EDUCACION Y FORMACION</mark></strong>
-            </article>
+        <article class="text-justify">
+            <br />
+            <strong><mark>GASTOS RELATIVOS A LA EDUCACIÓN Y FORMACIÓN</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Material Escolar" ? "square-x" : "square"}}.webp" class="icon" />Material Escolar</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)" ? "square-x" : "square"}}.webp" class="icon" />Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Material Escolar' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Material Escolar</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares,
+                    etc.)
                 </td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Gastos de Transporte" ? "square-x" : "square"}}.webp" class="icon" />Gastos de Transporte</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas de educacion" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas de educacion</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Gastos de Transporte' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Gastos de Transporte</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de educación' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas de educación</td>
             </tr>
         </table>
-            <article class="text-justify">
-                <br />
-                <strong><mark>GASTOS RELATIVOS A LA SALUD</mark></strong>
-            </article>
+        <article class="text-justify">
+            <br />
+            <strong><mark>GASTOS RELATIVOS A LA SALUD</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Material farmaceutico (farmacos, copagos, etc.)" ? "square-x" : "square"}}.webp" class="icon" />Material farmaceutico(farmacos, copagos, etc.)</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Optica y ortopedia" ? "square-x" : "square"}}.webp" class="icon" />Optica y ortopedia</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Material farmacéutico (fármacos, copagos, etc.)' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Material farmacéutico (fármacos, copagos, etc.)</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Óptica y ortopedia' ? 'square-x' : 'square') . '.webp') }}" class="icon" />Óptica
+                    y ortopedia</td>
             </tr>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Odontologia" ? "square-x" : "square"}}.webp" class="icon" />Odontologia</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Servicios terapeuticos" ? "square-x" : "square"}}.webp" class="icon" />Servicios terapeuticos</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Odontología' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Odontología</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Servicios terapéuticos' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Servicios terapéuticos</td>
             </tr>
             <tr>
-                <td colspan="2" width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas de salud" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas de salud</td>
+                <td colspan="2" width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de salud' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas de salud</td>
             </tr>
         </table>
-            <article class="text-justify">
-                <br />
-                <strong><mark>OTRAS NECESIDADES BASICAS</mark></strong>
-            </article>
+        <article class="text-justify">
+            <br />
+            <strong><mark>OTRAS NECESIDADES BÁSICAS</mark></strong>
+        </article>
         <table>
             <tr>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Alimentacion e higiene" ? "square-x" : "square"}}.webp" class="icon" />Alimentacion e higiene</td>
-                <td width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Gastos de Transporte o Viajes" ? "square-x" : "square"}}.webp" class="icon" />Gastos de Transporte o Viajes</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Alimentación e higiene' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Alimentación e higiene</td>
+                <td width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Gastos de Transporte o Viajes' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Gastos de Transporte o Viajes</td>
             </tr>
             <tr>
-                <td colspan="2" width="50%"><img src="https://caritas.sagradocorazonbellavista.com/images/{{$record->type == "Otras nececidades basicas" ? "square-x" : "square"}}.webp" class="icon" />Otras nececidades basicas</td>
+                <td colspan="2" width="50%"><img
+                        src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas' ? 'square-x' : 'square') . '.webp') }}"
+                        class="icon" />Otras necesidades básicas</td>
             </tr>
         </table>
 
@@ -219,8 +287,9 @@
         <br />
         <table>
             <tr>
-                <td width="60%" class="noborder"><img src="https://caritas.sagradocorazonbellavista.com/images/square-x.webp" class="icon" /> Autorizo el Pago a terceros <br />
-                    En Sevilla, a {{ date("d/m/Y") }}</td>
+                <td width="60%" class="noborder"><img src="{{ public_path('images/' . 'square-x' . '.webp') }}"
+                        class="icon" /> Autorizo el Pago a terceros <br />
+                    En {{ setting('parish.city') }}, a {{ date('d/m/Y') }}</td>
                 <td width="40%" class="Firma">Firma</td>
             </tr>
         </table>

@@ -82,7 +82,7 @@
 
     <table>
         <tr>
-            <td class="noborder"><img src="https://caritas.sagradocorazonbellavista.com/images/logo.svg" alt="logo" class="logo"></td>
+            <td class="noborder"><img src="{{ public_path('storage/' . setting('caritas.logo')) }}" alt="logo" class="logo"></td>
         </tr>
     </table>
 
@@ -98,17 +98,17 @@
     <table>
         <tr>
             <td width="20%">NOMBRE DE LA PARROQUIA:</td>
-            <td colspan="3">SAGARADO CORAZON DE JESUS</td>
+            <td colspan="3">{{setting('parish.name')}}</td>
         </tr>
         <tr>
             <td>Dirección:</td>
-            <td colspan="3">CALLE SORIA 5, BELLAVISTA</td>
+            <td colspan="3">{{setting('parish.address')}}</td>
         </tr>
         <tr>
             <td width="20%">POBLACIÓN:</td>
-            <td width="20%">SEVILLA</td>
-            <td width="20%">CODIGO POSTAL:</td>
-            <td width="20%">41014</td>
+            <td width="20%">{{setting('parish.city')}}</td>
+            <td width="20%">CÓDIGO POSTAL:</td>
+            <td width="20%">{{setting('parish.zip_code')}}</td>
         </tr>
     </table>
 
@@ -126,9 +126,9 @@
         </tr>
         <tr>
             <td width="20%">POBLACIÓN:</td>
-            <td width="20%">SEVILLA</td>
-            <td width="20%">CODIGO POSTAL:</td>
-            <td width="20%">41014</td>
+            <td width="20%">{{setting('parish.city')}}</td>
+            <td width="20%">CÓDIGO POSTAL:</td>
+            <td width="20%">{{setting('parish.zip_code')}}</td>
         </tr>
         <tr>
             <td width="20%">DNI (O DOCUMENTO QUE LO SUSTITUYA):</td>

@@ -49,14 +49,14 @@
 </head>
 <body>
     <div class="header">
-        <img src="https://caritas.sagradocorazonbellavista.com/images/logo-v.svg" alt="Logo" class="logo">
+        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="Logo" class="logo">
         <div class="certificate-number">N° {{ $attendance->certificate_number }}</div>
     </div>
 
     <div class="institution-info">
-        <strong>CARITAS PARROQUIAL SAGRADO CORAZÓN DE JESÚS</strong><br>
-        C/ Asensio y Toledo, 25, Bellavista, Sevilla<br>
-        Tel: 685524818 | Email: caritasbellavistacorazonjesus@gmail.com
+        <strong>{{ setting('parish.caritas_name') }}</strong><br>
+        {{ setting('parish.address') }}, {{ setting('parish.zip_code') }} {{ setting('parish.city') }}<br>
+        Tel: {{ setting('parish.phone') }} | Email: {{ setting('parish.email') }}
     </div>
 
     <div class="content">
@@ -72,20 +72,20 @@
             <span class="underline">{{ date('d/m/Y', strtotime($attendance->attendance_date)) }}</span> 
             a las 
             <span class="underline">{{ date('h:i A', strtotime($attendance->attendance_time)) }}</span>, 
-            en nuestras instalaciones ubicadas en Bellavista, Sevilla, para recibir 
+            en nuestras instalaciones ubicadas en {{ setting('parish.address') }},{{ setting('parish.city') }}, para recibir 
             <span class="underline">{{ $attendance->purpose }}</span>.
         </p>
 
         <p>
-            Este documento se expide a solicitud del interesado en Sevilla el {{ date('d/m/Y') }} para los fines que estime conveniente.
+            Este documento se expide a solicitud del interesado en {{ setting('parish.city') }} el {{ date('d/m/Y') }} para los fines que estime conveniente.
         </p>
     </div>
 
     <div class="signature">
         <div class="signature-line"></div>
         <p>
-            <strong>Sabino Antolí García</strong><br>
-            Director de Cáritas
+            <strong>{{ setting('parish.caritas_director') }}</strong><br>
+            Director de Cáritas Parroquial
         </p>
     </div>
 

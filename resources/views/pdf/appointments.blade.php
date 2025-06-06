@@ -94,15 +94,15 @@
 <body>
 
     <div>
-        <img src="https://caritas.sagradocorazonbellavista.com/images/logo-v.svg" alt="logo" class="logo">
+        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="logo" class="logo">
         <h1 class="text-center bold">Lista de Citas del {{ date('d-m-Y', strtotime($day)) }}</h1>
     </div>
     <table>
         <thead>
             <tr>
                 <td class="text-center">NOMBRES</td>
-                <td class="text-center">DIRECCION</td>
-                <td class="text-center">TELEFONO</td>
+                <td class="text-center">DIRECCIÓN</td>
+                <td class="text-center">TELÉFONO</td>
                 <td class="text-center">EMAIL</td>
                 <td class="text-center">FECHA</td>
                 <td class="text-center">HORA</td>
@@ -131,8 +131,8 @@
         <thead>
             <tr>
                 <td class="text-center">NOMBRES</td>
-                <td class="text-center">DIRECCION</td>
-                <td class="text-center">TELEFONO</td>
+                <td class="text-center">DIRECCIÓN</td>
+                <td class="text-center">TELÉFONO</td>
                 <td class="text-center">EMAIL</td>
                 <td class="text-center">FECHA</td>
                 <td class="text-center">HORA</td>

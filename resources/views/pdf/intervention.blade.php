@@ -7,9 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <!-- Latest compiled and minified CSS -->
-
     <style>
         body {
             padding: 0;
@@ -89,7 +86,7 @@
             <td>Fecha de Nacimiento: {{ \Carbon\Carbon::parse($record->birth_date)->format('d/m/Y') }}</td>
             <td>Edad: {{  \Carbon\Carbon::parse($record->birth_date)->age }}</td>
             <td>Nacionalidad: {{ $record->nationality }}</td>
-            <td>Formacion: {{ $record->education }}</td>
+            <td>Formación: {{ $record->education }}</td>
         </tr>
     </table><br>
 
@@ -123,7 +120,7 @@
         <tr>
             <td width="16%">Vivienda Habitual:</td>
             <td width="16%">{{ $record->housing_type }}</td>
-            <td width="16%">Igresos Brutos:</td>
+            <td width="16%">Ingresos Brutos:</td>
             <td width="16%">{{ $record->incomes != null ? $record->incomes : 0 }} €</td>
             <td width="16%">Ingresos - Gastos:</td>
             <td width="16%">{{ $Total = $record->incomes - ($record->light + $record->water + $record->community + $record->rent + $record->others) }} €</td>
@@ -132,7 +129,7 @@
             <td width="16%">Gastos Fijos Mensuales:</td>
             <td width="16%">Luz: {{ $record->light != null ? $record->light : 0 }} €</td>
             <td width="16%">Agua: {{ $record->water != null ? $record->water : 0 }} €</td>
-            <td width="16%">Cominidad: {{ $record->community != null ? $record->community : 0 }} €</td>
+            <td width="16%">Comunidad: {{ $record->community != null ? $record->community : 0 }} €</td>
             <td width="16%">Alquiler/Hipoteca: {{ $record->rent != null ? $record->rent : 0 }} €</td>
             <td width="16%">Otros: {{ $record->others != null ? $record->others : 0 }} €</td>
         </tr>
@@ -245,7 +242,7 @@
                             </tr>
                         @endif
                     @endforeach
-                </tabrmv
+                </table>
             </td>
         </tr>
         <tr>
@@ -274,11 +271,11 @@
         </tr>
         <tr>
             <td>Padrón municipal</td>
-            <td>Fecha de Emision</td>
+            <td>Fecha de Emisión</td>
             <td colspan="2">{{ Carbon\Carbon::parse($record->municipal_registration_date)->format('d/m/Y') }}</td>
         </tr>
         <tr>
-            <td>Libro de famila	</td>
+            <td>Libro de familia</td>
             <td>¿Documento Entregado?</td>
             <td colspan="2">{{ $record->family_book == true ? "Si" : "No" }}</td>
         </tr>
