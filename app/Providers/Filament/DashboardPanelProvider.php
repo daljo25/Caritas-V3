@@ -20,12 +20,25 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Schema;
 use Outerweb\FilamentSettings\Filament\Plugins\FilamentSettingsPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $appLogo = asset('images/logo.svg');
+        $appFavicon = asset('images/favicon.ico');
+        $appDarkLogo = asset('images/logo-dark.svg');
+        $appName = 'Parroquia';
+
+        if (Schema::hasTable('settings')) {
+            $appLogo = setting('app.logo') ?? $appLogo;
+            $appFavicon = setting('app.favicon') ?? $appFavicon;
+            $appDarkLogo = setting('app.darklogo') ?? $appDarkLogo;
+            $appName = setting('app.name') ?? $appName;
+        }
+
         return $panel
             ->default()
             ->id('dashboard')
@@ -39,11 +52,11 @@ class DashboardPanelProvider extends PanelProvider
             ->globalSearch(false)
             ->maxContentWidth(MaxWidth::Full)
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogo(setting('app.logo') ?? asset('images/logo.svg'))
+            ->brandLogo($appLogo)
             ->brandLogoHeight('2.5rem')
-            ->favicon(setting('app.favicon') ?? asset('images/favicon.ico'))
-            ->darkModeBrandLogo(setting('app.darklogo') ?? asset('images/logo-dark.svg'))
-            ->brandName(setting('app.name') ?? 'Parroquia')
+            ->favicon($appFavicon)
+            ->darkModeBrandLogo($appDarkLogo)
+            ->brandName($appName)
             ->colors([
                 'primary' => Color::Red,
             ])
@@ -76,7 +89,7 @@ class DashboardPanelProvider extends PanelProvider
                     ]),
                 EasyFooterPlugin::make()
                     ->footerEnabled()
-                    ->withSentence(setting('app.name'))
+                    ->withSentence($appName)
                     ->withGithub(showLogo: true, showUrl: true)
                     ->withLogo(
                         'https://avatars.githubusercontent.com/u/7244602',
