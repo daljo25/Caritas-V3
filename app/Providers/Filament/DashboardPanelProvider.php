@@ -28,7 +28,7 @@ class DashboardPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $appLogo = asset('images/logo.svg');
-        $appFavicon = asset('images/favicon.ico');
+        $appFavicon = asset('images/favicon.svg');
         $appDarkLogo = asset('images/logo-dark.svg');
         $appName = 'Parroquia';
 
