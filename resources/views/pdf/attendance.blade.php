@@ -1,3 +1,12 @@
+@php
+    $logoPath = 'storage/' . setting('parish.vertical_logo');
+    if (setting('parish.vertical_logo') && file_exists(public_path($logoPath))) {
+        $logo = public_path($logoPath);
+    } else {
+        $logo = public_path('images/logo-v.svg');
+    }
+@endphp
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +58,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="Logo" class="logo">
+        <img src="{{ $logo }}" alt="Logo" class="logo">
         <div class="certificate-number">N° {{ $attendance->certificate_number }}</div>
     </div>
 

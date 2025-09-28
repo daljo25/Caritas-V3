@@ -1,3 +1,12 @@
+<@php
+    $logoPath = 'storage/' . setting('parish.vertical_logo');
+    if (setting('parish.vertical_logo') && file_exists(public_path($logoPath))) {
+        $logo = public_path($logoPath);
+    } else {
+        $logo = public_path('images/logo-v.svg');
+    }
+    @endphp
+    
 <!DOCTYPE html>
 <html lang="es">
 
@@ -84,7 +93,7 @@
     <table>
         <tr>
             <td class="noborder" width="30%">
-                <img src="{{ public_path('storage/' . setting('caritas.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="logo" class="logo">
+                <img src="{{ $logo }}" alt="logo" class="logo">
             </td>
             <td class="text-center noborder" colspan="17">
                 <h1>Lista de Donantes Año {{ $year }}</h1>

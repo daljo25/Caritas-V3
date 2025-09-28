@@ -1,3 +1,12 @@
+<@php
+    $logoPath = 'storage/' . setting('caritas.logo');
+    if (setting('caritas.logo') && file_exists(public_path($logoPath))) {
+        $logo = public_path($logoPath);
+    } else {
+        $logo = public_path('images/caritas-diosesana.png');
+    }
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -82,7 +91,7 @@
 
     <table>
         <tr>
-            <td class="noborder"><img src="{{ public_path('storage/' . setting('caritas.logo')) ?? asset('images/caritas-diosesana.png') }}" alt="logo" class="logo"></td>
+            <td class="noborder"><img src="{{ $logo }}" alt="logo" class="logo"></td>
         </tr>
     </table>
 

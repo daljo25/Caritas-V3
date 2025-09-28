@@ -1,3 +1,12 @@
+@php
+    $logoPath = 'storage/' . setting('parish.vertical_logo');
+    if (setting('parish.vertical_logo') && file_exists(public_path($logoPath))) {
+        $logo = public_path($logoPath);
+    } else {
+        $logo = public_path('images/logo-v.svg');
+    }
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -94,7 +103,7 @@
 <body>
 
     <div>
-        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="logo" class="logo">
+        <img src="{{ $logo }}" alt="logo" class="logo">
         <h1 class="text-center bold">Lista de Citas del {{ date('d-m-Y', strtotime($day)) }}</h1>
     </div>
     <table>
