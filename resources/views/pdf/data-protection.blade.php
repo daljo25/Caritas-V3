@@ -82,7 +82,7 @@
 
     <table>
         <tr>
-            <td class="noborder"><img src="{{ public_path('storage/' . setting('caritas.logo')) }}" alt="logo" class="logo"></td>
+            <td class="noborder"><img src="{{ public_path('storage/' . setting('caritas.logo')) ?? asset('images/caritas-diosesana.png') }}" alt="logo" class="logo"></td>
         </tr>
     </table>
 

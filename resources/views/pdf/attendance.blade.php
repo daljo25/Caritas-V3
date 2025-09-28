@@ -49,7 +49,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="Logo" class="logo">
+        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="Logo" class="logo">
         <div class="certificate-number">N° {{ $attendance->certificate_number }}</div>
     </div>
 

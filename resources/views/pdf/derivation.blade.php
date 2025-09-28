@@ -28,7 +28,7 @@
     }
 </style>
 
-<div><img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="Logo" class="logo"></div><br>
+<div><img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="Logo" class="logo"></div><br>
 <div class="fecha">Fecha: {{setting('parish.city')}} {{ date('d/m/Y') }}</div>
 <div>
     <p class="titulo">Carta de Derivación </p>

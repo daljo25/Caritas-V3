@@ -81,7 +81,7 @@
         <table>
             <tr>
                 <td colspan="2" width="50%" class="noborder"><img
-                        src="{{ public_path('storage/' . setting('caritas.logo')) }}" alt="Logo" class="logo" /></td>
+                        src="{{ public_path('storage/' . setting('caritas.logo')) ?? asset('images/caritas-diosesana.png') }}" alt="Logo" class="logo" /></td>
             </tr>
             <tr>
                 <td width="50%" class="noborder">

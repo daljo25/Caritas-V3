@@ -94,7 +94,7 @@
 <body>
 
     <div>
-        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="logo" class="logo">
+        <img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg') }}" alt="logo" class="logo">
         <h1 class="text-center bold">Lista de Citas del {{ date('d-m-Y', strtotime($day)) }}</h1>
     </div>
     <table>

@@ -75,7 +75,7 @@
 
     <table>
         <tr>
-            <td class="noborder"><img src="{{ public_path('storage/' . setting('parish.vertical_logo')) }}" alt="logo" class="logo"></td>
+            <td class="noborder"><img src="{{ public_path('storage/' . setting('parish.vertical_logo')) ?? asset('images/logo-v.svg')}}" alt="logo" class="logo"></td>
             <td class="text-right noborder">{{setting('parish.caritas_name')}}<br>
                 {{setting('parish.address')}} <br>
                 {{setting('parish.zip_code')}} {{setting('parish.city')}}</td>
