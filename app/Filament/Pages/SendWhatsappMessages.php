@@ -16,7 +16,7 @@ class SendWhatsappMessages extends Page
     protected static ?string $title = 'Enviar WhatsApp';
     protected static string $view = 'filament.pages.send-whatsapp-messages';
     protected static ?string $navigationGroup = 'Citas';
-    protected static ?int $navigationSort = 2   ;
+    protected static ?int $navigationSort = 2;
     public $selectedBeneficiaries = [];
     public $message;
 
@@ -54,7 +54,7 @@ class SendWhatsappMessages extends Page
     }
 
 
-
+    // Funcion para Generar los links de WhatsApp
     public function generateLinks()
     {
         if (empty($this->selectedBeneficiaries) || empty($this->message)) {
@@ -63,24 +63,53 @@ class SendWhatsappMessages extends Page
                 ->body('Debes seleccionar beneficiarios y escribir un mensaje.')
                 ->danger()
                 ->send();
+
             return;
         }
 
+        $beneficiaries = Beneficiary::whereIn('id', $this->selectedBeneficiaries)
+            ->whereNotNull('phone')
+            ->get();
+
         $links = [];
-        foreach ($this->selectedBeneficiaries as $beneficiaryId) {
-            $beneficiary = Beneficiary::find($beneficiaryId);
-            if ($beneficiary && $beneficiary->phone) {
-                $phone = preg_replace('/\D/', '', $beneficiary->phone); // Elimina caracteres no numéricos
-                $message = urlencode($this->message);
-                $links[] = "https://wa.me/+34{$phone}?text={$message}";
+        $message = rawurlencode($this->message);
+
+        foreach ($beneficiaries as $beneficiary) {
+            $phone = preg_replace('/\D/', '', $beneficiary->phone);
+
+            if (!str_starts_with($phone, '34')) {
+                $phone = '34' . $phone;
             }
+
+            $links[] = [
+                'id'       => $beneficiary->id,
+                'nombre'   => $beneficiary->name,
+                'telefono' => $beneficiary->phone,
+                'url'      => "https://wa.me/{$phone}?text={$message}",
+            ];
         }
 
         session()->flash('links', $links);
 
         Notification::make()
             ->title('Enlaces Generados')
-            ->body('Los enlaces de WhatsApp se han generado correctamente.')
+            ->body('Los mensajes de WhatsApp están listos para enviar.')
+            ->success()
+            ->send();
+    }
+
+    // Funcion para limpiar los links generados
+    public function clearLinks()
+    {
+        session()->forget('links');
+        $this->reset([
+        'selectedBeneficiaries',
+        'message',
+        ]);
+
+        Notification::make()
+            ->title('Limpieza Exitosa')
+            ->body('Los enlaces y el formulario han sido limpiados.')
             ->success()
             ->send();
     }
@@ -89,6 +118,14 @@ class SendWhatsappMessages extends Page
     protected function getHeaderActions(): array
     {
         return [
+            // boton de limpiar
+            Action::make('clearLinks')
+            ->label('Limpiar')
+            ->color('gray')
+            ->icon('tabler-trash')
+            ->requiresConfirmation()
+            ->action('clearLinks'),
+            //boton de generar links
             Action::make('generateLinks')
                 ->label('Generar Links')
                 ->color('success')
