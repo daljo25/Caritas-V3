@@ -33,13 +33,13 @@
                             <div>
                                 <template x-if="!sent">
                                     <x-filament::button tag="a" href="{{ $link['url'] }}" target="_blank"
-                                        color="info" size="sm" icon="tabler-brand-whatsapp" @click="sent = true">
+                                        color="success" size="sm" icon="tabler-brand-whatsapp" @click="sent = true">
                                         Enviar
                                     </x-filament::button>
                                 </template>
 
                                 <template x-if="sent">
-                                    <x-filament::button color="success" size="sm" icon="tabler-checks" icon-position="after" disabled>
+                                    <x-filament::button color="info" size="sm" icon="tabler-checks" icon-position="after" disabled>
                                         Enviado
                                     </x-filament::button>
                                 </template>
