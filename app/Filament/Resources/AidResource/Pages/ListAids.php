@@ -18,6 +18,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class ListAids extends ListRecords
 {
@@ -96,12 +98,54 @@ class ListAids extends ListRecords
                 ->label('Listado de Tarjetas')
                 ->color('success')
                 ->icon('tabler-credit-card')
-                ->action(function (Aid $aid) {
-                    return response()->streamDownload(function () use ($aid) {
+                ->modalHeading('Generar Listado de Tarjetas')
+                ->modalSubmitActionLabel('Generar PDF')
+                ->modalFooterActionsAlignment('center')
+                ->modalCancelAction(false)
+                ->form([
+                    Select::make('month')
+                        ->label('Mes')
+                        ->options([
+                            '01' => 'Enero',
+                            '02' => 'Febrero',
+                            '03' => 'Marzo',
+                            '04' => 'Abril',
+                            '05' => 'Mayo',
+                            '06' => 'Junio',
+                            '07' => 'Julio',
+                            '08' => 'Agosto',
+                            '09' => 'Septiembre',
+                            '10' => 'Octubre',
+                            '11' => 'Noviembre',
+                            '12' => 'Diciembre',
+                        ])
+                        ->default(Carbon::now()->format('m'))
+                        ->required(),
+                    Select::make('year')
+                        ->label('Año')
+                        ->options(function () {
+                            $years = [];
+                            $currentYear = Carbon::now()->year;
+                            for ($i = $currentYear - 5; $i <= $currentYear; $i++) {
+                                $years[$i] = $i;
+                            }
+                            return $years;
+                        })
+                        ->default(Carbon::now()->year)
+                        ->required(),
+                ])
+                ->action(function (array $data) {
+                    $month = $data['month'];
+                    $year = $data['year'];
+                    
+                    return response()->streamDownload(function () use ($month, $year) {
                         echo FacadePdf::loadHtml(
-                            Blade::render('pdf.gift-cards', ['record' => $aid])
+                            Blade::render('pdf.gift-cards', [
+                                'month' => $month,
+                                'year' => $year
+                            ])
                         )->stream();
-                    }, 'Listado de Tarjetas ' . date('m-Y') . '.pdf');
+                    }, 'Listado de Tarjetas ' . $month . '-' . $year . '.pdf');
                 }),
                 /* //generar pdf de la carta al COVIRAN
             Actions\Action::make('COVIRAN')

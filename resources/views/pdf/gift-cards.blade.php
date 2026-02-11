@@ -9,6 +9,14 @@
     } else {
         $logo = public_path('images/logo-v.svg');
     }
+    
+    // Usar los parámetros mes y año si están disponibles, si no usar el mes actual
+    $month = $month ?? \Carbon\Carbon::now()->format('m');
+    $year = $year ?? \Carbon\Carbon::now()->format('Y');
+    
+    // Crear fechas de inicio y fin del mes
+    $startDate = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth()->toDateString();
+    $endDate = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateString();
 @endphp
 
 <!DOCTYPE html>
@@ -94,7 +102,7 @@
     </table>
 <br><br>
     <p class="text-center bold">
-        Relación de Ayudas del Mes.
+        Relación de Ayudas del Mes {{ $month }}/{{ $year }}.
     </p>
 <br><br>
 <table>
@@ -108,12 +116,9 @@
     @foreach (Aid::where('type', 'Alimentación e higiene')
              ->where('status', 'Aceptada')
              ->where('paid_by', 'Diocesana')
-             ->with(['Beneficiary', 'giftCards' => function ($query) {
-                 // Filtrar giftCards por el mes en curso
-                 $query->whereBetween('delivery_date', [
-                     now()->startOfMonth()->toDateString(), // Fecha de inicio del mes (01 de enero de 2025)
-                     now()->endOfMonth()->toDateString()   // Fecha de fin del mes (31 de enero de 2025)
-                 ]);
+             ->with(['Beneficiary', 'giftCards' => function ($query) use ($startDate, $endDate) {
+                 // Filtrar giftCards por el mes y año seleccionados
+                 $query->whereBetween('delivery_date', [$startDate, $endDate]);
              }])
              ->get() as $aid)
              
