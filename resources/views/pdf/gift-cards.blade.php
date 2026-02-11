@@ -107,23 +107,28 @@
 <br><br>
 <table>
     <tr class="text-center bold">
-        <td>RECIBI</td>
+        <td>Nº</td>
         <td>TITULAR</td>
         <td>DNI/NIE/PAS</td>
         <td>TARJETAS</td>
         <td>CANTIDAD</td>
     </tr>
     @foreach (Aid::where('type', 'Alimentación e higiene')
-             ->where('status', 'Aceptada')
              ->where('paid_by', 'Diocesana')
+             ->where(function ($query) use ($startDate, $endDate) {
+                 // Mostrar ayudas donde el mes consultado está entre start_date y end_date
+                 $query->whereDate('start_date', '<=', $endDate)
+                       ->whereDate('end_date', '>=', $startDate);
+             })
              ->with(['Beneficiary', 'giftCards' => function ($query) use ($startDate, $endDate) {
-                 // Filtrar giftCards por el mes y año seleccionados
+                 // Cargar solo las tarjetas entregadas en ese mes específico
                  $query->whereBetween('delivery_date', [$startDate, $endDate]);
              }])
+             ->orderBy('id')
              ->get() as $aid)
              
         <tr class="text-center">
-            <td>{{$aid->id}}</td>
+            <td>{{$aid->Beneficiary->id}}</td>
             <td>{{$aid->Beneficiary->name}}</td>
             <td>{{$aid->Beneficiary->dni}}</td>
             <td>
