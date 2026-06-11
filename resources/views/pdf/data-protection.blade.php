@@ -228,6 +228,9 @@
                 DIOCESANA DE SEVILLA contacten con usted a través de su teléfono móvil y/o su correo electrónico con el
                 objeto de informarle periódicamente sobre cualquier otra actividad de las mismas que pudiera ser de su
                 interés a tenor de su petición.
+
+
+                Ultima actualizacion 16/11/2025
             </p>
         </div>
     </body>
