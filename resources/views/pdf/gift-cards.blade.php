@@ -109,7 +109,7 @@
     <tr class="text-center bold">
         <td>Nº</td>
         <td>TITULAR</td>
-        <td>DNI/NIE/PAS</td>
+        <td>TELEFONO</td>
         <td>TARJETAS</td>
         <td>CANTIDAD</td>
     </tr>
@@ -130,7 +130,7 @@
         <tr class="text-center">
             <td>{{$aid->Beneficiary->id}}</td>
             <td>{{$aid->Beneficiary->name}}</td>
-            <td>{{$aid->Beneficiary->dni}}</td>
+            <td>{{$aid->Beneficiary->phone}}</td>
             <td>
                 @foreach ($aid->giftCards as $giftCard)
                     {{$giftCard->serie}}<br>
