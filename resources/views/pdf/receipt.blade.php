@@ -132,7 +132,7 @@
                         src="{{ public_path('images/' . ($record->type === 'Pago de suministro' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Pago de suministro</td>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Adquisición y reposición de elementos luminosos de bajo consumo' ? 'square-x' : 'square' . '.webp')) }}"
+                        src="{{ public_path('images/' . ($record->type === 'Adquisición y reposición de elementos luminosos de bajo consumo' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Adquisición y reposición de elementos luminosos de bajo consumo</td>
             </tr>
             <tr>
@@ -158,7 +158,7 @@
         <table>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Impago de Alquiler' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Impago de alquiler' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Impago de Alquiler</td>
                 <td width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Impago de crédito hipotecario' ? 'square-x' : 'square') . '.webp') }}"
@@ -173,7 +173,7 @@
                             'images/' .
                                 ($record->type ===
                                 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO
-                                           relacionados con la eficiencia Energética'
+                                            relacionados con la eficiencia energética'
                                     ? 'square-x'
                                     : 'square') .
                                 '.webp',
@@ -183,15 +183,15 @@
             </tr>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Equipamiento básico del Hogar' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Equipamiento básico del hogar' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Equipamiento básico del Hogar</td>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Ropería (Ropa, Zapatos, Uniformes, Lencería del Hogar, etc.)' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Ropería (Ropa, Zapatos, Uniformes, Lencería del Hogar, etc.)</td>
             </tr>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Reparación de Vehiculo' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Reparación de vehículo' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Reparación de Vehiculo</td>
                 <td width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de vivienda' ? 'square-x' : 'square') . '.webp') }}"
@@ -205,10 +205,10 @@
         <table>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Pago de Telefonía e Internet' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Pago de telefonía e internet' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Pago de Telefonía e Internet</td>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Equipamiento Digital' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Equipamiento digital' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Equipamiento Digital</td>
             </tr>
             <tr>
@@ -224,17 +224,17 @@
         <table>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Material Escolar' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Material escolar' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Material Escolar</td>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares, etc.)' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Servicios escolares (Aula Matinal, Aula de Medio dia, Comedor, Extraescolares,
                     etc.)
                 </td>
             </tr>
             <tr>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Gastos de Transporte' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Gastos de transporte' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Gastos de Transporte</td>
                 <td width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de educación' ? 'square-x' : 'square') . '.webp') }}"
@@ -278,7 +278,7 @@
                         src="{{ public_path('images/' . ($record->type === 'Alimentación e higiene' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Alimentación e higiene</td>
                 <td width="50%"><img
-                        src="{{ public_path('images/' . ($record->type === 'Gastos de Transporte o Viajes' ? 'square-x' : 'square') . '.webp') }}"
+                        src="{{ public_path('images/' . ($record->type === 'Gastos de transporte o viajes' ? 'square-x' : 'square') . '.webp') }}"
                         class="icon" />Gastos de Transporte o Viajes</td>
             </tr>
             <tr>
