@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Beneficiary;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -16,7 +17,7 @@ class BeneficiaryExport implements FromCollection, ShouldAutoSize, WithHeadings,
     /**
      * Obtiene todos los beneficiarios con su relación "Family".
      */
-    public function collection()
+    public function collection(): Collection
     {
         return Beneficiary::with('Family')->get(); // Cargar la relación Family
     }

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Donation;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -18,7 +19,7 @@ class DonationsExport implements FromQuery, WithHeadings
         $this->filters = $filters;
     }
 
-    public function query()
+    public function query(): Builder
     {
         $query = Donation::query()
             ->select('donors.name', 'donors.phone', 'donors.email', 'donors.address', 'donations.amount', 'donations.donation_month', 'donations.donation_year', 'donations.source')

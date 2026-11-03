@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\MonthlyReport;
+use Illuminate\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -20,7 +21,7 @@ class MonthlyReportExport implements FromQuery, WithHeadings, WithMapping
     }
 
     // Función query con el filtro year
-    public function query()
+    public function query(): Builder
     {
         $query = MonthlyReport::query()
             ->select(
