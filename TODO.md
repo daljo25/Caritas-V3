@@ -5,16 +5,28 @@ Pendientes reales, después de cerrar los 12 puntos de la lista anterior
 lockfile, N+1 de los widgets, `storage:link`, disco de subidas, valores por
 defecto de Filament 5, Tailwind 4 y verificación de email).
 
-## 1. Dependencia local parcheada (recordatorio)
+## 1. `stidges/laravel-country-flags` y Laravel 13 (esperando al mantenedor)
 
-Queda un solo paquete copiado en `packages/` (`stidges/laravel-country-flags`),
-solo para ampliar su restricción de framework (ver `packages/README.md`).
-`outerweb/settings` y `outerweb/filament-settings` ya se instalan desde Packagist
-en su v2.
+El paquete 3.0.1 (última versión) sigue requiriendo `illuminate/support
+^11.0|^12.0`, así que la copia local de `packages/laravel-country-flags` solo
+amplía esa restricción. El código funciona sin cambios en Laravel 13.
 
-- [ ] Revisar si `stidges/laravel-country-flags` publica versión con Laravel 13
-      y, cuando salga, borrar `packages/laravel-country-flags`, quitar la entrada
-      del `require` y ejecutar `composer update stidges/laravel-country-flags`
+Estado a 2026-11-03:
+
+- El PR automático de Laravel Shift #13 (`Laravel 13.x Compatibility`) está
+  abierto desde 2026-02-24 sin revisar.
+- El repositorio no recibe cambios desde 2025-03-05, así que el mantenedor
+  parece inactivo.
+- Pendiente publicar un comentario en el PR #13 (texto preparado) en cuanto
+  haya `gh` autenticado (`gh auth login -h github.com`).
+
+- [ ] Si no hay release antes del **2026-11-10**, publicar fork propio:
+      `composer.json` con `"name": "daljo25/laravel-country-flags"` y
+      `"illuminate/support": "^11.0|^12.0|^13.0"`, tag `3.1.0`, enviarlo a
+      Packagist y sustituir `packages/laravel-country-flags` por
+      `composer require daljo25/laravel-country-flags:^3.1`
+- [ ] Cuando exista versión upstream (o fork), borrar la carpeta, quitar la
+      entrada del `require` y la del repositorio `path` si queda vacío
 
 ## 2. Repetir en cada entorno nuevo (no es código)
 
