@@ -2,12 +2,25 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
+use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
+use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
 use App\Filament\Resources\AttendanceResource\Pages;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
 use App\Models\Attendance;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,46 +32,46 @@ use Illuminate\Support\Facades\Blade;
 class AttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
-    protected static ?string $navigationGroup = 'Usuarios';
+    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
     protected static ?string $label = 'Certificado de asistencia';
     protected static ?string $pluralLabel = 'Certificados de asistencia';
     protected static ?string $navigationLabel = 'Certificados de Asistencia';
-    protected static ?string $navigationIcon = 'tabler-certificate';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-certificate';
     protected static ?string $recordTitleAttribute = 'Asistencia';
     protected static ?int $navigationSort = 5;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('certificate_number')
+        return $schema
+            ->components([
+                TextInput::make('certificate_number')
                     ->label('Número de certificado')
                     ->placeholder('Escribe el número de certificado')
                     ->hiddenOn('create')
                     ->disabled()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('beneficiary_id')
+                Select::make('beneficiary_id')
                     ->relationship('beneficiary', 'name')
                     ->label('Usuario')
                     ->required()
                     ->preload()
                     ->searchable(),
-                Forms\Components\DatePicker::make('attendance_date')
+                DatePicker::make('attendance_date')
                     ->label('Fecha de asistencia')
                     ->required()
                     ->default(now())
                     ->minDate(now()->subYear(1))
                     ->maxDate(now()->addYear(1))
                     ->placeholder('Selecciona una fecha'),
-                Forms\Components\TimePicker::make('attendance_time')
+                TimePicker::make('attendance_time')
                     ->label('Hora de asistencia')
                     ->default(now())
                     ->placeholder('Selecciona una hora')
                     ->seconds(false)
                     ->format('H:i')
                     ->required(),
-                Forms\Components\Textarea::make('purpose')
+                Textarea::make('purpose')
                     ->label('Motivo')
                     ->maxLength(255)
                     ->placeholder('Escribe el motivo de la asistencia')
@@ -70,28 +83,28 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('certificate_number')
+                TextColumn::make('certificate_number')
                     ->label('Número de certificado')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('beneficiary.name')
+                TextColumn::make('beneficiary.name')
                     ->label('Usuario')
                     ->sortable()
                     ->searchable()
                     ->numeric(),
-                Tables\Columns\TextColumn::make('attendance_date')
+                TextColumn::make('attendance_date')
                     ->label('Fecha de asistencia')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('attendance_time')
+                TextColumn::make('attendance_time')
                     ->label('Hora de asistencia')
                     ->time(format: 'h:i A')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -99,9 +112,9 @@ class AttendanceResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('pdf') 
+            ->recordActions([
+                EditAction::make(),
+                Action::make('pdf') 
                     ->label('PDF')
                     ->color('success')
                     ->icon('tabler-download')
@@ -113,9 +126,9 @@ class AttendanceResource extends Resource
                         },"certificado-asistencia-{$attendance->certificate_number}.pdf");
                     }),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -130,9 +143,9 @@ class AttendanceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAttendances::route('/'),
-            'create' => Pages\CreateAttendance::route('/create'),
-            'edit' => Pages\EditAttendance::route('/{record}/edit'),
+            'index' => ListAttendances::route('/'),
+            'create' => CreateAttendance::route('/create'),
+            'edit' => EditAttendance::route('/{record}/edit'),
         ];
     }
 }

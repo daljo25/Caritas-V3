@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AttendanceResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\AttendanceResource;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions;
@@ -28,7 +29,7 @@ class EditAttendance extends EditRecord
                         )->stream();
                     }, "certificado-asistencia-{$attendance->certificate_number}.pdf");
                 }),
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

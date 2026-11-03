@@ -2,12 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\GiftCardResource\Pages\ListGiftCards;
+use App\Filament\Resources\GiftCardResource\Pages\CreateGiftCard;
+use App\Filament\Resources\GiftCardResource\Pages\EditGiftCard;
 use App\Filament\Resources\GiftCardResource\Pages;
 use App\Filament\Widgets\GiftCardStats;
 use App\Models\Aid;
 use App\Models\GiftCard;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,36 +27,36 @@ class GiftCardResource extends Resource
 {
     protected static ?string $model = GiftCard::class;
 
-    protected static ?string $navigationGroup = 'Registro de datos';
-    protected static ?string $navigationIcon = 'tabler-credit-card';
+    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-credit-card';
     protected static ?string $label = 'Tarjeta de regalo';
     protected static ?string $pluralLabel = 'Tarjetas de regalo';
     protected static ?string $recordTitleAttribute = 'Tarjetas de regalo';
     protected static ?int $navigationSort = 7;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('serie')
+        return $schema
+            ->components([
+                TextInput::make('serie')
                     ->label('Serie')
                     ->required()
                     ->maxLength(50),
-                Forms\Components\TextInput::make('number')
+                TextInput::make('number')
                     ->label('Número')
                     ->required()
                     ->maxLength(50),
-                Forms\Components\TextInput::make('pin')
+                TextInput::make('pin')
                     ->label('PIN')
                     ->required()
                     ->maxLength(50),
-                Forms\Components\TextInput::make('amount')
+                TextInput::make('amount')
                     ->label('Monto')
                     ->prefixIcon('heroicon-o-currency-euro')
                     ->required()
                     ->numeric()
                     ->inputMode('decimal'),
-                Forms\Components\Select::make('aid_id')
+                Select::make('aid_id')
                 ->label('Ayuda')
                 ->searchable()
                 ->options(function () {
@@ -82,13 +93,13 @@ class GiftCardResource extends Resource
                     return $aid ? "{$aid->id} - {$aid->beneficiary->name}" : null; // Formatear la salida: "id - nombre"
                 })
                 ->preload(), 
-                Forms\Components\TextInput::make('issuer')
+                TextInput::make('issuer')
                     ->label('Emisor')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('exp')
+                TextInput::make('exp')
                     ->label('Expiración')
                     ->maxLength(20),
-                Forms\Components\DatePicker::make('delivery_date')
+                DatePicker::make('delivery_date')
                     ->label('Fecha de entrega'),
             ]);
     }
@@ -97,41 +108,41 @@ class GiftCardResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('serie')
+                TextColumn::make('serie')
                     ->label('Serie')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('number')
+                TextColumn::make('number')
                     ->label('Número')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pin')
+                TextColumn::make('pin')
                     ->label('PIN')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->prefix('€ ')
                     ->label('Monto')
                     ->numeric(locale: 'es-ES', decimalPlaces: 2)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('aid.id')
+                TextColumn::make('aid.id')
                     ->label('Ayuda')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('aid.beneficiary.name')
+                TextColumn::make('aid.beneficiary.name')
                     ->label('Usuario')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('issuer')
+                TextColumn::make('issuer')
                     ->label('Emisor')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('exp')
+                TextColumn::make('exp')
                     ->label('Expiración'),
-                Tables\Columns\TextColumn::make('delivery_date')
+                TextColumn::make('delivery_date')
                     ->label('Fecha de entrega')
                     ->date()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('aid_status')
+                IconColumn::make('aid_status')
                     ->label('¿Entregada?')
                     ->boolean()
                     ->getStateUsing(fn($record) => !is_null($record->aid_id))
@@ -139,11 +150,11 @@ class GiftCardResource extends Resource
                     ->falseIcon('tabler-circle-x')
                     ->trueColor('success')
                     ->falseColor('danger'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -151,12 +162,12 @@ class GiftCardResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -171,9 +182,9 @@ class GiftCardResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGiftCards::route('/'),
-            'create' => Pages\CreateGiftCard::route('/create'),
-            'edit' => Pages\EditGiftCard::route('/{record}/edit'),
+            'index' => ListGiftCards::route('/'),
+            'create' => CreateGiftCard::route('/create'),
+            'edit' => EditGiftCard::route('/{record}/edit'),
         ];
     }
 

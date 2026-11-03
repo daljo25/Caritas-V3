@@ -2,12 +2,13 @@
 
 namespace App\Filament\Resources\MonthlyReportResource\Pages;
 
+use Filament\Schemas\Components\Fieldset;
+use Filament\Actions\CreateAction;
 use App\Exports\MonthlyReportExport;
 use App\Filament\Resources\MonthlyReportResource;
 use App\Models\MonthlyReport;
 use Filament\Actions;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
@@ -27,7 +28,7 @@ class ListMonthlyReports extends ListRecords
                 ->modalSubmitActionLabel('Exportar')
                 ->modalFooterActionsAlignment('center')
                 ->modalCancelAction(false)
-                ->form([
+                ->schema([
                     Fieldset::make('Filtros')->columnSpan(2)->schema([
                         Select::make('year')
                             ->label('Año')
@@ -51,7 +52,7 @@ class ListMonthlyReports extends ListRecords
                     // Descargar el archivo de Excel
                     return FacadesExcel::download($export, $filename . '.xlsx');
                 }),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

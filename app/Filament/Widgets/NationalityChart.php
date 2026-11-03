@@ -9,10 +9,10 @@ use Filament\Widgets\ChartWidget;
 
 class NationalityChart extends ChartWidget
 {
-    protected static ?string $heading = 'Pais de Origen';
+    protected ?string $heading = 'Pais de Origen';
     protected static ?int $sort = 3;
-    protected static ?string $pollingInterval = null;
-    protected static ?string $maxHeight = '300px';
+    protected ?string $pollingInterval = null;
+    protected ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
@@ -40,7 +40,7 @@ class NationalityChart extends ChartWidget
         $labels = $nationalityCounts->map(function ($item) {
             $nationality = $item->nationality ?? 'UN'; // Asignar un valor por defecto
             $flag = $nationality === 'UN' ? country_flag('UN') : country_flag($nationality);
-            
+
             return $flag . ' ' . $nationality; // Incluye la bandera y el nombre
             })->toArray();
         $data = $nationalityCounts->pluck('count')->toArray(); // Cantidades por nacionalidad

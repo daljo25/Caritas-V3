@@ -11,7 +11,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class DonorStatsOverview extends BaseWidget
 {
     protected static ?int $sort = 4;
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
     protected function getStats(): array
     {
         return [

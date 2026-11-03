@@ -2,14 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DerivationResource\Pages\ListDerivations;
+use App\Filament\Resources\DerivationResource\Pages\CreateDerivation;
+use App\Filament\Resources\DerivationResource\Pages\EditDerivation;
 use App\Filament\Resources\DerivationResource\Pages;
 use App\Filament\Resources\DerivationResource\RelationManagers;
 use App\Models\Derivation;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,25 +31,25 @@ use Illuminate\Support\Facades\Blade;
 class DerivationResource extends Resource
 {
     protected static ?string $model = Derivation::class;
-    protected static ?string $navigationGroup = 'Usuarios';
+    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
     protected static ?string $label = 'Derivaciones';
-    protected static ?string $navigationIcon = 'tabler-directions';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-directions';
     protected static ?string $recordTitleAttribute = 'Derivaciones';
     protected static ?int $navigationSort = 4;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Fieldset::make('Titular y Voluntario')
                     ->schema([
-                        Forms\Components\Select::make('beneficiary_id')
+                        Select::make('beneficiary_id')
                             ->label('Usuario')
                             ->relationship('beneficiary', 'name')
                             ->required()
                             ->preload()
                             ->searchable(),
-                        Forms\Components\Select::make('volunteer_id')
+                        Select::make('volunteer_id')
                             ->label('Voluntario')
                             ->relationship('volunteer', 'name')
                             ->required()
@@ -48,19 +58,19 @@ class DerivationResource extends Resource
                     ]),
                 Fieldset::make('Derivación')
                     ->schema([
-                        Forms\Components\Select::make('collaborator_id')
+                        Select::make('collaborator_id')
                             ->label('Colaborador')
                             ->relationship('collaborator', 'name')
                             ->required()
                             ->preload()
                             ->searchable()
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('reason')
+                        Textarea::make('reason')
                             ->label('Motivo')
                             ->required()
                             ->maxLength(255)
                             ->columnSpanFull(),
-                        Forms\Components\Textarea::make('observation')
+                        Textarea::make('observation')
                             ->label('Observaciones')
                             ->required()
                             ->maxLength(255)
@@ -74,31 +84,31 @@ class DerivationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('beneficiary.name')
+                TextColumn::make('beneficiary.name')
                     ->label('Usuario')
                     ->numeric()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('volunteer.name')
+                TextColumn::make('volunteer.name')
                     ->label('Voluntario')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('collaborator.name')
+                TextColumn::make('collaborator.name')
                     ->label('Colaborador')
                     ->numeric()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('reason')
+                TextColumn::make('reason')
                     ->label('Motivo')
                     ->words(10),
-                Tables\Columns\TextColumn::make('observation')
+                TextColumn::make('observation')
                     ->label('Observaciones')
                     ->words(10),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -106,9 +116,9 @@ class DerivationResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('pdf') 
+            ->recordActions([
+                EditAction::make(),
+                Action::make('pdf') 
                     ->label('PDF')
                     ->color('success')
                     ->icon('tabler-download')
@@ -120,9 +130,9 @@ class DerivationResource extends Resource
                         },'Derivacion de ' . $record->Beneficiary->name .' a '. $record->Collaborator->name . '.pdf');
                     }), 
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -137,9 +147,9 @@ class DerivationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDerivations::route('/'),
-            'create' => Pages\CreateDerivation::route('/create'),
-            'edit' => Pages\EditDerivation::route('/{record}/edit'),
+            'index' => ListDerivations::route('/'),
+            'create' => CreateDerivation::route('/create'),
+            'edit' => EditDerivation::route('/{record}/edit'),
         ];
     }
 }

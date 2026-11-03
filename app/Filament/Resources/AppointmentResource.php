@@ -2,13 +2,25 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Forms\Components\Select;
+use App\Models\Beneficiary;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\AppointmentResource\Pages\ListAppointments;
+use App\Filament\Resources\AppointmentResource\Pages\CreateAppointment;
+use App\Filament\Resources\AppointmentResource\Pages\EditAppointment;
 use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
 use Filament\Actions\CreateAction;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,21 +32,21 @@ class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    protected static ?string $navigationIcon = 'tabler-calendar';
-    protected static ?string $navigationGroup = 'Citas';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-calendar';
+    protected static string | \UnitEnum | null $navigationGroup = 'Citas';
     protected static ?string $label = 'Cita';
     protected static ?string $pluralLabel = 'Citas';
     protected static ?string $navigationLabel = 'Citas';
     protected static ?string $recordTitleAttribute = 'Cita';
 
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Fieldset::make('Usuario')
                     ->schema([
-                        Forms\Components\Select::make('beneficiary_id')
+                        Select::make('beneficiary_id')
                             ->relationship('beneficiary', 'name')
                             ->label('Nombre')
                             ->searchable(['name', 'id', 'expedient', 'dni', 'phone'])
@@ -43,7 +55,7 @@ class AppointmentResource extends Resource
                             ->live()
                             ->afterStateUpdated(function ($state, callable $set) {
                                 if ($state) {
-                                    $beneficiary = \App\Models\Beneficiary::find($state);
+                                    $beneficiary = Beneficiary::find($state);
                                     if ($beneficiary) {
                                         $set('phone_number', $beneficiary->phone);
                                         $set('email', $beneficiary->email);
@@ -56,7 +68,7 @@ class AppointmentResource extends Resource
                                 }
                             })
                             ->createOptionForm([
-                                Forms\Components\TextInput::make('dni')
+                                TextInput::make('dni')
                                     ->label('DNI/NIE/PAS')
                                     ->required()
                                     ->unique()
@@ -64,7 +76,7 @@ class AppointmentResource extends Resource
                                         'unique' => 'El :Attribute ya esta registrado.',
                                     ])
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('name')
+                                TextInput::make('name')
                                     ->label('Nombre')
                                     ->required()
                                     ->unique()
@@ -72,7 +84,7 @@ class AppointmentResource extends Resource
                                         'unique' => 'El :Attribute ya esta registrado.',
                                     ])
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('phone')
+                                TextInput::make('phone')
                                     ->label('Teléfono')
                                     ->tel()
                                     ->required()
@@ -81,27 +93,27 @@ class AppointmentResource extends Resource
                                         'unique' => 'El :Attribute ya esta registrado.',
                                     ])
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('address')
+                                TextInput::make('address')
                                     ->label('Dirección')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Select::make('volunteer_id')
+                                Select::make('volunteer_id')
                                     ->required()
                                     ->relationship('Volunteer', 'name')
                                     ->searchable()
                                     ->preload()
                                     ->label('Voluntario'),
-                                Forms\Components\TextInput::make('email')
+                                TextInput::make('email')
                                     ->label('Email')
                                     ->email()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('state')
+                                TextInput::make('state')
                                     ->label('Estado')
                                     ->required()
                                     ->default('Archivado')
                                     ->readOnly(),
                             ]),
-                        Forms\Components\TextInput::make('phone_number')
+                        TextInput::make('phone_number')
                             ->label('Teléfono')
                             ->tel()
                             ->readOnly()
@@ -115,7 +127,7 @@ class AppointmentResource extends Resource
                                     }
                                 }
                             }),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->label('Email')
                             ->email()
                             ->readOnly()
@@ -129,7 +141,7 @@ class AppointmentResource extends Resource
                                     }
                                 }
                             }),
-                        Forms\Components\TextInput::make('address')
+                        TextInput::make('address')
                             ->label('Dirección')
                             ->readOnly()
                             ->maxLength(255)
@@ -146,10 +158,10 @@ class AppointmentResource extends Resource
                     ->columns(2),
                 Fieldset::make('Cita')
                     ->schema([
-                        Forms\Components\DatePicker::make('appointment_date')
+                        DatePicker::make('appointment_date')
                             ->label('Fecha de la Cita')
                             ->hiddenOn('create'),
-                        Forms\Components\TimePicker::make('appointment_time')
+                        TimePicker::make('appointment_time')
                             ->label('Hora de la Cita')
                             ->hiddenOn('create')
                             ->seconds(false)
@@ -163,10 +175,10 @@ class AppointmentResource extends Resource
                                 '13:00' => '13:00',
                                 '13:30' => '13:30',
                             ]),
-                        Forms\Components\TextInput::make('notes')
+                        TextInput::make('notes')
                             ->label('Notas')
                             ->maxLength(255),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->label('Estado')
                             ->options([
                                 'Pendiente' => 'Pendiente',
@@ -187,29 +199,29 @@ class AppointmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('beneficiary.name')
+                TextColumn::make('beneficiary.name')
                     ->searchable()
                     ->label('Usuario')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('appointment_date')
+                TextColumn::make('appointment_date')
                     ->label('Fecha de la Cita')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('appointment_time')
+                TextColumn::make('appointment_time')
                     ->sortable()
                     ->label('Hora de la Cita'),
-                Tables\Columns\TextColumn::make('notes')
+                TextColumn::make('notes')
                     ->searchable()
                     ->label('Notas'),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->searchable()
                     ->label('Estado'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -217,12 +229,12 @@ class AppointmentResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -237,9 +249,9 @@ class AppointmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAppointments::route('/'),
-            'create' => Pages\CreateAppointment::route('/create'),
-            'edit' => Pages\EditAppointment::route('/{record}/edit'),
+            'index' => ListAppointments::route('/'),
+            'create' => CreateAppointment::route('/create'),
+            'edit' => EditAppointment::route('/{record}/edit'),
         ];
     }
 }

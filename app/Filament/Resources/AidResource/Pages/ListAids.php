@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\AidResource\Pages;
 
+use Filament\Schemas\Components\Fieldset;
+use Filament\Actions\CreateAction;
 use App\Exports\AidExport;
 use App\Filament\Resources\AidResource;
 use App\Jobs\UpdateAidsStatusJob;
@@ -11,9 +13,7 @@ use Illuminate\Support\Facades\Blade;
 use App\Models\Aid;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
-use Filament\Actions\Modal\Actions\Action;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -52,7 +52,7 @@ class ListAids extends ListRecords
                 ->modalSubmitActionLabel('Exportar')
                 ->modalFooterActionsAlignment('center')
                 ->modalCancelAction(false)
-                ->form([
+                ->schema([
                     Fieldset::make('Filtros')->columnSpan(2)->schema([
                         Select::make('type')
                             ->label('Tipo de Ayuda')
@@ -102,7 +102,7 @@ class ListAids extends ListRecords
                 ->modalSubmitActionLabel('Generar PDF')
                 ->modalFooterActionsAlignment('center')
                 ->modalCancelAction(false)
-                ->form([
+                ->schema([
                     Select::make('month')
                         ->label('Mes')
                         ->options([
@@ -159,7 +159,7 @@ class ListAids extends ListRecords
                     )->stream();
                 }, 'COVIRAN ' . date('m-Y') . '.pdf');
             }), */
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

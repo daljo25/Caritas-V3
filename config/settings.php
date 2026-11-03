@@ -1,15 +1,17 @@
 <?php
 
+use Outerweb\Settings\Models\Setting;
+
 return [
     /**
-     * The desired name of the database table
-     * where the settings will be stored
+     * The model used to read and write the settings.
      */
-    'database_table_name' => 'settings',
+    'model' => Setting::class,
 
     /**
-     * The desired name of the cache key
-     * where the settings will be stored
+     * The database table where the settings are stored.
      */
-    'cache_key' => 'settings_',
+    'database' => [
+        'table' => 'settings',
+    ],
 ];

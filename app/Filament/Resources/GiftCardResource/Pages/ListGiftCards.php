@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\GiftCardResource\Pages;
 
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Actions\ImportAction;
+use Filament\Actions\CreateAction;
 use App\Exports\GiftCardExport;
 use App\Filament\Imports\GiftCardImporter;
 use App\Filament\Resources\GiftCardResource;
 use App\Filament\Widgets\GiftCardStats;
 use Filament\Actions;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
@@ -22,14 +25,14 @@ class ListGiftCards extends ListRecords
     {
         return [
             //exportar en excel el listado de tarjetas
-            Actions\Action::make('Export')
+            Action::make('Export')
                 ->label('Listado de Tarjetas')
                 ->color('success')
                 ->icon('tabler-file-type-xls')
                 ->modalSubmitActionLabel('Exportar')
                 ->modalFooterActionsAlignment('center')
                 ->modalCancelAction(false)
-                ->form([
+                ->schema([
                     Fieldset::make('Filtros')->columnSpan(2)->schema([
                         Select::make('status')
                             ->label('Estado')
@@ -64,12 +67,12 @@ class ListGiftCards extends ListRecords
                     // Descargar el archivo de Excel
                     return Excel::download($export, $filename . '.xlsx');
                 }),
-            Actions\ImportAction::make('Import')
+            ImportAction::make('Import')
                 ->label('Importar')
                 ->icon('tabler-table-import')
                 ->color('info')
                 ->Importer(GiftCardImporter::class),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 
@@ -79,7 +82,7 @@ class ListGiftCards extends ListRecords
             GiftCardStats::class,
         ];
     }
-    public function getHeaderWidgetsColumns(): int | array
+    public function getHeaderWidgetsColumns(): int|array
     {
         return 5;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\DonorResource\Pages;
 
+use Filament\Schemas\Components\Fieldset;
+use Filament\Actions\CreateAction;
 use App\Exports\DonationsExport;
 use App\Filament\Resources\DonorResource;
 use App\Models\Donation;
@@ -9,7 +11,6 @@ use App\Models\Donor;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
@@ -31,7 +32,7 @@ class ListDonors extends ListRecords
                 ->modalSubmitActionLabel('Exportar')
                 ->modalFooterActionsAlignment('center')
                 ->modalCancelAction(false)
-                ->form([
+                ->schema([
                     Fieldset::make('Filtros')->columnSpan(2)->schema([
                         Select::make('donor_name')
                             ->label('Nombre')
@@ -74,7 +75,7 @@ class ListDonors extends ListRecords
                 ->label('Donaciones Anuales')
                 ->color('success')
                 ->icon('tabler-file-type-pdf')
-                ->form([
+                ->schema([
                     Select::make('donation_year')
                         ->label('Año')
                         ->options(Donation::query()->pluck('donation_year', 'donation_year')->unique()->toArray())
@@ -99,7 +100,7 @@ class ListDonors extends ListRecords
                         echo $pdf->stream();
                     }, 'Donaciones_Anuales_' . $year . '.pdf',);
                 }),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

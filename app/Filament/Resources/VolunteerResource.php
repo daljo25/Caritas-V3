@@ -2,12 +2,24 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\VolunteerResource\Pages\ManageVolunteers;
 use App\Filament\Resources\VolunteerResource\Pages;
 use App\Filament\Resources\VolunteerResource\RelationManagers;
 use App\Models\Volunteer;
 use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,46 +29,46 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class VolunteerResource extends Resource
 {
     protected static ?string $model = Volunteer::class;
-    protected static ?string $navigationGroup = 'Registro de datos';
+    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
     protected static ?string $label = 'Voluntarios';
-    protected static ?string $navigationIcon = 'tabler-mood-heart';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-mood-heart';
     protected static ?string $recordTitleAttribute = 'Voluntarios';
     protected static ?int $navigationSort = 5;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->label('Nombres y Apellidos')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('dni')
+                TextInput::make('dni')
                     ->label('DNI / NIE / PAS')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('birth_date')
+                DatePicker::make('birth_date')
                     ->label('Fecha de Nacimiento'),
-                Forms\Components\Select::make('gender')
+                Select::make('gender')
                     ->label('Género')
                     ->options([
                         'Masculino' => 'Masculino',
                         'Femenino' => 'Femenino',
                     ]),
-                Forms\Components\TextInput::make('address')
+                TextInput::make('address')
                     ->label('Dirección')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->label('Teléfono')
                     ->tel()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->label('Correo Electrónico')
                     ->email()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('notes')
+                Textarea::make('notes')
                     ->label('Notas')
                     ->maxLength(65535),
-                Forms\Components\FileUpload::make('image')
+                FileUpload::make('image')
                     ->label('Imagen')
                     ->image()
                     ->columnSpanFull(),
@@ -67,46 +79,46 @@ class VolunteerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nombres y Apellidos')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('dni')
+                TextColumn::make('dni')
                     ->label('DNI / NIE / PAS')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('birth_date')
+                TextColumn::make('birth_date')
                     ->label('Fecha de Nacimiento')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('age')
+                TextColumn::make('age')
                     ->label('Edad')
                     ->sortable()
                     ->state(function (Volunteer $record): ?string {
                         return Carbon::parse($record->birth_date)->age;
                     })
                     ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('gender')
+                TextColumn::make('gender')
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('address')
+                TextColumn::make('address')
                     ->label('Dirección')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Teléfono')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Correo Electrónico')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label('Imagen'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Fecha de Creación')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->label('Fecha de Actualización')
                     ->dateTime()
                     ->sortable()
@@ -115,13 +127,13 @@ class VolunteerResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -129,7 +141,7 @@ class VolunteerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageVolunteers::route('/'),
+            'index' => ManageVolunteers::route('/'),
         ];
     }
 }

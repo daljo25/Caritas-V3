@@ -2,12 +2,22 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\CollaboratorResource\Pages\ManageCollaborators;
 use App\Filament\Resources\CollaboratorResource\Pages;
 use App\Filament\Resources\CollaboratorResource\RelationManagers;
 use App\Models\Collaborator;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,68 +27,68 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class CollaboratorResource extends Resource
 {
     protected static ?string $model = Collaborator::class;
-    protected static ?string $navigationGroup = 'Registro de datos';
+    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
     protected static ?string $label = 'Colaboradores';
-    protected static ?string $navigationIcon = 'tabler-building';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-building';
     protected static ?string $recordTitleAttribute = 'Colaboradores';
     protected static ?int $navigationSort = 6;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Fieldset::make('Datos de la Empresa u Organizmo')
                     ->schema([
-                        Forms\Components\TextInput::make('name')
+                        TextInput::make('name')
                             ->maxLength(255)
                             ->label('Nombre')
                             ->required(),
-                        Forms\Components\TextInput::make('address')
+                        TextInput::make('address')
                             ->maxLength(255)
                             ->label('Dirección'),
-                        Forms\Components\TextInput::make('website')
+                        TextInput::make('website')
                             ->maxLength(255)
                             ->label('Sitio web')
                             ->url(),
-                        Forms\Components\Textarea::make('notes')
+                        Textarea::make('notes')
                             ->label('Notas')
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\FileUpload::make('image')
+                        FileUpload::make('image')
                             ->label('Imagen')
                             ->image()
                             ->columnSpanFull(),
                     ]),
                 Fieldset::make('Persona Responsable')
                     ->schema([
-                        Forms\Components\TextInput::make('responsable')
+                        TextInput::make('responsable')
                             ->maxLength(255)
                             ->label('Nombres y Apellidos'),
-                        Forms\Components\TextInput::make('position')
+                        TextInput::make('position')
                             ->maxLength(255)
                             ->label('Cargo'),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->maxLength(255)
                             ->label('Correo electrónico')
                             ->email(),
-                        Forms\Components\TextInput::make('phone')
+                        TextInput::make('phone')
                             ->maxLength(255)
                             ->label('Telefono')
                             ->tel(),
                     ]),
                 Fieldset::make('Otro Contacto')
                     ->schema([
-                        Forms\Components\TextInput::make('responsable2')
+                        TextInput::make('responsable2')
                             ->maxLength(255)
                             ->label('Nombres y Apellidos'),
-                        Forms\Components\TextInput::make('position2')
+                        TextInput::make('position2')
                             ->maxLength(255)
                             ->label('Cargo'),
-                        Forms\Components\TextInput::make('email2')
+                        TextInput::make('email2')
                             ->maxLength(255)
                             ->label('Correo electrónico')
                             ->email(),
-                        Forms\Components\TextInput::make('phone2')
+                        TextInput::make('phone2')
                             ->maxLength(255)
                             ->label('Telefono')
                             ->tel(),
@@ -90,45 +100,45 @@ class CollaboratorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('address')
+                TextColumn::make('address')
                     ->label('Dirección')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('website')
+                TextColumn::make('website')
                     ->label('Sitio Web')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label('Imagen'),
-                Tables\Columns\TextColumn::make('responsable')
+                TextColumn::make('responsable')
                     ->label('Responsable')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('position')
+                TextColumn::make('position')
                     ->label('Cargo')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Correo')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Teléfono')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('responsable2')
+                TextColumn::make('responsable2')
                     ->label('Responsable')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('position2')
+                TextColumn::make('position2')
                     ->label('Cargo')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('email2')
+                TextColumn::make('email2')
                     ->label('Correo')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('phone2')
+                TextColumn::make('phone2')
                     ->label('Teléfono')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('notes')
+                TextColumn::make('notes')
                     ->label('Notas')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->limit(20),
@@ -136,13 +146,13 @@ class CollaboratorResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -150,7 +160,7 @@ class CollaboratorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCollaborators::route('/'),
+            'index' => ManageCollaborators::route('/'),
         ];
     }
 }

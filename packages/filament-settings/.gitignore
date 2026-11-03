@@ -1,8 +1,0 @@
-/.idea
-/.vscode
-/vendor
-/node_modules
-package-lock.json
-composer.phar
-composer.lock
-.DS_Store

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DerivationResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\DerivationResource;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions;
@@ -28,7 +29,7 @@ class EditDerivation extends EditRecord
                         )->stream();
                     }, 'Hoja de Derivación.pdf');
                 }),
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

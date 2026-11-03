@@ -2,8 +2,16 @@
 
 namespace App\Filament\Resources\DonorResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,18 +26,18 @@ class DonationRelationManager extends RelationManager
     protected static ?string $title = 'Donaciones';
 
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('source')
+        return $schema
+            ->components([
+                Select::make('source')
                     ->required()
                     ->label('Medio')
                     ->options([
                         'Efectivo' => 'Efectivo',
                         'Transferencia Bancaria' => 'Transferencia Bancaria',
                     ]),
-                Forms\Components\Select::make('donation_month')
+                Select::make('donation_month')
                     ->required()
                     ->label('Mes')
                     ->options([
@@ -46,7 +54,7 @@ class DonationRelationManager extends RelationManager
                         '11' => 'Noviembre',
                         '12' => 'Diciembre'
                     ]),
-                    Forms\Components\Select::make('donation_year')
+                    Select::make('donation_year')
                     ->required()
                     ->label('Año')
                     ->options([
@@ -58,7 +66,7 @@ class DonationRelationManager extends RelationManager
                         '2029' => '2029',
                         '2030' => '2030',
                     ]),
-                Forms\Components\TextInput::make('amount')
+                TextInput::make('amount')
                     ->required()
                     ->label('Cantidad')
                     ->inputMode('decimal')
@@ -72,33 +80,33 @@ class DonationRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('source')
+                TextColumn::make('source')
                     ->label('Medio')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('donation_month')
+                TextColumn::make('donation_month')
                     ->label('Mes')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('donation_year')
+                TextColumn::make('donation_year')
                     ->label('Año')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->label('Cantidad'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

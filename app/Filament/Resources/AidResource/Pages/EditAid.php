@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AidResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\AidResource;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions;
@@ -28,7 +29,7 @@ class EditAid extends EditRecord
                         )->stream();
                     }, 'Ayuda de ' . $record->type . ' a ' . $record->Beneficiary->name . '.pdf');
                 }),
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

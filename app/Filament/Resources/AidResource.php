@@ -2,6 +2,22 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\AidResource\Pages\ListAids;
+use App\Filament\Resources\AidResource\Pages\CreateAid;
+use App\Filament\Resources\AidResource\Pages\EditAid;
 use App\Filament\Resources\AidResource\Pages;
 use App\Filament\Resources\AidResource\RelationManagers;
 use App\Models;
@@ -9,8 +25,6 @@ use App\Models\Aid;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
 use Filament\Forms;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,26 +37,26 @@ use Illuminate\Support\Facades\Blade;
 class AidResource extends Resource
 {
     protected static ?string $model = Aid::class;
-    protected static ?string $navigationGroup = 'Usuarios';
+    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
     protected static ?string $navigationLabel = 'Ayudas';
-    protected static ?string $navigationIcon = 'tabler-coin-euro';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-coin-euro';
     protected static ?string $recordTitleAttribute = 'Ayudas';
     protected static ?string $label = 'Ayudas';
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Fieldset::make('Titular y Voluntario')
                     ->schema([
-                        Forms\Components\Select::make('beneficiary_id')
+                        Select::make('beneficiary_id')
                             ->relationship('beneficiary', 'name')
                             ->searchable()
                             ->preload()
                             ->required()
                             ->label('Usuario'),
-                        Forms\Components\Select::make('volunteer_id')
+                        Select::make('volunteer_id')
                             ->relationship('volunteer', 'name')
                             ->searchable()
                             ->preload()
@@ -51,7 +65,7 @@ class AidResource extends Resource
                     ]),
                 Fieldset::make('Ayuda')
                     ->schema([
-                        Forms\Components\Select::make('type')
+                        Select::make('type')
                             ->label('Tipo de Ayuda')
                             ->required()
                             ->options([
@@ -96,7 +110,7 @@ class AidResource extends Resource
                                     'Otras necesidades básicas' => 'Otras necesidades básicas',
                                 ]
                             ]),
-                        Forms\Components\Select::make('status')
+                        Select::make('status')
                             ->label('Etapa')
                             ->options([
                                 'En Estudio' => 'En Estudio',
@@ -104,13 +118,13 @@ class AidResource extends Resource
                                 'Rechazada' => 'Rechazada',
                                 'Terminada' => 'Terminada',
                             ]),
-                        Forms\Components\Select::make('collaborator_id')
+                        Select::make('collaborator_id')
                             ->relationship('collaborator', 'name')
                             ->searchable()
                             ->preload()
                             ->required()
                             ->label('Colaborador'),
-                        Forms\Components\Select::make('paid_by')
+                        Select::make('paid_by')
                             ->label('Pagado por Caritas')
                             ->options([
                                 'Parroquial' => 'Parroquial',
@@ -119,16 +133,16 @@ class AidResource extends Resource
                     ]),
                 Fieldset::make('Fecha y Cantidad')
                     ->schema([
-                        Forms\Components\DatePicker::make('start_date')
+                        DatePicker::make('start_date')
                             ->label('Fecha de Inicio'),
-                        Forms\Components\DatePicker::make('end_date')
+                        DatePicker::make('end_date')
                             ->label('Fecha de Fin'),
-                        Forms\Components\TextInput::make('approved_amount')
+                        TextInput::make('approved_amount')
                             ->numeric()
                             ->inputMode('decimal')
                             ->prefixIcon('heroicon-o-currency-euro')
                             ->label('Importe mensual'),
-                        Forms\Components\TextInput::make('total_amount')
+                        TextInput::make('total_amount')
                             ->numeric()
                             ->inputMode('decimal')
                             ->prefixIcon('heroicon-o-currency-euro')
@@ -136,7 +150,7 @@ class AidResource extends Resource
                     ]),
                 Fieldset::make('Notas')
                     ->schema([
-                        Forms\Components\Textarea::make('notes')
+                        Textarea::make('notes')
                             ->maxLength(255)
                             ->default(null)
                             ->columnSpanFull()
@@ -150,71 +164,71 @@ class AidResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->label('Tipo de Ayuda')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label('Etapa')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('beneficiary.name')
+                TextColumn::make('beneficiary.name')
                     ->searchable()
                     ->numeric()
                     ->sortable()
                     ->label('Usuario'),
-                Tables\Columns\TextColumn::make('collaborator.name')
+                TextColumn::make('collaborator.name')
                     ->numeric()
                     ->sortable()
                     ->label('Colaborador'),
-                Tables\Columns\TextColumn::make('paid_by')
+                TextColumn::make('paid_by')
                     ->numeric()
                     ->sortable()
                     ->label('Pagado Por Caritas'),
-                Tables\Columns\TextColumn::make('volunteer.name')
+                TextColumn::make('volunteer.name')
                     ->numeric()
                     ->sortable()
                     ->label('Voluntario')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date()
                     ->sortable()
                     ->label('Fecha de Inicio')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('end_date')
+                TextColumn::make('end_date')
                     ->date()
                     ->sortable()
                     ->label('Fecha de Fin')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('approved_amount')
+                TextColumn::make('approved_amount')
                     ->numeric()
                     ->sortable()
                     ->label('Importe mensual')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('total_amount')
+                TextColumn::make('total_amount')
                     ->numeric()
                     ->sortable()
                     ->label('Importe Total')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('notes')
+                TextColumn::make('notes')
                     ->searchable()
                     ->label('Notas')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->label('Creado')
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->label('Actualizado')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'En Estudio' => 'En Estudio',
                         'Aceptada' => 'Aceptada',
@@ -224,12 +238,12 @@ class AidResource extends Resource
                     ->attribute('status')
                     ->label('Etapa')
                     ->multiple(),
-                Tables\Filters\SelectFilter::make('collaborator')
+                SelectFilter::make('collaborator')
                     ->relationship('collaborator', 'name', fn (Builder $query) => $query->whereIn('id', Aid::pluck('collaborator_id')->unique()))
                     ->searchable()
                     ->preload()
                     ->label('Colaborador'),
-                Tables\Filters\SelectFilter::make('type')
+                SelectFilter::make('type')
                     ->options(
                         fn () => Aid::select('type')
                             ->distinct()
@@ -241,14 +255,14 @@ class AidResource extends Resource
                     ->label('Tipo de Ayuda'),
 
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('pdf')
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                Action::make('pdf')
                     ->label('PDF')
                     ->color('success')
                     ->icon('tabler-download')
-                    ->action(function (Model $record) {
+                    ->action(function (Model2 $record) {
                         return response()->streamDownload(function () use ($record) {
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.receipt', ['record' => $record])
@@ -257,9 +271,9 @@ class AidResource extends Resource
                     }),
             ])
 
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -274,9 +288,9 @@ class AidResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAids::route('/'),
-            'create' => Pages\CreateAid::route('/create'),
-            'edit' => Pages\EditAid::route('/{record}/edit'),
+            'index' => ListAids::route('/'),
+            'create' => CreateAid::route('/create'),
+            'edit' => EditAid::route('/{record}/edit'),
         ];
     }
 }

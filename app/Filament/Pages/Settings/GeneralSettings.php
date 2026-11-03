@@ -1,11 +1,12 @@
 <?php
 namespace App\Filament\Pages\Settings;
 
-use Closure;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use Outerweb\FilamentSettings\Pages\Settings as BaseSettings;
 
 class GeneralSettings extends BaseSettings
 {
@@ -31,12 +32,12 @@ class GeneralSettings extends BaseSettings
         return 'Configuración de la Parroquia';
     }
 
-    public function schema(): array|Closure
+    public function form(Schema $schema): Schema
     {
-        return [
+        return $schema->components([
             Tabs::make('Configuraciones')
                 ->tabs([
-                    Tabs\Tab::make('App')
+                    Tab::make('App')
                         ->icon('tabler-app-window')
                         ->schema([
                             TextInput::make('app.name')
@@ -54,9 +55,9 @@ class GeneralSettings extends BaseSettings
                                 ->label('Favicon de la aplicación')
                                 ->image()
                                 ->directory('settings/logos'),
-                            
+
                         ]),
-                    Tabs\Tab::make('Parroquia')
+                    Tab::make('Parroquia')
                         ->icon('tabler-building-church')
                         ->schema([
                             TextInput::make('parish.name')
@@ -97,7 +98,7 @@ class GeneralSettings extends BaseSettings
                                 ->directory('settings/logos'),
                         ]),
 
-                    Tabs\Tab::make('Otros Logos')
+                    Tab::make('Otros Logos')
                         ->icon('tabler-photo')
                         ->schema([
                             FileUpload::make('caritas.logo')
@@ -110,6 +111,6 @@ class GeneralSettings extends BaseSettings
                                 ->directory('settings/logos'),
                         ]),
                 ]),
-        ];
+        ]);
     }
 }

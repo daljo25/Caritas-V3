@@ -2,27 +2,27 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Forms\Components\WhatsAppEditor;
-use Filament\Pages\Page;
-use App\Models\Beneficiary;
-use Filament\Forms\Components\Select;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use App\Models\Beneficiary;
 
 class SendWhatsappMessages extends Page
 {
-    protected static ?string $navigationIcon = 'tabler-brand-whatsapp'; // Cambiado a Tabler Icons
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-brand-whatsapp'; // Cambiado a Tabler Icons
     protected static ?string $title = 'Enviar WhatsApp';
-    protected static string $view = 'filament.pages.send-whatsapp-messages';
-    protected static ?string $navigationGroup = 'Citas';
+    protected string $view = 'filament.pages.send-whatsapp-messages';
+    protected static string | \UnitEnum | null $navigationGroup = 'Citas';
     protected static ?int $navigationSort = 2;
     public $selectedBeneficiaries = [];
     public $message;
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
-        return [
+        return $schema->components([
             Select::make('selectedBeneficiaries')
                 ->label('Seleccionar Beneficiarios')
                 ->multiple()
@@ -50,7 +50,7 @@ class SendWhatsappMessages extends Page
                 ->label('Mensaje')
                 ->helperText('Usa usar los simbolos para formatear tu texto: *negrita*, _cursiva_, ~tachado~ y ``monoespaciado``.')
                 ->required(),
-        ];
+        ]);
     }
 
 

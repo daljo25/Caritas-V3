@@ -2,14 +2,15 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Aid;
 use Filament\Widgets\ChartWidget;
 
 class StatsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Ayudas';
+    protected ?string $heading = 'Ayudas';
     protected static ?int $sort = 2;
-    protected static ?string $pollingInterval = null;
-    protected static ?string $maxHeight = '300px';
+    protected ?string $pollingInterval = null;
+    protected ?string $maxHeight = '300px';
 
     protected function getData(): array
 {
@@ -22,7 +23,7 @@ class StatsChart extends ChartWidget
     // Iteramos sobre los meses del año
     for ($month = 1; $month <= 12; $month++) {
         // Obtenemos el total de ayudas creadas en el mes actual
-        $totalAids = \App\Models\Aid::whereYear('start_date', $currentYear)
+        $totalAids = Aid::whereYear('start_date', $currentYear)
             ->whereMonth('start_date', $month)
             ->count();
 

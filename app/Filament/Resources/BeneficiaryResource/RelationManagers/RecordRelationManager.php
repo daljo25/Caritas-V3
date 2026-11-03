@@ -2,9 +2,18 @@
 
 namespace App\Filament\Resources\BeneficiaryResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,19 +27,19 @@ class RecordRelationManager extends RelationManager
     protected static ?string $title = 'Historial';
 
     
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('volunteer_id')
+        return $schema
+            ->components([
+                Select::make('volunteer_id')
                     ->label('Voluntario')
                     ->required()
                     ->relationship('Volunteer', 'name'),
-                Forms\Components\DatePicker::make('date')
+                DatePicker::make('date')
                     ->label('Fecha')
                     ->required()
                     ->default(Carbon::now()->format('d-m-Y')),
-                Forms\Components\RichEditor::make('incident')
+                RichEditor::make('incident')
                     ->label('Incidente')
                     ->required()
                     ->columnSpanFull(),
@@ -42,11 +51,11 @@ class RecordRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('Volunteer.name')
+                TextColumn::make('Volunteer.name')
                     ->label('Voluntario'),
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
                     ->label('Fecha'),
-                Tables\Columns\TextColumn::make('incident')
+                TextColumn::make('incident')
                     ->label('Incidente')
                     ->words(10)
                     ->wrap()
@@ -56,15 +65,15 @@ class RecordRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

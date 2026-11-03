@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AppointmentResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\AppointmentResource;
 use App\Models\Appointment;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -24,7 +25,7 @@ class ListAppointments extends ListRecords
                 ->label('Listado de Citas')
                 ->color('success')
                 ->icon('tabler-file-type-pdf')
-                ->form([
+                ->schema([
                     DatePicker::make('appointment_date')
                         ->label('Seleccione un día')
                         ->required()
@@ -71,7 +72,7 @@ class ListAppointments extends ListRecords
                         echo $pdf->stream();
                     }, 'Citas_del_' . $day . '.pdf');
                 }),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

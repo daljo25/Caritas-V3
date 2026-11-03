@@ -2,11 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DonorResource\RelationManagers\DonationRelationManager;
+use App\Filament\Resources\DonorResource\Pages\ListDonors;
+use App\Filament\Resources\DonorResource\Pages\CreateDonor;
+use App\Filament\Resources\DonorResource\Pages\EditDonor;
 use App\Filament\Resources\DonorResource\Pages;
 use App\Filament\Resources\DonorResource\RelationManagers;
 use App\Models\Donor;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -18,33 +28,33 @@ class DonorResource extends Resource
 {
     protected static ?string $model = Donor::class;
 
-    protected static ?string $navigationGroup = 'Registro de datos';
+    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
     protected static ?string $label = 'Donante';
     protected static ?string $pluralLabel = 'Donantes';
-    protected static ?string $navigationIcon = 'tabler-cash';
+    protected static string | \BackedEnum | null $navigationIcon = 'tabler-cash';
     protected static ?string $recordTitleAttribute = 'Donantes';
     protected static ?int $navigationSort = 6;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255)
                     ->label('Nombre'),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email()
                     ->maxLength(255)
                     ->label('Email'),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('phone')
                     ->tel()
                     ->maxLength(255)
                     ->label('Teléfono'),
-                Forms\Components\TextInput::make('address')
+                TextInput::make('address')
                     ->maxLength(255)
                     ->label('Dirección'),
-                Forms\Components\Textarea::make('notes')
+                Textarea::make('notes')
                     ->columnSpanFull()
                     ->label('Notas'),
             ]);
@@ -54,24 +64,24 @@ class DonorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Teléfono')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('address')
+                TextColumn::make('address')
                     ->label('Dirección')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -79,12 +89,12 @@ class DonorResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -92,16 +102,16 @@ class DonorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\DonationRelationManager::class,
+            DonationRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDonors::route('/'),
-            'create' => Pages\CreateDonor::route('/create'),
-            'edit' => Pages\EditDonor::route('/{record}/edit'),
+            'index' => ListDonors::route('/'),
+            'create' => CreateDonor::route('/create'),
+            'edit' => EditDonor::route('/{record}/edit'),
         ];
     }
 }

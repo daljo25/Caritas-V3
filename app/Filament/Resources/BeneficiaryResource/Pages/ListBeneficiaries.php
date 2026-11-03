@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BeneficiaryResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Exports\BeneficiaryExport;
 use App\Filament\Resources\BeneficiaryResource;
 use App\Jobs\UpdateBeneficiariesStateJob;
@@ -45,7 +46,7 @@ class ListBeneficiaries extends ListRecords
                 ->action(function () {
                     return Excel::download(new BeneficiaryExport(), 'Listado de Usuarios.xlsx');
                 }),
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

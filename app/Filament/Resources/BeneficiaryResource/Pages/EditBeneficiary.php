@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BeneficiaryResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\BeneficiaryResource;
 use Filament\Actions;
 use Filament\Actions\Action;
@@ -40,7 +41,7 @@ class EditBeneficiary extends EditRecord
                     }, 'Hoja de Proteccion de Datos de ' . $record->name . '.pdf');
                 }),
 
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

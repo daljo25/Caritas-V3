@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\GiftCardResource\Pages;
 
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use App\Filament\Resources\GiftCardResource;
 use App\Models\GiftCard;
 use App\Models\Record;
@@ -74,7 +76,7 @@ class EditGiftCard extends EditRecord
 
         return [
             // Botón anterior
-            Actions\Action::make('previous')
+            Action::make('previous')
                 ->label('')
                 ->icon('tabler-chevron-left')
                 ->color('gray')
@@ -87,7 +89,7 @@ class EditGiftCard extends EditRecord
                 }),
             
             // Botón siguiente
-            Actions\Action::make('next')
+            Action::make('next')
                 ->label('')
                 ->icon('tabler-chevron-right')
                 ->color('gray')
@@ -99,7 +101,7 @@ class EditGiftCard extends EditRecord
                     }
                 }),
             
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }
