@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "199a0d5f521a6bc96edfc0f169b470a5",
+    "content-hash": "da4e01a43a84a91bcc0c034659be0a29",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -362,6 +362,61 @@
             ],
             "time": "2026-09-12T10:28:18+00:00",
             "published-time": "2026-09-12T12:23:30+00:00"
+        },
+        {
+            "name": "calebporzio/sushi",
+            "version": "v2.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebporzio/sushi.git",
+                "reference": "ef71a031f78a80b0ed82ce51fc5b648c01145281"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebporzio/sushi/zipball/ef71a031f78a80b0ed82ce51fc5b648c01145281",
+                "reference": "ef71a031f78a80b0ed82ce51fc5b648c01145281",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo_sqlite": "*",
+                "ext-sqlite3": "*",
+                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.9 || ^3.1.4",
+                "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0 || ^11.0 || ^12.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sushi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "Eloquent's missing \"array\" driver.",
+            "support": {
+                "source": "https://github.com/calebporzio/sushi/tree/v2.5.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/calebporzio",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-21T02:53:22+00:00",
+            "published-time": "2026-02-21T02:54:41+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -826,6 +881,144 @@
             ],
             "time": "2026-10-29T09:13:34+00:00",
             "published-time": "2026-10-29T09:14:11+00:00"
+        },
+        {
+            "name": "daljo25/filament-dependency-manager",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/daljo25/filament-dependency-manager.git",
+                "reference": "d15ee7a71c50260b01a6fee1468cb46d635f9985"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/daljo25/filament-dependency-manager/zipball/d15ee7a71c50260b01a6fee1468cb46d635f9985",
+                "reference": "d15ee7a71c50260b01a6fee1468cb46d635f9985",
+                "shasum": ""
+            },
+            "require": {
+                "calebporzio/sushi": "^2.5",
+                "filament/filament": "^5.0",
+                "php": "^8.3",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.9|^3.0",
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.0|^8.0|^9.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-arch": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Daljo25\\FilamentDependencyManager\\FilamentDependencyManagerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Daljo25\\FilamentDependencyManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daljomar Morillo",
+                    "email": "camalion007@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Filament plugin to inspect Composer and NPM dependencies, check available updates, and provide suggested upgrade commands.",
+            "homepage": "https://github.com/daljo25/filament-dependency-manager",
+            "keywords": [
+                "daljo25",
+                "filament",
+                "filament-dependency-manager",
+                "filament-plugin",
+                "filamentphp",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/daljo25/filament-dependency-manager/issues",
+                "source": "https://github.com/daljo25/filament-dependency-manager"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/daljo25",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-10-13T09:24:04+00:00",
+            "published-time": "2026-10-13T09:41:10+00:00"
+        },
+        {
+            "name": "daljo25/filament-tabler-icons",
+            "version": "v3.50.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/daljo25/filament-tabler-icons.git",
+                "reference": "462e10c113b4d3e9be4db561da8d0de6bfe8a95e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/daljo25/filament-tabler-icons/zipball/462e10c113b4d3e9be4db561da8d0de6bfe8a95e",
+                "reference": "462e10c113b4d3e9be4db561da8d0de6bfe8a95e",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0|^5.0",
+                "php": "^8.2",
+                "secondnetwork/blade-tabler-icons": "^3.41.0",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.22"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Daljo25\\FilamentTablerIcons\\FilamentTablerIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Daljo25\\FilamentTablerIcons\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daljo25",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Filament plugin that integrates tabler icons, allowing you to use them seamlessly across Filament forms, tables, actions, and more.",
+            "homepage": "https://github.com/daljo25/filament-tabler-icons",
+            "keywords": [
+                "filamentphp",
+                "icons",
+                "laravel",
+                "tabler"
+            ],
+            "support": {
+                "issues": "https://github.com/daljo25/filament-tabler-icons/issues",
+                "source": "https://github.com/daljo25/filament-tabler-icons"
+            },
+            "time": "2026-11-03T13:23:09+00:00",
+            "published-time": "2026-11-03T13:23:22+00:00"
         },
         {
             "name": "danharrin/date-format-converter",

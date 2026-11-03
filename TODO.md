@@ -25,7 +25,18 @@ despliegue limpio hay que hacer esto:
 - [ ] Cualquier plugin nuevo de Filament: revisar si necesita `@source` o si
       trae su propio CSS compilado.
 
-## 3. Detalles menores conocidos
+## 3. Actualizaciones mayores pendientes
+
+El panel de dependencias (`/composer-manager` y `/npm-manager`) detecta:
+
+- `pestphp/pest` 4.7.8 → 5.x (habría que subir también `pest-plugin-laravel`)
+- `vite` 6.4.5 → 8.x, `laravel-vite-plugin` 1.3.0 → 3.x (de la mano)
+- `concurrently` 9.2.5 → 10.x
+
+- [ ] Valorar cada una por separado, comprobando compatibilidad con Laravel 13,
+      Filament 5 y `@tailwindcss/vite` antes de tocar nada
+
+## 4. Detalles menores conocidos
 
 - `resources/views/welcome.blade.php` no tiene ruta (el panel ocupa `/`), pero
   conserva dentro el CSS precompilado de Tailwind 3 como fallback para cuando no
