@@ -1,7 +1,7 @@
 # TODO
 
-Cosas detectadas durante la actualización a Laravel 13 que **no** se tocaron
-(son previas al upgrade, no las provocó). Ordenadas por impacto.
+Cosas detectadas durante las actualizaciones a Laravel 13 y Filament 5 que **no**
+se tocaron (son previas al upgrade, no las provocó). Ordenadas por impacto.
 
 ## 1. El scheduler no ejecuta nada (alto)
 
@@ -48,15 +48,15 @@ redirecciones y a la cookie de sesión si se cambia de host.
 - [ ] Opcional: excluir `packages/` en `pint.json` para no formatear las copias
       locales de paquetes de terceros
 
-## 5. Dependencias locales parcheadas (recordatorio)
+## 5. Dependencia local parcheada (recordatorio)
 
-Los tres paquetes de `packages/` están copiados solo para ampliar su restricción
-de framework (ver `packages/README.md`).
+Queda un solo paquete copiado en `packages/` (`stidges/laravel-country-flags`),
+solo para ampliar su restricción de framework (ver `packages/README.md`).
+`outerweb/settings` y `outerweb/filament-settings` ya se instalan desde Packagist
+en su v2.
 
 - [ ] Revisar periódicamente si `stidges/laravel-country-flags` publica versión
-      con soporte Laravel 13 y eliminarlo
-- [ ] Lo mismo con `outerweb/settings` y `outerweb/filament-settings`, que solo
-      se pueden actualizar a su v2 cuando se migre el panel a **Filament 4**
+      con soporte Laravel 13 y eliminar `packages/laravel-country-flags`
 
 ## 6. Front-end sin lockfile (bajo)
 
@@ -72,3 +72,55 @@ del sitio (1608 ms). Puede ser N+1 en algún listado o guardado del panel.
 
 - [ ] Repetir con `diag` `dumps_toggle` + `profiler_toggle` y `optimize_route`
       sobre las acciones de Livewire que más se usan
+
+## 8. `public/storage` no está enlazado (alto)
+
+`public/storage` existe pero está vacío: falta `php artisan storage:link`. Los
+logos que se suben desde Configuración van al disco `public`
+(`storage/app/public/settings/logos`), y las plantillas PDF los buscan en
+`public/storage/...`, así que los logos no aparecen en los PDF.
+
+- [ ] Ejecutar `php artisan storage:link`
+- [ ] Comprobar que los PDF vuelven a mostrar los logos
+
+## 9. Disco de subida frente a `FILESYSTEM_DISK=local` (medio)
+
+`.env` tiene `FILESYSTEM_DISK=local`, pero `config/filament.php` fuerza el disco
+`public` para no mover las subidas existentes al pasar a Filament 4. Es una
+decisión deliberada del upgrade; conviene confirmarla y, si se prefiere el
+comportamiento nuevo, subir los ficheros y cambiar la configuración.
+
+- [ ] Decidir si las subidas del panel siguen en `public` (actual) o pasan al
+      disco por defecto
+- [ ] Si se cambia, mover `storage/app/public/settings/logos` al disco nuevo
+
+## 10. Cambios de comportamiento asumidos en el panel (bajo)
+
+En `AppServiceProvider::boot()` hay dos `configureUsing` que conservan el
+comportamiento de Filament 3:
+
+- `Fieldset::columnSpanFull()`: en v4/v5 los `Fieldset` ocupan una columna.
+- `Table::deferFilters(false)`: en v4/v5 los filtros esperan a que se pulse
+  "Aplicar".
+
+- [ ] Revisar ambas decisiones con el usuario del panel; si se prefieren los
+      valores nuevos de Filament, borrar las líneas
+
+## 11. Tailwind v3 y sin tema propio de Filament (bajo)
+
+`package.json` sigue en Tailwind v3 y el panel no tiene tema propio. Filament
+4/5 usa Tailwind v4 internamente, pero al no haber tema personalizado el panel
+funciona con el CSS precompilado. Solo importa si se quiere personalizar el
+panel o usar clases Tailwind propias en vistas de Filament.
+
+- [ ] Si se necesita un tema: `php artisan make:filament-theme`, subir Tailwind
+      a v4 y usar `@source` en el CSS del tema
+
+## 12. Verificación de email activada pero inerte (bajo)
+
+El panel tiene `->emailVerification()`, pero `App\Models\User` no implementa
+`Illuminate\Contracts\Auth\MustVerifyEmail`, así que la verificación no hace
+nada.
+
+- [ ] Decidir si se activa de verdad (implementar el contrato y la columna
+      `email_verified_at` ya existe) o se quita del panel
