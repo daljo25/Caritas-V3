@@ -17,8 +17,9 @@ Estado a 2026-11-03:
   abierto desde 2026-02-24 sin revisar.
 - El repositorio no recibe cambios desde 2025-03-05, así que el mantenedor
   parece inactivo.
-- Pendiente publicar un comentario en el PR #13 (texto preparado) en cuanto
-  haya `gh` autenticado (`gh auth login -h github.com`).
+- 2026-11-03: comentario publicado en el PR #13 confirmando que el paquete
+  funciona en Laravel 13.40 / PHP 8.4 sin tocar el código
+  (https://github.com/stidges/laravel-country-flags/pull/13#issuecomment-6613795966).
 
 - [ ] Si no hay release antes del **2026-11-10**, publicar fork propio:
       `composer.json` con `"name": "daljo25/laravel-country-flags"` y
