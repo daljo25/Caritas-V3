@@ -3,15 +3,15 @@
 namespace App\Exports;
 
 use App\Models\Beneficiary;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
-class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
+class BeneficiaryExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithTitle
 {
     /**
      * Obtiene todos los beneficiarios con su relación "Family".
@@ -73,12 +73,13 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
     {
         return 'Listado de Usuarios';
     }
+
     /**
      * Descargar el archivo la hoja de Excel.
      */
     public function download()
     {
-        return Excel::download(new BeneficiaryExport());
+        return Excel::download(new BeneficiaryExport);
     }
 
     /**
@@ -98,7 +99,7 @@ class BeneficiaryExport implements FromCollection, WithHeadings, WithMapping, Wi
         $today = Carbon::now();
 
         $processMember = function ($birthDate) use ($today, &$groups) {
-            if (!$birthDate || !Carbon::hasFormat($birthDate, 'Y-m-d')) {
+            if (! $birthDate || ! Carbon::hasFormat($birthDate, 'Y-m-d')) {
                 return; // Ignorar fechas inválidas
             }
 

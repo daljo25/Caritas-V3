@@ -2,43 +2,39 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use App\Models\Beneficiary;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TimePicker;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\AppointmentResource\Pages\ListAppointments;
 use App\Filament\Resources\AppointmentResource\Pages\CreateAppointment;
 use App\Filament\Resources\AppointmentResource\Pages\EditAppointment;
-use App\Filament\Resources\AppointmentResource\Pages;
-use App\Filament\Resources\AppointmentResource\RelationManagers;
+use App\Filament\Resources\AppointmentResource\Pages\ListAppointments;
 use App\Models\Appointment;
-use Filament\Actions\CreateAction;
-use Filament\Forms;
+use App\Models\Beneficiary;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use GuzzleHttp\Promise\Create;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-calendar';
-    protected static string | \UnitEnum | null $navigationGroup = 'Citas';
-    protected static ?string $label = 'Cita';
-    protected static ?string $pluralLabel = 'Citas';
-    protected static ?string $navigationLabel = 'Citas';
-    protected static ?string $recordTitleAttribute = 'Cita';
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-calendar';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Citas';
+
+    protected static ?string $label = 'Cita';
+
+    protected static ?string $pluralLabel = 'Citas';
+
+    protected static ?string $navigationLabel = 'Citas';
+
+    protected static ?string $recordTitleAttribute = 'Cita';
 
     public static function form(Schema $schema): Schema
     {

@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\AttendanceResource\Pages;
 
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\AttendanceResource;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;

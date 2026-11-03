@@ -2,32 +2,31 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\UserResource\Pages\ManageUsers;
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Administracion';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Administracion';
+
     protected static ?string $label = 'Administradores';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-user-star';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-user-star';
+
     protected static ?string $recordTitleAttribute = 'Administradores';
+
     protected static ?int $navigationSort = 7;
 
     public static function form(Schema $schema): Schema

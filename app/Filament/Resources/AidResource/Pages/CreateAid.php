@@ -5,7 +5,6 @@ namespace App\Filament\Resources\AidResource\Pages;
 use App\Filament\Resources\AidResource;
 use App\Models\Record;
 use Carbon\Carbon;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
 
@@ -60,7 +59,7 @@ class CreateAid extends CreateRecord
 
         // 📝 Agregar nota si existe
         if ($notes) {
-            $message .= "\n\nNota: " . trim($notes);
+            $message .= "\n\nNota: ".trim($notes);
         }
 
         Record::create([

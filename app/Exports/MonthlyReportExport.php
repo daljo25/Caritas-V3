@@ -54,7 +54,7 @@ class MonthlyReportExport implements FromQuery, WithHeadings, WithMapping
                 'message'
             );
 
-        if (!empty($this->filters['year'])) {
+        if (! empty($this->filters['year'])) {
             $query->whereIn('year', $this->filters['year']);
         }
 

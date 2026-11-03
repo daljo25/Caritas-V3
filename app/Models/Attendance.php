@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,13 +12,13 @@ class Attendance extends Model
         'beneficiary_id',
         'attendance_date',
         'attendance_time',
-        'purpose'
+        'purpose',
     ];
 
-    public function Beneficiary():BelongsTo{
+    public function Beneficiary(): BelongsTo
+    {
         return $this->belongsTo(Beneficiary::class);
     }
-
 
     protected static function boot()
     {
@@ -31,7 +30,7 @@ class Attendance extends Model
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $sequence = $lastCertificate 
+            $sequence = $lastCertificate
                 ? (int) substr($lastCertificate->certificate_number, -4) + 1
                 : 1;
 

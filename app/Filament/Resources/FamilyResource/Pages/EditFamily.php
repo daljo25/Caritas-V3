@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\FamilyResource\Pages;
 
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\FamilyResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditFamily extends EditRecord

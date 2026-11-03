@@ -2,16 +2,18 @@
 
 namespace App\Filament\Widgets;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\Beneficiary;
 use Filament\Widgets\ChartWidget;
-
+use Illuminate\Support\Facades\DB;
 
 class NationalityChart extends ChartWidget
 {
     protected ?string $heading = 'Pais de Origen';
+
     protected static ?int $sort = 3;
+
     protected ?string $pollingInterval = null;
+
     protected ?string $maxHeight = '300px';
 
     protected function getData(): array
@@ -34,15 +36,15 @@ class NationalityChart extends ChartWidget
     // Transformar los datos para el pie chart
     public function getPieChartData()
     {
-        
+
         $nationalityCounts = $this->getNationalityCounts();
 
         $labels = $nationalityCounts->map(function ($item) {
             $nationality = $item->nationality ?? 'UN'; // Asignar un valor por defecto
             $flag = $nationality === 'UN' ? country_flag('UN') : country_flag($nationality);
 
-            return $flag . ' ' . $nationality; // Incluye la bandera y el nombre
-            })->toArray();
+            return $flag.' '.$nationality; // Incluye la bandera y el nombre
+        })->toArray();
         $data = $nationalityCounts->pluck('count')->toArray(); // Cantidades por nacionalidad
 
         return [
@@ -64,7 +66,7 @@ class NationalityChart extends ChartWidget
                         'rgba(255, 87, 34, 0.5)',  // Naranja rojizo con transparencia
                         'rgba(205, 220, 57, 0.5)', // Verde lima con transparencia
                         'rgba(121, 85, 72, 0.5)',  // Marrón con transparencia
-                        'rgba(192, 192, 192, 0.5)',// Gris claro con transparencia
+                        'rgba(192, 192, 192, 0.5)', // Gris claro con transparencia
                         'rgba(255, 235, 59, 0.5)', // Amarillo dorado con transparencia
                         'rgba(76, 175, 80, 0.5)',  // Verde con transparencia
                         'rgba(156, 39, 176, 0.5)', // Violeta oscuro con transparencia
@@ -72,8 +74,7 @@ class NationalityChart extends ChartWidget
                         'rgba(255, 152, 0, 0.5)',  // Naranja brillante con transparencia
                         'rgba(103, 58, 183, 0.5)', // Púrpura con transparencia
                     ],
-                    
-                    
+
                 ],
             ],
         ];

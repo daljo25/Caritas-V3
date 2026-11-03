@@ -2,16 +2,15 @@
 
 namespace App\Filament\Resources\MonthlyReportResource\Pages;
 
-use Filament\Schemas\Components\Fieldset;
-use Filament\Actions\CreateAction;
 use App\Exports\MonthlyReportExport;
 use App\Filament\Resources\MonthlyReportResource;
 use App\Models\MonthlyReport;
-use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Fieldset;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
 class ListMonthlyReports extends ListRecords
@@ -49,8 +48,9 @@ class ListMonthlyReports extends ListRecords
                     // Crear una instancia de DonationsExport con los filtros proporcionados
                     $export = new MonthlyReportExport($filters);
                     $filename = $data['filename'] ?? 'Lista de Reportes';
+
                     // Descargar el archivo de Excel
-                    return FacadesExcel::download($export, $filename . '.xlsx');
+                    return FacadesExcel::download($export, $filename.'.xlsx');
                 }),
             CreateAction::make(),
         ];

@@ -2,14 +2,12 @@
 
 namespace App\Filament\Resources\AppointmentResource\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Resources\AppointmentResource;
 use App\Models\Appointment;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Blade;
@@ -28,7 +26,7 @@ class ListAppointments extends ListRecords
                 ->schema([
                     DatePicker::make('appointment_date')
                         ->label('Seleccione un día')
-                        ->required()
+                        ->required(),
                 ])
                 ->action(function (array $data) {
                     // Obtener el día de la fecha seleccionada
@@ -59,6 +57,7 @@ class ListAppointments extends ListRecords
                             ->title('No hay Citas para el día seleccionado')
                             ->danger()
                             ->send();
+
                         return;
                     }
 
@@ -70,7 +69,7 @@ class ListAppointments extends ListRecords
                     // Enviar el PDF al navegador para su descarga
                     return response()->streamDownload(function () use ($pdf) {
                         echo $pdf->stream();
-                    }, 'Citas_del_' . $day . '.pdf');
+                    }, 'Citas_del_'.$day.'.pdf');
                 }),
             CreateAction::make(),
         ];

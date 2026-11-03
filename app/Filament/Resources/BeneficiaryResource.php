@@ -2,54 +2,49 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
-use App\Filament\Resources\BeneficiaryResource\RelationManagers\FamilyRelationManager;
-use App\Filament\Resources\BeneficiaryResource\RelationManagers\RecordRelationManager;
-use App\Filament\Resources\BeneficiaryResource\Pages\ListBeneficiaries;
 use App\Filament\Resources\BeneficiaryResource\Pages\CreateBeneficiary;
 use App\Filament\Resources\BeneficiaryResource\Pages\EditBeneficiary;
-use App\Filament\Resources\BeneficiaryResource\Pages;
-use App\Filament\Resources\BeneficiaryResource\RelationManagers;
+use App\Filament\Resources\BeneficiaryResource\Pages\ListBeneficiaries;
+use App\Filament\Resources\BeneficiaryResource\RelationManagers\FamilyRelationManager;
+use App\Filament\Resources\BeneficiaryResource\RelationManagers\RecordRelationManager;
 use App\Models\Beneficiary;
-use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Closure;
 use Carbon\Carbon;
-use Filament\Forms;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use pxlrbt\FilamentExcel\Columns\Column;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Usuarios';
+
     protected static ?string $label = 'Usuario';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-user-circle';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-user-circle';
+
     protected static ?string $recordTitleAttribute = 'Usuarios';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
@@ -92,7 +87,7 @@ class BeneficiaryResource extends Resource
                                                 'unique' => 'El :Attribute ya esta registrado.',
                                             ])
                                             ->label('Nombres y Apellidos'),
-                                            TextInput::make('id')
+                                        TextInput::make('id')
                                             ->maxLength(255)
                                             ->label('Número')
                                             ->hiddenOn('create')
@@ -182,7 +177,7 @@ class BeneficiaryResource extends Resource
                             ->schema([
                                 Fieldset::make('Documentos Generales')
                                     ->schema([
-                                        //documentos generales
+                                        // documentos generales
                                         Toggle::make('family_book')
                                             ->label('Libro de Familia')
                                             ->onColor('success')
@@ -201,7 +196,7 @@ class BeneficiaryResource extends Resource
                                     ]),
                                 Fieldset::make('Informe de Vida Laboral')
                                     ->schema([
-                                        //documentos ivl
+                                        // documentos ivl
                                         DatePicker::make('ivl_emission_date')
                                             ->label('Fecha de Emision'),
                                         DatePicker::make('ivl_alta_date')
@@ -212,7 +207,7 @@ class BeneficiaryResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('Certificado de Pensionista')
                                     ->schema([
-                                        //documentos cdp
+                                        // documentos cdp
                                         DatePicker::make('cdp_emission_date')
                                             ->label('Fecha de Emision'),
                                         Toggle::make('cdp_state')
@@ -231,7 +226,7 @@ class BeneficiaryResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('SEPE')
                                     ->schema([
-                                        //documentos sepe
+                                        // documentos sepe
                                         DatePicker::make('sepe_emission_date')
                                             ->label('Fecha de Emision'),
                                         Toggle::make('sepe_state')
@@ -250,7 +245,7 @@ class BeneficiaryResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('Renta Minima Vital')
                                     ->schema([
-                                        //documentos rmv
+                                        // documentos rmv
                                         DatePicker::make('rmv_emission_date')
                                             ->label('Fecha de Emision'),
                                         Toggle::make('rmv_state')
@@ -269,7 +264,7 @@ class BeneficiaryResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('REMISA')
                                     ->schema([
-                                        //documentos remisa
+                                        // documentos remisa
                                         DatePicker::make('remisa_emission_date')
                                             ->label('Fecha de Emision'),
                                         Toggle::make('remisa_state')
@@ -379,7 +374,7 @@ class BeneficiaryResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.intervention', ['record' => $record])
                             )->stream();
-                        }, 'Hoja de Intervención de ' . $record->name . '.pdf');
+                        }, 'Hoja de Intervención de '.$record->name.'.pdf');
                     }),
                 Action::make('data-protection')
                     ->label('Protec Datos')
@@ -390,14 +385,14 @@ class BeneficiaryResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.data-protection', ['record' => $record])
                             )->stream();
-                        }, 'Hoja de Proteccion de Datos de ' . $record->name . '.pdf');
+                        }, 'Hoja de Proteccion de Datos de '.$record->name.'.pdf');
                     }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     /* ExportBulkAction::make()->exports([
                         ExcelExport::make()->fromTable(),
-                        //export basico en excel para los datos de la tabla  
+                        //export basico en excel para los datos de la tabla
                     ]),*/
                 ]),
             ]);

@@ -9,8 +9,11 @@ use Filament\Widgets\ChartWidget;
 class StatsChart extends ChartWidget
 {
     protected ?string $heading = 'Ayudas';
+
     protected static ?int $sort = 2;
+
     protected ?string $pollingInterval = null;
+
     protected ?string $maxHeight = '300px';
 
     protected function getData(): array

@@ -2,19 +2,17 @@
 
 namespace App\Filament\Resources\DonorResource\Pages;
 
-use Filament\Schemas\Components\Fieldset;
-use Filament\Actions\CreateAction;
 use App\Exports\DonationsExport;
 use App\Filament\Resources\DonorResource;
 use App\Models\Donation;
 use App\Models\Donor;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Schemas\Components\Fieldset;
 use Illuminate\Support\Facades\Blade;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
@@ -68,8 +66,9 @@ class ListDonors extends ListRecords
                     // Crear una instancia de DonationsExport con los filtros proporcionados
                     $export = new DonationsExport($filters);
                     $filename = $data['filename'] ?? 'Lista de Donaciones';
+
                     // Descargar el archivo de Excel
-                    return FacadesExcel::download($export, $filename . '.xlsx');
+                    return FacadesExcel::download($export, $filename.'.xlsx');
                 }),
             Action::make('pdf')
                 ->label('Donaciones Anuales')
@@ -78,7 +77,7 @@ class ListDonors extends ListRecords
                 ->schema([
                     Select::make('donation_year')
                         ->label('Año')
-                        ->options(Donation::query()->pluck('donation_year', 'donation_year')->unique()->toArray())
+                        ->options(Donation::query()->pluck('donation_year', 'donation_year')->unique()->toArray()),
                 ])
                 ->action(function (array $data) {
                     // Obtener el año de donaciones
@@ -98,7 +97,7 @@ class ListDonors extends ListRecords
                     // Enviar el PDF al navegador para su descarga
                     return response()->streamDownload(function () use ($pdf) {
                         echo $pdf->stream();
-                    }, 'Donaciones_Anuales_' . $year . '.pdf',);
+                    }, 'Donaciones_Anuales_'.$year.'.pdf', );
                 }),
             CreateAction::make(),
         ];

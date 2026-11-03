@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources\AidResource\Pages;
 
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\AidResource;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
@@ -27,7 +26,7 @@ class EditAid extends EditRecord
                         echo FacadePdf::loadHtml(
                             Blade::render('pdf.receipt', ['record' => $record])
                         )->stream();
-                    }, 'Ayuda de ' . $record->type . ' a ' . $record->Beneficiary->name . '.pdf');
+                    }, 'Ayuda de '.$record->type.' a '.$record->Beneficiary->name.'.pdf');
                 }),
             DeleteAction::make(),
         ];

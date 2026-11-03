@@ -7,14 +7,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Derivation extends Model
 {
-    //relaciones
-    public function Beneficiary():BelongsTo{
+    // relaciones
+    public function Beneficiary(): BelongsTo
+    {
         return $this->belongsTo(Beneficiary::class);
     }
-    public function Volunteer():BelongsTo{
+
+    public function Volunteer(): BelongsTo
+    {
         return $this->belongsTo(Volunteer::class);
     }
-    public function Collaborator():BelongsTo{
+
+    public function Collaborator(): BelongsTo
+    {
         return $this->belongsTo(Collaborator::class);
     }
 }

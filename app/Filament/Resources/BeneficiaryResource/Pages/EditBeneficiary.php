@@ -2,14 +2,13 @@
 
 namespace App\Filament\Resources\BeneficiaryResource\Pages;
 
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\BeneficiaryResource;
-use Filament\Actions;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class EditBeneficiary extends EditRecord
 {
@@ -27,7 +26,7 @@ class EditBeneficiary extends EditRecord
                         echo FacadePdf::loadHtml(
                             Blade::render('pdf.intervention', ['record' => $record])
                         )->stream();
-                    }, 'Hoja de Intervención de ' . $record->name . '.pdf');
+                    }, 'Hoja de Intervención de '.$record->name.'.pdf');
                 }),
             Action::make('protection')
                 ->label('Protección de Datos')
@@ -38,11 +37,10 @@ class EditBeneficiary extends EditRecord
                         echo FacadePdf::loadHtml(
                             Blade::render('pdf.data-protection', ['record' => $record])
                         )->stream();
-                    }, 'Hoja de Proteccion de Datos de ' . $record->name . '.pdf');
+                    }, 'Hoja de Proteccion de Datos de '.$record->name.'.pdf');
                 }),
 
             DeleteAction::make(),
         ];
     }
 }
-

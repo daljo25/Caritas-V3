@@ -2,35 +2,34 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\CollaboratorResource\Pages\ManageCollaborators;
-use App\Filament\Resources\CollaboratorResource\Pages;
-use App\Filament\Resources\CollaboratorResource\RelationManagers;
 use App\Models\Collaborator;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CollaboratorResource extends Resource
 {
     protected static ?string $model = Collaborator::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Registro de datos';
+
     protected static ?string $label = 'Colaboradores';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-building';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-building';
+
     protected static ?string $recordTitleAttribute = 'Colaboradores';
+
     protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema

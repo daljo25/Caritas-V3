@@ -2,39 +2,37 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\DerivationResource\Pages\CreateDerivation;
+use App\Filament\Resources\DerivationResource\Pages\EditDerivation;
+use App\Filament\Resources\DerivationResource\Pages\ListDerivations;
+use App\Models\Derivation;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\DerivationResource\Pages\ListDerivations;
-use App\Filament\Resources\DerivationResource\Pages\CreateDerivation;
-use App\Filament\Resources\DerivationResource\Pages\EditDerivation;
-use App\Filament\Resources\DerivationResource\Pages;
-use App\Filament\Resources\DerivationResource\RelationManagers;
-use App\Models\Derivation;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Barryvdh\DomPDF\PDF;
-use Filament\Forms;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
 
 class DerivationResource extends Resource
 {
     protected static ?string $model = Derivation::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Usuarios';
+
     protected static ?string $label = 'Derivaciones';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-directions';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-directions';
+
     protected static ?string $recordTitleAttribute = 'Derivaciones';
+
     protected static ?int $navigationSort = 4;
 
     public static function form(Schema $schema): Schema
@@ -118,7 +116,7 @@ class DerivationResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                Action::make('pdf') 
+                Action::make('pdf')
                     ->label('PDF')
                     ->color('success')
                     ->icon('tabler-download')
@@ -127,8 +125,8 @@ class DerivationResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.derivation', ['record' => $record])
                             )->stream();
-                        },'Derivacion de ' . $record->Beneficiary->name .' a '. $record->Collaborator->name . '.pdf');
-                    }), 
+                        }, 'Derivacion de '.$record->Beneficiary->name.' a '.$record->Collaborator->name.'.pdf');
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

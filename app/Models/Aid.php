@@ -8,19 +8,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Aid extends Model
 {
-    //relaciones
+    // relaciones
     public function Beneficiary(): BelongsTo
     {
         return $this->belongsTo(Beneficiary::class);
     }
+
     public function Volunteer(): BelongsTo
     {
         return $this->belongsTo(Volunteer::class);
     }
+
     public function Collaborator(): BelongsTo
     {
         return $this->belongsTo(Collaborator::class);
     }
+
     public function giftCards(): HasMany
     {
         return $this->hasMany(GiftCard::class);

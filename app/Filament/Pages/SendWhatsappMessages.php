@@ -2,22 +2,28 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Beneficiary;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use App\Models\Beneficiary;
 
 class SendWhatsappMessages extends Page
 {
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-brand-whatsapp'; // Cambiado a Tabler Icons
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-brand-whatsapp'; // Cambiado a Tabler Icons
+
     protected static ?string $title = 'Enviar WhatsApp';
+
     protected string $view = 'filament.pages.send-whatsapp-messages';
-    protected static string | \UnitEnum | null $navigationGroup = 'Citas';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Citas';
+
     protected static ?int $navigationSort = 2;
+
     public $selectedBeneficiaries = [];
+
     public $message;
 
     public function form(Schema $schema): Schema
@@ -29,8 +35,8 @@ class SendWhatsappMessages extends Page
                 ->options(
                     Beneficiary::whereNotNull('phone')
                         ->get()
-                        ->mapWithKeys(fn($beneficiary) => [
-                            $beneficiary->id => "{$beneficiary->name} ({$beneficiary->phone})"
+                        ->mapWithKeys(fn ($beneficiary) => [
+                            $beneficiary->id => "{$beneficiary->name} ({$beneficiary->phone})",
                         ])
                         ->toArray()
                 )
@@ -40,8 +46,8 @@ class SendWhatsappMessages extends Page
                         ->where('name', 'like', "%{$query}%")
                         ->orWhere('phone', 'like', "%{$query}%")
                         ->get()
-                        ->mapWithKeys(fn($beneficiary) => [
-                            $beneficiary->id => "{$beneficiary->name} ({$beneficiary->phone})"
+                        ->mapWithKeys(fn ($beneficiary) => [
+                            $beneficiary->id => "{$beneficiary->name} ({$beneficiary->phone})",
                         ])
                         ->toArray();
                 })
@@ -52,7 +58,6 @@ class SendWhatsappMessages extends Page
                 ->required(),
         ]);
     }
-
 
     // Funcion para Generar los links de WhatsApp
     public function generateLinks()
@@ -78,15 +83,15 @@ class SendWhatsappMessages extends Page
         foreach ($beneficiaries as $beneficiary) {
             // Normalizar teléfono (eliminar no numéricos)
             $phone = preg_replace('/\D/', '', $beneficiary->phone);
-            if (!str_starts_with($phone, '34')) {
-                $phone = '34' . $phone;
+            if (! str_starts_with($phone, '34')) {
+                $phone = '34'.$phone;
             }
 
             // Construir la URL correctamente soportando emojis y caracteres especiales
             $query = http_build_query(
                 [
                     'phone' => $phone,
-                    'text'  => $this->message,
+                    'text' => $this->message,
                 ],
                 '',
                 '&',
@@ -97,10 +102,10 @@ class SendWhatsappMessages extends Page
 
             // Guardar datos estructurados para Blade
             $links[] = [
-                'id'       => $beneficiary->id,
-                'nombre'   => $beneficiary->name,
+                'id' => $beneficiary->id,
+                'nombre' => $beneficiary->name,
                 'telefono' => $beneficiary->phone,
-                'url'      => $url,
+                'url' => $url,
             ];
         }
 
@@ -131,7 +136,6 @@ class SendWhatsappMessages extends Page
             ->send();
     }
 
-
     protected function getHeaderActions(): array
     {
         return [
@@ -142,7 +146,7 @@ class SendWhatsappMessages extends Page
                 ->icon('tabler-trash')
                 ->requiresConfirmation()
                 ->action('clearLinks'),
-            //boton de generar links
+            // boton de generar links
             Action::make('generateLinks')
                 ->label('Generar Links')
                 ->color('success')

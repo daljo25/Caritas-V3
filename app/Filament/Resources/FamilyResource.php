@@ -2,41 +2,40 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\FamilyResource\Pages\ListFamilies;
 use App\Filament\Resources\FamilyResource\Pages\CreateFamily;
 use App\Filament\Resources\FamilyResource\Pages\EditFamily;
-use App\Filament\Resources\FamilyResource\Pages;
-use App\Filament\Resources\FamilyResource\RelationManagers;
+use App\Filament\Resources\FamilyResource\Pages\ListFamilies;
 use App\Models\Family;
 use Carbon\Carbon;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 
 class FamilyResource extends Resource
 {
     protected static ?string $model = Family::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Usuarios';
+
     protected static ?string $label = 'Familiares';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-users-group';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-users-group';
+
     protected static ?string $recordTitleAttribute = 'Familiares';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
@@ -100,7 +99,7 @@ class FamilyResource extends Resource
                                         TextInput::make('education')
                                             ->label('Nivel de Educación')
                                             ->maxLength(255),
-                                    ])
+                                    ]),
                             ])
                             ->columns(2),
                         Tab::make('Documentos')
@@ -108,7 +107,7 @@ class FamilyResource extends Resource
                             ->schema([
                                 Fieldset::make('Informe de Vida Laboral')
                                     ->schema([
-                                        //documentos ivl
+                                        // documentos ivl
                                         DatePicker::make('ivl_emission_date')
                                             ->label('Fecha de Emisión'),
                                         DatePicker::make('ivl_alta_date')
@@ -119,7 +118,7 @@ class FamilyResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('Certificado de Pensionista')
                                     ->schema([
-                                        //documentos cdp
+                                        // documentos cdp
                                         DatePicker::make('cdp_emission_date')
                                             ->label('Fecha de Emisión'),
                                         Toggle::make('cdp_state')
@@ -138,15 +137,14 @@ class FamilyResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('SEPE')
                                     ->schema([
-                                        //documentos sepe
+                                        // documentos sepe
                                         DatePicker::make('sepe_emission_date')
                                             ->label('Fecha de Emisión'),
                                         Toggle::make('sepe_state')
                                             ->label('Negativo o Positivo')
                                             ->onColor('success')
                                             ->offColor('danger')
-                                            ->inline(false)
-                                            ,
+                                            ->inline(false),
                                         TextInput::make('sepe_amount')
                                             ->label('Monto')
                                             ->numeric()
@@ -157,7 +155,7 @@ class FamilyResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('Renta Minima Vital')
                                     ->schema([
-                                        //documentos rmv
+                                        // documentos rmv
                                         DatePicker::make('rmv_emission_date')
                                             ->label('Fecha de Emisión'),
                                         Toggle::make('rmv_state')
@@ -176,7 +174,7 @@ class FamilyResource extends Resource
                                     ->columns(3),
                                 Fieldset::make('REMISA')
                                     ->schema([
-                                        //documentos remisa
+                                        // documentos remisa
                                         DatePicker::make('remisa_emission_date')
                                             ->label('Fecha de Emisión'),
                                         Toggle::make('remisa_state')
@@ -219,10 +217,10 @@ class FamilyResource extends Resource
                     ->label('Fecha de Nacimiento')
                     ->date()
                     ->sortable(),
-                    TextColumn::make('age')
+                TextColumn::make('age')
                     ->label('Edad')
                     ->sortable()
-                    ->state(function (Family $record): ?string{
+                    ->state(function (Family $record): ?string {
                         return Carbon::parse($record->birth_date)->age;
                     })
                     ->toggleable(isToggledHiddenByDefault: false),

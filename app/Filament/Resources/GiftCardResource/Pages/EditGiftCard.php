@@ -2,13 +2,12 @@
 
 namespace App\Filament\Resources\GiftCardResource\Pages;
 
-use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\GiftCardResource;
 use App\Models\GiftCard;
 use App\Models\Record;
 use Carbon\Carbon;
-use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Str;
 
@@ -17,6 +16,7 @@ class EditGiftCard extends EditRecord
     protected static string $resource = GiftCardResource::class;
 
     protected ?int $previousAidId = null;
+
     protected ?string $previousDeliveryDate = null;
 
     protected function beforeSave(): void
@@ -32,12 +32,12 @@ class EditGiftCard extends EditRecord
         // Registrar solo el paso de tarjeta pendiente a entregada, evitando
         // duplicados cuando se editen otros datos más adelante.
         $wasDelivered = $this->previousAidId !== null && $this->previousDeliveryDate !== null;
-        if ($wasDelivered || !$giftCard->aid_id || !$giftCard->delivery_date) {
+        if ($wasDelivered || ! $giftCard->aid_id || ! $giftCard->delivery_date) {
             return;
         }
 
         $aid = $giftCard->aid;
-        if (!$aid) {
+        if (! $aid) {
             return;
         }
 
@@ -63,12 +63,12 @@ class EditGiftCard extends EditRecord
     protected function getHeaderActions(): array
     {
         $record = $this->getRecord();
-        
+
         // Buscar el registro anterior (ID - 1)
         $previousRecord = GiftCard::where('id', '<', $record->id)
             ->orderBy('id', 'desc')
             ->first();
-        
+
         // Buscar el siguiente registro (ID + 1)
         $nextRecord = GiftCard::where('id', '>', $record->id)
             ->orderBy('id', 'asc')
@@ -81,26 +81,26 @@ class EditGiftCard extends EditRecord
                 ->icon('tabler-chevron-left')
                 ->color('gray')
                 ->tooltip('Anterior')
-                ->disabled(!$previousRecord)
+                ->disabled(! $previousRecord)
                 ->action(function () use ($previousRecord) {
                     if ($previousRecord) {
                         redirect(GiftCardResource::getUrl('edit', ['record' => $previousRecord->id]));
                     }
                 }),
-            
+
             // Botón siguiente
             Action::make('next')
                 ->label('')
                 ->icon('tabler-chevron-right')
                 ->color('gray')
                 ->tooltip('Siguiente')
-                ->disabled(!$nextRecord)
+                ->disabled(! $nextRecord)
                 ->action(function () use ($nextRecord) {
                     if ($nextRecord) {
                         redirect(GiftCardResource::getUrl('edit', ['record' => $nextRecord->id]));
                     }
                 }),
-            
+
             DeleteAction::make(),
         ];
     }

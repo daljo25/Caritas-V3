@@ -11,6 +11,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class StatsOverview extends BaseWidget
 {
     protected static ?int $sort = 1;
+
     protected ?string $pollingInterval = null;
 
     protected function getStats(): array
@@ -22,14 +23,14 @@ class StatsOverview extends BaseWidget
         ];
     }
 
-    //funciones para las estadisticas
-    //funcion para el total de familias
+    // funciones para las estadisticas
+    // funcion para el total de familias
     protected function totalbeneficiaries(): int
     {
         return Beneficiary::query()->count();
     }
 
-    //funcion para el total de ayudas en el año en curso
+    // funcion para el total de ayudas en el año en curso
     protected function totalaids(): int
     {
         return Aid::query()
@@ -37,7 +38,7 @@ class StatsOverview extends BaseWidget
             ->count();
     }
 
-    //funcion de total montos de ayuda en el año en curso
+    // funcion de total montos de ayuda en el año en curso
     protected function totalAidsAmount(): float
     {
         return (float) Aid::query()

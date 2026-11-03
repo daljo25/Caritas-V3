@@ -2,24 +2,23 @@
 
 namespace App\Filament\Resources\AidResource\Pages;
 
-use Filament\Schemas\Components\Fieldset;
-use Filament\Actions\CreateAction;
 use App\Exports\AidExport;
 use App\Filament\Resources\AidResource;
 use App\Jobs\UpdateAidsStatusJob;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
-use Illuminate\Support\Facades\Blade;
 use App\Models\Aid;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
+use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Fieldset;
+use Illuminate\Support\Facades\Blade;
 use Maatwebsite\Excel\Facades\Excel;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 class ListAids extends ListRecords
 {
@@ -28,14 +27,14 @@ class ListAids extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            //Actualizar estados manualmente
+            // Actualizar estados manualmente
             Actions\Action::make('Actualizar')
                 ->label('Actualizar Estados')
                 ->color('danger')
                 ->icon('tabler-refresh')
                 ->requiresConfirmation()
                 ->action(function () {
-                    $results = (new UpdateAidsStatusJob())->handle();
+                    $results = (new UpdateAidsStatusJob)->handle();
                     $terminadas = $results['ayudas'];
 
                     Notification::make()
@@ -44,7 +43,7 @@ class ListAids extends ListRecords
                         ->success()
                         ->send();
                 }),
-            //exportar en excel el listado de ayudas
+            // exportar en excel el listado de ayudas
             Actions\Action::make('Export')
                 ->label('Listado de Ayudas')
                 ->color('info')
@@ -57,13 +56,13 @@ class ListAids extends ListRecords
                         Select::make('type')
                             ->label('Tipo de Ayuda')
                             ->options([
-                                Aid::query()->get()->pluck('type', 'type')->unique()->toArray()
+                                Aid::query()->get()->pluck('type', 'type')->unique()->toArray(),
                             ])
                             ->multiple(),
                         Select::make('status')
                             ->label('Etapa')
                             ->options([
-                                Aid::query()->get()->pluck('status', 'status')->unique()->toArray()
+                                Aid::query()->get()->pluck('status', 'status')->unique()->toArray(),
                             ]),
                         DatePicker::make('start_date')
                             ->label('Fecha de Inicio')
@@ -90,10 +89,11 @@ class ListAids extends ListRecords
                     // Crear una instancia de AidExport con los filtros proporcionados
                     $export = new AidExport($filters);
                     $filename = $data['filename'] ?? 'Lista de Ayudas';
+
                     // Descargar el archivo de Excel
-                    return Excel::download($export, $filename . '.xlsx');
+                    return Excel::download($export, $filename.'.xlsx');
                 }),
-            //generar pdf de la carta al COVIRAN
+            // generar pdf de la carta al COVIRAN
             Actions\Action::make('GiftCard')
                 ->label('Listado de Tarjetas')
                 ->color('success')
@@ -129,6 +129,7 @@ class ListAids extends ListRecords
                             for ($i = $currentYear - 5; $i <= $currentYear; $i++) {
                                 $years[$i] = $i;
                             }
+
                             return $years;
                         })
                         ->default(Carbon::now()->year)
@@ -137,17 +138,17 @@ class ListAids extends ListRecords
                 ->action(function (array $data) {
                     $month = $data['month'];
                     $year = $data['year'];
-                    
+
                     return response()->streamDownload(function () use ($month, $year) {
                         echo FacadePdf::loadHtml(
                             Blade::render('pdf.gift-cards', [
                                 'month' => $month,
-                                'year' => $year
+                                'year' => $year,
                             ])
                         )->stream();
-                    }, 'Listado de Tarjetas ' . $month . '-' . $year . '.pdf');
+                    }, 'Listado de Tarjetas '.$month.'-'.$year.'.pdf');
                 }),
-                /* //generar pdf de la carta al COVIRAN
+            /* //generar pdf de la carta al COVIRAN
             Actions\Action::make('COVIRAN')
             ->label('COVIRAN')
             ->color('success')

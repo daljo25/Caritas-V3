@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\CollaboratorResource\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Resources\CollaboratorResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageCollaborators extends ManageRecords

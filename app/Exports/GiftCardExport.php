@@ -3,15 +3,15 @@
 namespace App\Exports;
 
 use App\Models\GiftCard;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Concerns\FromCollection;
 
-class GiftCardExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
+class GiftCardExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithTitle
 {
     protected $filters;
 
@@ -28,7 +28,7 @@ class GiftCardExport implements FromCollection, WithHeadings, WithMapping, WithT
         $query = GiftCard::query()->with('aid.beneficiary'); // Cargar la relación `aid` y `beneficiary`
 
         // Filtrar por estado (entregada o no entregada)
-        if (!empty($this->filters['status'])) {
+        if (! empty($this->filters['status'])) {
             if ($this->filters['status'] === 'entregada') {
                 $query->whereNotNull('delivery_date'); // Tarjetas entregadas
             } elseif ($this->filters['status'] === 'no_entregada') {
@@ -37,14 +37,14 @@ class GiftCardExport implements FromCollection, WithHeadings, WithMapping, WithT
         }
 
         // Filtrar por rango de fechas (fecha de entrega)
-        if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
+        if (! empty($this->filters['start_date']) && ! empty($this->filters['end_date'])) {
             $query->whereBetween('delivery_date', [
                 $this->filters['start_date'],
                 $this->filters['end_date'],
             ]);
-        } elseif (!empty($this->filters['start_date'])) {
+        } elseif (! empty($this->filters['start_date'])) {
             $query->where('delivery_date', '>=', $this->filters['start_date']);
-        } elseif (!empty($this->filters['end_date'])) {
+        } elseif (! empty($this->filters['end_date'])) {
             $query->where('delivery_date', '<=', $this->filters['end_date']);
         }
 

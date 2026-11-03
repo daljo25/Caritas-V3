@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Donation extends Model
 {
-    public function Donor():BelongsTo{
+    public function Donor(): BelongsTo
+    {
         return $this->belongsTo(Donor::class);
     }
 }

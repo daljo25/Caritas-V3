@@ -2,42 +2,41 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\MonthlyReportResource\Pages\CreateMonthlyReport;
+use App\Filament\Resources\MonthlyReportResource\Pages\EditMonthlyReport;
+use App\Filament\Resources\MonthlyReportResource\Pages\ListMonthlyReports;
+use App\Models\MonthlyReport;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\MonthlyReportResource\Pages\ListMonthlyReports;
-use App\Filament\Resources\MonthlyReportResource\Pages\CreateMonthlyReport;
-use App\Filament\Resources\MonthlyReportResource\Pages\EditMonthlyReport;
-use App\Filament\Resources\MonthlyReportResource\Pages;
-use App\Filament\Resources\MonthlyReportResource\RelationManagers;
-use App\Models\MonthlyReport;
-use Filament\Forms;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class MonthlyReportResource extends Resource
 {
     protected static ?string $model = MonthlyReport::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Administracion';
-    protected static ?string $label = 'Reporte Mensual';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-calendar-month';
-    protected static ?string $recordTitleAttribute = 'Reporte Mensual';
-    protected static ?string $pluralLabel = 'Reportes Mensuales';
-    protected static ?int $navigationSort = 8;
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Administracion';
+
+    protected static ?string $label = 'Reporte Mensual';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-calendar-month';
+
+    protected static ?string $recordTitleAttribute = 'Reporte Mensual';
+
+    protected static ?string $pluralLabel = 'Reportes Mensuales';
+
+    protected static ?int $navigationSort = 8;
 
     public static function form(Schema $schema): Schema
     {
@@ -251,8 +250,8 @@ class MonthlyReportResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.monthly-report', ['record' => $record])
                             )->stream();
-                        }, 'Comunicado Mensual mes ' . $record->month . ' año ' . $record->year . '.pdf');
-                    })
+                        }, 'Comunicado Mensual mes '.$record->month.' año '.$record->year.'.pdf');
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

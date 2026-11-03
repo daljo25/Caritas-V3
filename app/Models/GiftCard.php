@@ -28,13 +28,13 @@ class GiftCard extends Model
     ];
 
     // Relación opcional con Aid
-    public function aid():BelongsTo
+    public function aid(): BelongsTo
     {
         return $this->belongsTo(Aid::class);
     }
 
     // Relación con Beneficiary a través de Aid (si `aid_id` no es null)
-    public function beneficiary():HasOneThrough
+    public function beneficiary(): HasOneThrough
     {
         return $this->hasOneThrough(Beneficiary::class, Aid::class, 'id', 'id', 'aid_id', 'beneficiary_id');
     }

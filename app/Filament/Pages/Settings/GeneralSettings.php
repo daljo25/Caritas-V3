@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Pages\Settings;
 
 use Filament\Forms\Components\FileUpload;
@@ -14,14 +15,17 @@ class GeneralSettings extends BaseSettings
     {
         return 'Configuración General';
     }
+
     public static function getNavigationGroup(): ?string
     {
         return 'Configuración';
     }
+
     public static function getNavigationIcon(): string
     {
         return 'tabler-settings';
     }
+
     public static function getNavigationSort(): ?int
     {
         return 10;

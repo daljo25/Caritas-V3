@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Donor extends Model
 {
-    public function Donation():HasMany{
+    public function Donation(): HasMany
+    {
         return $this->hasMany(Donation::class);
     }
 }

@@ -2,19 +2,18 @@
 
 namespace App\Filament\Resources\GiftCardResource\Pages;
 
-use Filament\Actions\Action;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Actions\ImportAction;
-use Filament\Actions\CreateAction;
 use App\Exports\GiftCardExport;
 use App\Filament\Imports\GiftCardImporter;
 use App\Filament\Resources\GiftCardResource;
 use App\Filament\Widgets\GiftCardStats;
-use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Fieldset;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ListGiftCards extends ListRecords
@@ -24,7 +23,7 @@ class ListGiftCards extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            //exportar en excel el listado de tarjetas
+            // exportar en excel el listado de tarjetas
             Action::make('Export')
                 ->label('Listado de Tarjetas')
                 ->color('success')
@@ -64,8 +63,9 @@ class ListGiftCards extends ListRecords
                     // Crear una instancia de AidExport con los filtros proporcionados
                     $export = new GiftCardExport($filters);
                     $filename = $data['filename'] ?? 'Lista de Tarjetas';
+
                     // Descargar el archivo de Excel
-                    return Excel::download($export, $filename . '.xlsx');
+                    return Excel::download($export, $filename.'.xlsx');
                 }),
             ImportAction::make('Import')
                 ->label('Importar')
@@ -82,6 +82,7 @@ class ListGiftCards extends ListRecords
             GiftCardStats::class,
         ];
     }
+
     public function getHeaderWidgetsColumns(): int|array
     {
         return 5;

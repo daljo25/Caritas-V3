@@ -28,7 +28,6 @@ class UpdateAidsStatus extends Command
     {
         // Actualizar de 'Aceptada' a 'Terminada' si han pasado el tiempo transcurrido
         UpdateAidsStatusJob::dispatchSync();
-        $this->info("Ayudas actualizadas con éxito.");
+        $this->info('Ayudas actualizadas con éxito.');
     }
-    
 }

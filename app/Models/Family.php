@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Family extends Model
 {
-    //relaciones
-    public function Beneficiary():BelongsTo{
+    // relaciones
+    public function Beneficiary(): BelongsTo
+    {
         return $this->belongsTo(Beneficiary::class);
     }
 
-    //cast
+    // cast
     protected $casts = [
         'cdp_state' => 'boolean',
         'sepe_state' => 'boolean',

@@ -2,37 +2,35 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\DonorResource\RelationManagers\DonationRelationManager;
-use App\Filament\Resources\DonorResource\Pages\ListDonors;
 use App\Filament\Resources\DonorResource\Pages\CreateDonor;
 use App\Filament\Resources\DonorResource\Pages\EditDonor;
-use App\Filament\Resources\DonorResource\Pages;
-use App\Filament\Resources\DonorResource\RelationManagers;
+use App\Filament\Resources\DonorResource\Pages\ListDonors;
+use App\Filament\Resources\DonorResource\RelationManagers\DonationRelationManager;
 use App\Models\Donor;
-use Filament\Forms;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DonorResource extends Resource
 {
     protected static ?string $model = Donor::class;
 
-    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
+    protected static string|\UnitEnum|null $navigationGroup = 'Registro de datos';
+
     protected static ?string $label = 'Donante';
+
     protected static ?string $pluralLabel = 'Donantes';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-cash';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-cash';
+
     protected static ?string $recordTitleAttribute = 'Donantes';
+
     protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema

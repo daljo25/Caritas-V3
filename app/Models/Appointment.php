@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Appointment extends Model
 {
-    public function Beneficiary():BelongsTo{
+    public function Beneficiary(): BelongsTo
+    {
         return $this->belongsTo(Beneficiary::class);
     }
 }

@@ -2,42 +2,43 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
+use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
+use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
+use App\Models\Attendance;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
-use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
-use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
-use App\Filament\Resources\AttendanceResource\Pages;
-use App\Filament\Resources\AttendanceResource\RelationManagers;
-use App\Models\Attendance;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Forms;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
 
 class AttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Usuarios';
+
     protected static ?string $label = 'Certificado de asistencia';
+
     protected static ?string $pluralLabel = 'Certificados de asistencia';
+
     protected static ?string $navigationLabel = 'Certificados de Asistencia';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-certificate';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-certificate';
+
     protected static ?string $recordTitleAttribute = 'Asistencia';
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
@@ -114,7 +115,7 @@ class AttendanceResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                Action::make('pdf') 
+                Action::make('pdf')
                     ->label('PDF')
                     ->color('success')
                     ->icon('tabler-download')
@@ -123,7 +124,7 @@ class AttendanceResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.attendance', ['attendance' => $attendance])
                             )->stream();
-                        },"certificado-asistencia-{$attendance->certificate_number}.pdf");
+                        }, "certificado-asistencia-{$attendance->certificate_number}.pdf");
                     }),
             ])
             ->toolbarActions([

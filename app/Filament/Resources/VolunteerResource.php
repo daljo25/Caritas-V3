@@ -2,37 +2,36 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use App\Filament\Resources\VolunteerResource\Pages\ManageVolunteers;
-use App\Filament\Resources\VolunteerResource\Pages;
-use App\Filament\Resources\VolunteerResource\RelationManagers;
 use App\Models\Volunteer;
 use Carbon\Carbon;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VolunteerResource extends Resource
 {
     protected static ?string $model = Volunteer::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Registro de datos';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Registro de datos';
+
     protected static ?string $label = 'Voluntarios';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-mood-heart';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-mood-heart';
+
     protected static ?string $recordTitleAttribute = 'Voluntarios';
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema

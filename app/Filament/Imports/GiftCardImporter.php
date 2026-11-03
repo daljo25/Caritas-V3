@@ -53,15 +53,15 @@ class GiftCardImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new GiftCard();
+        return new GiftCard;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'La importación de las tarjetas de regalo se ha completado y se han importado ' . number_format($import->successful_rows) . ' ' . str('fila')->plural($import->successful_rows) . '.';
+        $body = 'La importación de las tarjetas de regalo se ha completado y se han importado '.number_format($import->successful_rows).' '.str('fila')->plural($import->successful_rows).'.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
-            $body .= ' ' . number_format($failedRowsCount) . ' ' . str('fila')->plural($failedRowsCount) . ' no se pudieron importar.';
+            $body .= ' '.number_format($failedRowsCount).' '.str('fila')->plural($failedRowsCount).' no se pudieron importar.';
         }
 
         return $body;

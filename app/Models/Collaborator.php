@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Collaborator extends Model
 {
-    //relaciones
-    public function Derivations():HasMany{
+    // relaciones
+    public function Derivations(): HasMany
+    {
         return $this->hasMany(Derivation::class);
     }
-    public function Aids():HasMany{
+
+    public function Aids(): HasMany
+    {
         return $this->hasMany(Aid::class);
     }
 }

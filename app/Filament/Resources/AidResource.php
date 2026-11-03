@@ -2,46 +2,44 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Fieldset;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\AidResource\Pages\CreateAid;
+use App\Filament\Resources\AidResource\Pages\EditAid;
+use App\Filament\Resources\AidResource\Pages\ListAids;
+use App\Models\Aid;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use App\Filament\Resources\AidResource\Pages\ListAids;
-use App\Filament\Resources\AidResource\Pages\CreateAid;
-use App\Filament\Resources\AidResource\Pages\EditAid;
-use App\Filament\Resources\AidResource\Pages;
-use App\Filament\Resources\AidResource\RelationManagers;
-use App\Models;
-use App\Models\Aid;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Barryvdh\DomPDF\PDF;
-use Filament\Forms;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Model as Model2;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
 
 class AidResource extends Resource
 {
     protected static ?string $model = Aid::class;
-    protected static string | \UnitEnum | null $navigationGroup = 'Usuarios';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Usuarios';
+
     protected static ?string $navigationLabel = 'Ayudas';
-    protected static string | \BackedEnum | null $navigationIcon = 'tabler-coin-euro';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'tabler-coin-euro';
+
     protected static ?string $recordTitleAttribute = 'Ayudas';
+
     protected static ?string $label = 'Ayudas';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
@@ -108,7 +106,7 @@ class AidResource extends Resource
                                     'Alimentación e higiene' => 'Alimentación e higiene',
                                     'Gastos de transporte o viajes' => 'Gastos de transporte o viajes',
                                     'Otras necesidades básicas' => 'Otras necesidades básicas',
-                                ]
+                                ],
                             ]),
                         Select::make('status')
                             ->label('Etapa')
@@ -267,7 +265,7 @@ class AidResource extends Resource
                             echo FacadePdf::loadHtml(
                                 Blade::render('pdf.receipt', ['record' => $record])
                             )->stream();
-                        }, 'Ayuda de ' . $record->type . ' a ' . $record->Beneficiary->name . '.pdf');
+                        }, 'Ayuda de '.$record->type.' a '.$record->Beneficiary->name.'.pdf');
                     }),
             ])
 

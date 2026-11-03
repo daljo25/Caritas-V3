@@ -3,17 +3,16 @@
 namespace App\Exports;
 
 use App\Models\Aid;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Facades\Excel;
 
-class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle, ShouldAutoSize
+class AidExport implements FromCollection, ShouldAutoSize, WithHeadings, WithMapping, WithTitle
 {
     protected $filters;
 
@@ -28,18 +27,18 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
     public function collection(): Collection
     {
         $query = Aid::query();
-        //dd($this->filters);
+        // dd($this->filters);
 
         // Aplicar los filtros si se proporcionan
-        if (!empty($this->filters['status'])) {
+        if (! empty($this->filters['status'])) {
             $query->where('status', $this->filters['status']);
         }
 
-        if (!empty($this->filters['type'])) {
+        if (! empty($this->filters['type'])) {
             $query->whereIn('type', $this->filters['type']);
         }
 
-        if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
+        if (! empty($this->filters['start_date']) && ! empty($this->filters['end_date'])) {
             $startDate = $this->filters['start_date'];
             $endDate = $this->filters['end_date'];
 
@@ -51,9 +50,9 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
                             ->where('end_date', '>=', $endDate);
                     });
             });
-        } elseif (!empty($this->filters['start_date'])) {
+        } elseif (! empty($this->filters['start_date'])) {
             $query->where('start_date', '>=', $this->filters['start_date']);
-        } elseif (!empty($this->filters['end_date'])) {
+        } elseif (! empty($this->filters['end_date'])) {
             $query->where('end_date', '<=', $this->filters['end_date']);
         }
 
@@ -125,6 +124,7 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
     {
         return 'Ayudas';
     }
+
     /**
      * Descargar el archivo la hoja de Excel.
      */
@@ -150,7 +150,7 @@ class AidExport implements FromCollection, WithHeadings, WithMapping, WithTitle,
         $today = Carbon::now();
 
         $processMember = function ($birthDate) use ($today, &$groups) {
-            if (!$birthDate || !Carbon::hasFormat($birthDate, 'Y-m-d')) {
+            if (! $birthDate || ! Carbon::hasFormat($birthDate, 'Y-m-d')) {
                 return; // Ignorar fechas inválidas
             }
 
