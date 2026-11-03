@@ -38,7 +38,7 @@ return [
         'title' => null,
         'navigation_label' => null,
         'icon' => null, // e.g. 'heroicon-o-code-bracket'
-        'sort' => 1,
+        'sort' => 100,
     ],
 
     /*
@@ -48,6 +48,6 @@ return [
         'title' => null,
         'navigation_label' => null,
         'icon' => null, // e.g. 'heroicon-o-cube'
-        'sort' => 2,
+        'sort' => 200,
     ],
 ];
