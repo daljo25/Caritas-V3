@@ -24,6 +24,15 @@ use Outerweb\FilamentSettings\SettingsPlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
+    /**
+     * Settings are read from the database on first use and kept for the rest of
+     * the request: the panel is built more than once per Livewire request and
+     * Filament evaluates the branding closures several times.
+     *
+     * @var array<string, mixed>|null
+     */
+    private static ?array $settings = null;
+
     public function panel(Panel $panel): Panel
     {
         $appLogo = asset('images/logo.svg');
@@ -31,20 +40,8 @@ class DashboardPanelProvider extends PanelProvider
         $appDarkLogo = asset('images/logo-dark.svg');
 
         // The panel is resolved before outerweb/settings registers its `setting`
-        // binding, so read the settings lazily, when Filament renders them. The
-        // whole table is loaded once and memoized: Filament evaluates the
-        // branding closures several times per request.
-        $settings = null;
-
-        $setting = function (string $key, string $default) use (&$settings): string {
-            if ($settings === null) {
-                $settings = Schema::hasTable('settings')
-                    ? (array) app('setting')->get()
-                    : [];
-            }
-
-            return (string) (data_get($settings, $key) ?? $default);
-        };
+        // binding, so read the settings lazily, when Filament renders them.
+        $setting = fn (string $key, string $default): string => $this->setting($key, $default);
 
         $footer = EasyFooterPlugin::make()
             ->footerEnabled()
@@ -109,5 +106,19 @@ class DashboardPanelProvider extends PanelProvider
                     ]),
                 $footer,
             ]);
+    }
+
+    /**
+     * Read a setting lazily, loading the whole table once per request.
+     */
+    private function setting(string $key, string $default): string
+    {
+        if (self::$settings === null) {
+            self::$settings = Schema::hasTable('settings')
+                ? (array) app('setting')->get()
+                : [];
+        }
+
+        return (string) (data_get(self::$settings, $key) ?? $default);
     }
 }
