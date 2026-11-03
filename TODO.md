@@ -18,14 +18,12 @@ despliegue limpio hay que hacer esto:
 
 ## 2. Dependencias de terceros a vigilar
 
-- [ ] `devonab/filament-easy-footer`: sus views usan utilidades de Tailwind que
-      Filament 5 no compila sin tema propio. Mientras no se cree un tema, el
-      arreglo vive en `public/css/filament-footer.css`; cuando el plugin lo
-      resuelva (o se compile un tema) se puede borrar ese fichero y la entrada
-      `->assets([...])` de `DashboardPanelProvider`.
-- [ ] Si algún día se quiere personalizar el panel: `php artisan
-      make:filament-theme` (Tailwind 4 ya está instalado) y añadir
-      `@source` de los plugins que se usen.
+- [ ] `devonab/filament-easy-footer`: ya se pinta bien porque el panel compila
+      un tema propio (`resources/css/filament/dashboard/theme.css`) con el
+      `@source` que pide su README. Si algún día se añade otro plugin que use
+      Tailwind en sus views, hay que añadirle su `@source` en ese mismo fichero.
+- [ ] Cualquier plugin nuevo de Filament: revisar si necesita `@source` o si
+      trae su propio CSS compilado.
 
 ## 3. Detalles menores conocidos
 

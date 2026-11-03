@@ -10,7 +10,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -59,6 +58,7 @@ class DashboardPanelProvider extends PanelProvider
             ->default()
             ->id('dashboard')
             ->path('')
+            ->viteTheme('resources/css/filament/dashboard/theme.css')
             ->login()
             ->passwordReset()
             ->unsavedChangesAlerts()
@@ -66,12 +66,6 @@ class DashboardPanelProvider extends PanelProvider
             ->spa()
             ->globalSearch(false)
             ->maxContentWidth(Width::Full)
-            ->assets([
-                // El footer de filament-easy-footer usa utilidades de Tailwind
-                // que Filament 5 no compila sin tema propio (ver nota del CSS).
-                Css::make('footer-compat', public_path('css/filament-footer.css'))
-                    ->relativePublicPath('css/filament-footer.css'),
-            ])
             ->sidebarCollapsibleOnDesktop()
             ->brandLogo(fn (): string => $setting('app.logo', $appLogo))
             ->brandLogoHeight('2.5rem')

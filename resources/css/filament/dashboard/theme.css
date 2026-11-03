@@ -1,0 +1,8 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+/* filament-easy-footer usa utilidades de Tailwind en sus views y su README
+   pide incluirlas en el tema para que el footer se pinte bien. */
+@source '../../../../vendor/devonab/filament-easy-footer/resources/views/**/*';
