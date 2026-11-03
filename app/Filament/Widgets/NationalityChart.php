@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Models\Beneficiary;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Stidges\CountryFlags\CountryFlag;
 
 class NationalityChart extends ChartWidget
 {
@@ -36,14 +37,16 @@ class NationalityChart extends ChartWidget
     // Transformar los datos para el pie chart
     public function getPieChartData()
     {
-
         $nationalityCounts = $this->getNationalityCounts();
 
-        $labels = $nationalityCounts->map(function ($item) {
-            $nationality = $item->nationality ?? 'UN'; // Asignar un valor por defecto
-            $flag = $nationality === 'UN' ? country_flag('UN') : country_flag($nationality);
+        // Chart.js solo admite texto en las etiquetas, así que la bandera va
+        // como emoji (stidges/country-flags, sin dependencia de Laravel).
+        $countryFlag = new CountryFlag;
 
-            return $flag.' '.$nationality; // Incluye la bandera y el nombre
+        $labels = $nationalityCounts->map(function ($item) use ($countryFlag) {
+            $nationality = $item->nationality ?? 'UN'; // Asignar un valor por defecto
+
+            return $countryFlag->get($nationality).' '.$nationality; // Incluye la bandera y el nombre
         })->toArray();
         $data = $nationalityCounts->pluck('count')->toArray(); // Cantidades por nacionalidad
 

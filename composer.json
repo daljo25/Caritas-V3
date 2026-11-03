@@ -4,15 +4,6 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "packages/*",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "require": {
         "php": "^8.3",
         "barryvdh/laravel-dompdf": "*",
@@ -26,8 +17,7 @@
         "outerweb/settings": "^2.0",
         "parfaitementweb/filament-country-field": "^2.0",
         "secondnetwork/blade-tabler-icons": "^3.28",
-        "stidges/country-flags": "^2.0",
-        "stidges/laravel-country-flags": "^3.0"
+        "stidges/country-flags": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
