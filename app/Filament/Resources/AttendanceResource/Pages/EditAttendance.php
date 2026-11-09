@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources\AttendanceResource\Pages;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\AttendanceResource;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 
 class EditAttendance extends EditRecord
 {
@@ -17,17 +15,13 @@ class EditAttendance extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('pdf')
+            PreviewPdfAction::make()
                 ->label('Certificado de Asistencia')
                 ->color('success')
-                ->icon('tabler-printer')
-                ->action(function (Model $attendance) {
-                    return response()->streamDownload(function () use ($attendance) {
-                        echo FacadePdf::loadHtml(
-                            Blade::render('pdf.attendance', ['attendance' => $attendance])
-                        )->stream();
-                    }, "certificado-asistencia-{$attendance->certificate_number}.pdf");
-                }),
+                ->icon('tabler-eye')
+                ->pdfView('pdf.attendance')
+                ->pdfData(fn (Model $attendance): array => ['attendance' => $attendance])
+                ->pdfFilename(fn (Model $attendance): string => "certificado-asistencia-{$attendance->certificate_number}"),
             DeleteAction::make(),
         ];
     }

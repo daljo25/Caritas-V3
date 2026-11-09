@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources\BeneficiaryResource\Pages;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\BeneficiaryResource;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 
 class EditBeneficiary extends EditRecord
 {
@@ -17,28 +15,18 @@ class EditBeneficiary extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('intervention')
+            PreviewPdfAction::make('intervention')
                 ->label('Hoja de Intervención')
                 ->color('success')
-                ->icon('tabler-printer')
-                ->action(function (Model $record) {
-                    return response()->streamDownload(function () use ($record) {
-                        echo FacadePdf::loadHtml(
-                            Blade::render('pdf.intervention', ['record' => $record])
-                        )->stream();
-                    }, 'Hoja de Intervención de '.$record->name.'.pdf');
-                }),
-            Action::make('protection')
+                ->icon('tabler-eye')
+                ->pdfView('pdf.intervention')
+                ->pdfFilename(fn (Model $record): string => 'Hoja de Intervención de '.$record->name),
+            PreviewPdfAction::make('protection')
                 ->label('Protección de Datos')
                 ->color('info')
                 ->icon('tabler-user-shield')
-                ->action(function (Model $record) {
-                    return response()->streamDownload(function () use ($record) {
-                        echo FacadePdf::loadHtml(
-                            Blade::render('pdf.data-protection', ['record' => $record])
-                        )->stream();
-                    }, 'Hoja de Proteccion de Datos de '.$record->name.'.pdf');
-                }),
+                ->pdfView('pdf.data-protection')
+                ->pdfFilename(fn (Model $record): string => 'Hoja de Proteccion de Datos de '.$record->name),
 
             DeleteAction::make(),
         ];

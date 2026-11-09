@@ -11,3 +11,9 @@ Schedule::command('aids:update-status')
 Schedule::command('beneficiaries:update-state')
     ->monthly()
     ->sendOutputTo(storage_path('logs/beneficiaries.log'));
+
+// Las previsualizaciones de PDF viven en la caché de ficheros solo mientras
+// dura el visor; este barrido garantiza que las caducadas no se queden en disco.
+Schedule::command('cache:prune-expired')
+    ->everyMinute()
+    ->withoutOverlapping();

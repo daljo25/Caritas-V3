@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\AidResource\Pages\CreateAid;
 use App\Filament\Resources\AidResource\Pages\EditAid;
 use App\Filament\Resources\AidResource\Pages\ListAids;
 use App\Models\Aid;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -24,7 +23,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as Model2;
-use Illuminate\Support\Facades\Blade;
 
 class AidResource extends Resource
 {
@@ -256,17 +254,12 @@ class AidResource extends Resource
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                Action::make('pdf')
+                PreviewPdfAction::make()
                     ->label('PDF')
                     ->color('success')
-                    ->icon('tabler-download')
-                    ->action(function (Model2 $record) {
-                        return response()->streamDownload(function () use ($record) {
-                            echo FacadePdf::loadHtml(
-                                Blade::render('pdf.receipt', ['record' => $record])
-                            )->stream();
-                        }, 'Ayuda de '.$record->type.' a '.$record->Beneficiary->name.'.pdf');
-                    }),
+                    ->icon('tabler-eye')
+                    ->pdfView('pdf.receipt')
+                    ->pdfFilename(fn (Model2 $record): string => 'Ayuda de '.$record->type.' a '.$record->Beneficiary->name),
             ])
 
             ->toolbarActions([

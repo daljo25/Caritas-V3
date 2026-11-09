@@ -2,15 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\BeneficiaryResource\Pages\CreateBeneficiary;
 use App\Filament\Resources\BeneficiaryResource\Pages\EditBeneficiary;
 use App\Filament\Resources\BeneficiaryResource\Pages\ListBeneficiaries;
 use App\Filament\Resources\BeneficiaryResource\RelationManagers\FamilyRelationManager;
 use App\Filament\Resources\BeneficiaryResource\RelationManagers\RecordRelationManager;
 use App\Models\Beneficiary;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Carbon\Carbon;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -28,7 +27,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 use Parfaitementweb\FilamentCountryField\Forms\Components\Country;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
@@ -365,28 +363,18 @@ class BeneficiaryResource extends Resource
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                Action::make('intervention')
+                PreviewPdfAction::make('intervention')
                     ->label('Interv')
                     ->color('success')
-                    ->icon('tabler-download')
-                    ->action(function (Model $record) {
-                        return response()->streamDownload(function () use ($record) {
-                            echo FacadePdf::loadHtml(
-                                Blade::render('pdf.intervention', ['record' => $record])
-                            )->stream();
-                        }, 'Hoja de Intervención de '.$record->name.'.pdf');
-                    }),
-                Action::make('data-protection')
+                    ->icon('tabler-eye')
+                    ->pdfView('pdf.intervention')
+                    ->pdfFilename(fn (Model $record): string => 'Hoja de Intervención de '.$record->name),
+                PreviewPdfAction::make('data-protection')
                     ->label('Protec Datos')
                     ->color('info')
                     ->icon('tabler-user-shield')
-                    ->action(function (Model $record) {
-                        return response()->streamDownload(function () use ($record) {
-                            echo FacadePdf::loadHtml(
-                                Blade::render('pdf.data-protection', ['record' => $record])
-                            )->stream();
-                        }, 'Hoja de Proteccion de Datos de '.$record->name.'.pdf');
-                    }),
+                    ->pdfView('pdf.data-protection')
+                    ->pdfFilename(fn (Model $record): string => 'Hoja de Proteccion de Datos de '.$record->name),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

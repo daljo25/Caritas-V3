@@ -3,21 +3,22 @@
 namespace App\Filament\Resources\DonorResource\Pages;
 
 use App\Exports\DonationsExport;
+use App\Filament\Concerns\HasGeneratedPdfPreview;
 use App\Filament\Resources\DonorResource;
 use App\Models\Donation;
 use App\Models\Donor;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Fieldset;
-use Illuminate\Support\Facades\Blade;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
 class ListDonors extends ListRecords
 {
+    use HasGeneratedPdfPreview;
+
     protected static string $resource = DonorResource::class;
 
     protected function getHeaderActions(): array
@@ -89,15 +90,10 @@ class ListDonors extends ListRecords
                         ->get()
                         ->groupBy('donor_id');
 
-                    // Renderizar la vista Blade y generar el PDF
-                    $pdfContent = Blade::render('pdf.donors', ['donations' => $donations, 'year' => $year]);
-                    $pdf = FacadePdf::loadHtml($pdfContent)
-                        ->setPaper('a4', 'landscape');
+                    // Renderizar la vista Blade y abrir el PDF en el visor
+                    $pdfContent = view('pdf.donors', ['donations' => $donations, 'year' => $year])->render();
 
-                    // Enviar el PDF al navegador para su descarga
-                    return response()->streamDownload(function () use ($pdf) {
-                        echo $pdf->stream();
-                    }, 'Donaciones_Anuales_'.$year.'.pdf', );
+                    $this->openPdfPreview($pdfContent, 'Donaciones_Anuales_'.$year, 'a4', true);
                 }),
             CreateAction::make(),
         ];

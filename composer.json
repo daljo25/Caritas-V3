@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "barryvdh/laravel-dompdf": "*",
+        "amjadiqbal/filament-record-pdf": "^1.0",
         "daljo25/filament-dependency-manager": "^5.1",
         "daljo25/filament-tabler-icons": "^3.50",
         "devonab/filament-easy-footer": "^2.0",

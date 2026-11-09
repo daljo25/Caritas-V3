@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\MonthlyReportResource\Pages\CreateMonthlyReport;
 use App\Filament\Resources\MonthlyReportResource\Pages\EditMonthlyReport;
 use App\Filament\Resources\MonthlyReportResource\Pages\ListMonthlyReports;
 use App\Models\MonthlyReport;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,7 +19,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 
 class MonthlyReportResource extends Resource
 {
@@ -241,17 +239,12 @@ class MonthlyReportResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                Action::make('pdf')
+                PreviewPdfAction::make()
                     ->label('PDF')
                     ->color('success')
-                    ->icon('tabler-download')
-                    ->action(function (Model $record) {
-                        return response()->streamDownload(function () use ($record) {
-                            echo FacadePdf::loadHtml(
-                                Blade::render('pdf.monthly-report', ['record' => $record])
-                            )->stream();
-                        }, 'Comunicado Mensual mes '.$record->month.' año '.$record->year.'.pdf');
-                    }),
+                    ->icon('tabler-eye')
+                    ->pdfView('pdf.monthly-report')
+                    ->pdfFilename(fn (Model $record): string => 'Comunicado Mensual mes '.$record->month.' año '.$record->year),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

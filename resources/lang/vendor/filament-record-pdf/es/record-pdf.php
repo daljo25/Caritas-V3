@@ -1,0 +1,61 @@
+<?php
+
+return [
+    'preview' => [
+        'label' => 'Vista previa del PDF',
+        'close' => 'Cerrar',
+        'fallback' => '¿No se ve el PDF?',
+        'open' => 'Abrirlo en una pestaña nueva',
+    ],
+    'download' => [
+        'label' => 'Descargar PDF',
+    ],
+    'email' => [
+        'label' => 'Enviar PDF por correo',
+        'heading' => 'Enviar :file',
+        'submit' => 'Enviar',
+        'to' => 'Para',
+        'to_help' => 'Separa varias direcciones con comas (hasta 10).',
+        'to_count' => 'Introduce entre 1 y 10 direcciones de correo.',
+        'to_invalid' => '":email" no es una dirección de correo válida.',
+        'subject' => 'Asunto',
+        'message' => 'Mensaje',
+        'sent' => ':file enviado a :count destinatario(s)',
+        'attached' => 'El PDF ":file" está adjunto.',
+    ],
+    'save' => [
+        'label' => 'Guardar PDF',
+        'heading' => 'Guardar :file',
+        'description' => 'Genera el PDF ahora y guárdalo con este registro.',
+        'saved' => 'PDF guardado',
+    ],
+    'bulk' => [
+        'label' => 'Descargar PDFs (ZIP)',
+        'too_many' => 'Selecciona como máximo :max registros para una descarga.',
+        'none_allowed' => 'No tienes permiso para descargar los PDFs de los registros seleccionados.',
+        'no_zip' => 'La extensión zip de PHP no está instalada, así que no se puede crear el ZIP.',
+        'skipped' => ':count registro(s) omitido(s): sin permiso',
+        'queued' => 'Generando :count PDFs. Recibirás una notificación con el enlace de descarga.',
+        'ready' => 'Tu ZIP de :count PDFs está listo',
+        'download_zip' => 'Descargar ZIP',
+        'failed' => 'No se pudo crear el ZIP de PDFs',
+    ],
+    'pdf' => [
+        'generated' => 'Generado el :date',
+        'yes' => 'Sí',
+        'no' => 'No',
+    ],
+    'invoice' => [
+        'title' => 'Factura',
+        'date' => 'Fecha',
+        'due' => 'Vencimiento',
+        'bill_to' => 'Facturar a',
+        'description' => 'Descripción',
+        'quantity' => 'Cant.',
+        'unit_price' => 'Precio unitario',
+        'amount' => 'Importe',
+        'subtotal' => 'Subtotal',
+        'tax' => 'Impuesto (:rate%)',
+        'total' => 'Total',
+    ],
+];

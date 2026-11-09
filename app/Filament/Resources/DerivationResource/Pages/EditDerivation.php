@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources\DerivationResource\Pages;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\DerivationResource;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 
 class EditDerivation extends EditRecord
 {
@@ -17,17 +15,12 @@ class EditDerivation extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('pdf')
+            PreviewPdfAction::make()
                 ->label('Hoja de Derivación')
                 ->color('success')
-                ->icon('tabler-printer')
-                ->action(function (Model $record) {
-                    return response()->streamDownload(function () use ($record) {
-                        echo FacadePdf::loadHtml(
-                            Blade::render('pdf.derivation', ['record' => $record])
-                        )->stream();
-                    }, 'Hoja de Derivación.pdf');
-                }),
+                ->icon('tabler-eye')
+                ->pdfView('pdf.derivation')
+                ->pdfFilename(fn (Model $record): string => 'Hoja de Derivación de '.$record->Beneficiary->name),
             DeleteAction::make(),
         ];
     }

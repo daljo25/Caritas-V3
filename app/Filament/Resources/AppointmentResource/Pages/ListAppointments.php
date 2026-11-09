@@ -2,18 +2,19 @@
 
 namespace App\Filament\Resources\AppointmentResource\Pages;
 
+use App\Filament\Concerns\HasGeneratedPdfPreview;
 use App\Filament\Resources\AppointmentResource;
 use App\Models\Appointment;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Support\Facades\Blade;
 
 class ListAppointments extends ListRecords
 {
+    use HasGeneratedPdfPreview;
+
     protected static string $resource = AppointmentResource::class;
 
     protected function getHeaderActions(): array
@@ -61,15 +62,10 @@ class ListAppointments extends ListRecords
                         return;
                     }
 
-                    // Renderizar la vista Blade y generar el PDF
+                    // Renderizar la vista Blade y abrir el PDF en el visor
                     $pdfContent = view('pdf.appointments', ['appointments' => $appointments, 'day' => $day, 'otherAppointments' => $otherAppointments])->render();
-                    $pdf = Pdf::loadHtml($pdfContent)
-                        ->setPaper('a4', 'landscape');
 
-                    // Enviar el PDF al navegador para su descarga
-                    return response()->streamDownload(function () use ($pdf) {
-                        echo $pdf->stream();
-                    }, 'Citas_del_'.$day.'.pdf');
+                    $this->openPdfPreview($pdfContent, 'Citas_del_'.$day, 'a4', true);
                 }),
             CreateAction::make(),
         ];

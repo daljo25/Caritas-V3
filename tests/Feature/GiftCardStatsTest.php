@@ -9,6 +9,10 @@ uses(DatabaseTransactions::class);
 it('agrega las tarjetas por trimestre igual que antes', function () {
     $year = now()->year;
 
+    // La base de datos de desarrollo puede tener tarjetas reales; el widget agrega
+    // todas, así que dentro de la transacción partimos de una tabla vacía.
+    GiftCard::query()->delete();
+
     $cards = [
         // Recibida en Q1, sin entregar
         ['created_at' => "$year-01-15", 'delivery_date' => null, 'amount' => 10],

@@ -4,8 +4,89 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bbbbc20b73c5cee5a50d8cd5bd4d248",
+    "content-hash": "74e23715b6e595ce0ebf93114fde9487",
     "packages": [
+        {
+            "name": "amjadiqbal/filament-record-pdf",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amjadiqbal/filament-record-pdf.git",
+                "reference": "d65cf8c5d3e5c4a95686e90bfc8bfd435ed1910a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amjadiqbal/filament-record-pdf/zipball/d65cf8c5d3e5c4a95686e90bfc8bfd435ed1910a",
+                "reference": "d65cf8c5d3e5c4a95686e90bfc8bfd435ed1910a",
+                "shasum": ""
+            },
+            "require": {
+                "dompdf/dompdf": "^3.1.6",
+                "filament/filament": "^4.0|^5.0",
+                "illuminate/contracts": "^12.0|^13.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
+                "spatie/laravel-pdf": "^2.14"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.18",
+                "orchestra/testbench": "^10.0|^11.0",
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0",
+                "pestphp/pest-plugin-livewire": "^3.0|^4.0",
+                "spatie/laravel-medialibrary": "^11.0"
+            },
+            "suggest": {
+                "ext-zip": "Needed by the bulk ZIP download action",
+                "spatie/browsershot": "Use the Browsershot (Chromium) driver instead of dompdf",
+                "spatie/laravel-medialibrary": "Save PDFs into a media collection on the record"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "AmjadIqbal\\FilamentRecordPdf\\FilamentRecordPdfServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AmjadIqbal\\FilamentRecordPdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amjad Iqbal",
+                    "homepage": "https://amjad.com.pk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Preview, download, bulk-download as ZIP, email and save any Filament 4/5 record as a PDF from a Blade view. Built on spatie/laravel-pdf, dompdf by default.",
+            "homepage": "https://amjad.com.pk/filament/plugins/filament-record-pdf",
+            "keywords": [
+                "browsershot",
+                "dompdf",
+                "filament",
+                "filament-plugin",
+                "filamentphp",
+                "invoice",
+                "laravel",
+                "laravel-pdf",
+                "pdf",
+                "pdf-generation"
+            ],
+            "support": {
+                "issues": "https://github.com/amjadiqbal/filament-record-pdf/issues",
+                "source": "https://github.com/amjadiqbal/filament-record-pdf"
+            },
+            "time": "2026-10-23T19:30:12+00:00",
+            "published-time": "2026-10-23T20:35:28+00:00"
+        },
         {
             "name": "anourvalar/eloquent-serialize",
             "version": "1.3.12",
@@ -71,84 +152,6 @@
             },
             "time": "2026-09-13T06:25:37+00:00",
             "published-time": "2026-09-13T06:26:57+00:00"
-        },
-        {
-            "name": "barryvdh/laravel-dompdf",
-            "version": "v3.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-dompdf.git",
-                "reference": "ee3b72b19ccdf57d0243116ecb2b90261344dedc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/ee3b72b19ccdf57d0243116ecb2b90261344dedc",
-                "reference": "ee3b72b19ccdf57d0243116ecb2b90261344dedc",
-                "shasum": ""
-            },
-            "require": {
-                "dompdf/dompdf": "^3.0",
-                "illuminate/support": "^9|^10|^11|^12|^13.0",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^2.7|^3.0",
-                "orchestra/testbench": "^7|^8|^9.16|^10|^11.0",
-                "phpro/grumphp": "^2.5",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "PDF": "Barryvdh\\DomPDF\\Facade\\Pdf",
-                        "Pdf": "Barryvdh\\DomPDF\\Facade\\Pdf"
-                    },
-                    "providers": [
-                        "Barryvdh\\DomPDF\\ServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\DomPDF\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "A DOMPDF Wrapper for Laravel",
-            "keywords": [
-                "dompdf",
-                "laravel",
-                "pdf"
-            ],
-            "support": {
-                "issues": "https://github.com/barryvdh/laravel-dompdf/issues",
-                "source": "https://github.com/barryvdh/laravel-dompdf/tree/v3.1.2"
-            },
-            "funding": [
-                {
-                    "url": "https://fruitcake.nl",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/barryvdh",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-02-21T08:51:10+00:00",
-            "published-time": "2026-03-17T15:52:42+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -6900,6 +6903,102 @@
             "published-time": "2026-09-28T07:17:01+00:00"
         },
         {
+            "name": "spatie/laravel-pdf",
+            "version": "2.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-pdf.git",
+                "reference": "9581e64f96092cc3a0857b76d9ee180d6abdce78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-pdf/zipball/9581e64f96092cc3a0857b76d9ee180d6abdce78",
+                "reference": "9581e64f96092cc3a0857b76d9ee180d6abdce78",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16.1",
+                "spatie/temporary-directory": "^2.2.1"
+            },
+            "require-dev": {
+                "chrome-php/chrome": "^1.0",
+                "dompdf/dompdf": "^3.0",
+                "ext-imagick": "*",
+                "larastan/larastan": "^2.7.0|^3.0",
+                "laravel/pint": "^1.13.7",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.6|^10.0|^11.0",
+                "pestphp/pest": "^2.30|^3.7|^4.4",
+                "pestphp/pest-plugin-arch": "^2.5|^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^2.2|^3.1|^4.1",
+                "phpstan/extension-installer": "^1.3.1",
+                "phpstan/phpstan-deprecation-rules": "^1.1.4|^2.0",
+                "phpstan/phpstan-phpunit": "^1.3.15|^2.0",
+                "pontedilana/php-weasyprint": "^2.4",
+                "spatie/image": "^3.3.2",
+                "spatie/invade": "^2.1",
+                "spatie/laravel-ray": "^1.33",
+                "spatie/pdf-to-image": "^2.2|^3.1",
+                "spatie/pdf-to-text": "^1.52.1",
+                "spatie/pest-expectations": "^1.5",
+                "spatie/pest-plugin-snapshots": "^2.1",
+                "spatie/pixelmatch-php": "^1.0",
+                "tecnickcom/tc-lib-pdf-encrypt": "^2.5",
+                "wnx/sidecar-browsershot": "^2.0"
+            },
+            "suggest": {
+                "chrome-php/chrome": "Required for the Chrome PHP driver (^1.0)",
+                "dompdf/dompdf": "Required for the DOMPDF driver (^3.0)",
+                "spatie/browsershot": "Required for the Browsershot driver (^4.0|^5.0)",
+                "tecnickcom/tc-lib-pdf-encrypt": "Required to password-protect PDFs with the default encrypter (^2.5)"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "LaravelPdf": "Pdf"
+                    },
+                    "providers": [
+                        "Spatie\\LaravelPdf\\PdfServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Support/functions.php"
+                ],
+                "psr-4": {
+                    "Spatie\\LaravelPdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Create PDFs in Laravel apps",
+            "homepage": "https://github.com/spatie/laravel-pdf",
+            "keywords": [
+                "laravel",
+                "laravel-pdf",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-pdf/issues",
+                "source": "https://github.com/spatie/laravel-pdf/tree/2.14.0"
+            },
+            "time": "2026-10-05T08:48:41+00:00",
+            "published-time": "2026-10-05T08:49:40+00:00"
+        },
+        {
             "name": "spatie/shiki-php",
             "version": "2.4.0",
             "source": {
@@ -6964,6 +7063,68 @@
             ],
             "time": "2026-04-27T14:27:52+00:00",
             "published-time": "2026-04-27T14:28:22+00:00"
+        },
+        {
+            "name": "spatie/temporary-directory",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/temporary-directory.git",
+                "reference": "32cbb9645b28839cf4f476708e99a2c70e6802c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/32cbb9645b28839cf4f476708e99a2c70e6802c9",
+                "reference": "32cbb9645b28839cf4f476708e99a2c70e6802c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TemporaryDirectory\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily create, use and destroy temporary directories",
+            "homepage": "https://github.com/spatie/temporary-directory",
+            "keywords": [
+                "php",
+                "spatie",
+                "temporary-directory"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/temporary-directory/issues",
+                "source": "https://github.com/spatie/temporary-directory/tree/2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-06-22T07:55:44+00:00",
+            "published-time": "2026-06-22T07:55:53+00:00"
         },
         {
             "name": "stidges/country-flags",

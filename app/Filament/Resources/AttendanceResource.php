@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use AmjadIqbal\FilamentRecordPdf\Actions\PreviewPdfAction;
 use App\Filament\Resources\AttendanceResource\Pages\CreateAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\EditAttendance;
 use App\Filament\Resources\AttendanceResource\Pages\ListAttendances;
 use App\Models\Attendance;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -21,7 +20,6 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Blade;
 
 class AttendanceResource extends Resource
 {
@@ -115,17 +113,13 @@ class AttendanceResource extends Resource
             ])
             ->recordActions([
                 EditAction::make(),
-                Action::make('pdf')
+                PreviewPdfAction::make()
                     ->label('PDF')
                     ->color('success')
-                    ->icon('tabler-download')
-                    ->action(function (Model $attendance) {
-                        return response()->streamDownload(function () use ($attendance) {
-                            echo FacadePdf::loadHtml(
-                                Blade::render('pdf.attendance', ['attendance' => $attendance])
-                            )->stream();
-                        }, "certificado-asistencia-{$attendance->certificate_number}.pdf");
-                    }),
+                    ->icon('tabler-eye')
+                    ->pdfView('pdf.attendance')
+                    ->pdfData(fn (Model $attendance): array => ['attendance' => $attendance])
+                    ->pdfFilename(fn (Model $attendance): string => "certificado-asistencia-{$attendance->certificate_number}"),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
