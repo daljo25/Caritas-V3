@@ -42,6 +42,7 @@ class FamilyRelationManager extends RelationManager
                             ->schema([
 
                                 Fieldset::make('Datos Personales')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // datos del familiar
                                         TextInput::make('name')
@@ -90,6 +91,7 @@ class FamilyRelationManager extends RelationManager
                             ->icon('tabler-file-type-doc')
                             ->schema([
                                 Fieldset::make('Informe de Vida Laboral')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // documentos ivl
                                         DatePicker::make('ivl_emission_date')
@@ -101,6 +103,7 @@ class FamilyRelationManager extends RelationManager
                                     ])
                                     ->columns(3),
                                 Fieldset::make('Certificado de Pensionista')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // documentos cdp
                                         DatePicker::make('cdp_emission_date')
@@ -120,6 +123,7 @@ class FamilyRelationManager extends RelationManager
                                     ])
                                     ->columns(3),
                                 Fieldset::make('SEPE')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // documentos sepe
                                         DatePicker::make('sepe_emission_date')
@@ -139,6 +143,7 @@ class FamilyRelationManager extends RelationManager
                                     ])
                                     ->columns(3),
                                 Fieldset::make('Renta Minima Vital')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // documentos rmv
                                         DatePicker::make('rmv_emission_date')
@@ -158,6 +163,7 @@ class FamilyRelationManager extends RelationManager
                                     ])
                                     ->columns(3),
                                 Fieldset::make('REMISA')
+                                    ->columnSpanFull()
                                     ->schema([
                                         // documentos remisa
                                         DatePicker::make('remisa_emission_date')
@@ -216,10 +222,13 @@ class FamilyRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                // Cerrar al pulsar fuera del modal perdería todo lo escrito sin guardar.
+                CreateAction::make()
+                    ->closeModalByClickingAway(false),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->closeModalByClickingAway(false),
                 // Tables\Actions\DeleteAction::make(),
             ])
             ->toolbarActions([

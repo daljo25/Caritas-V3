@@ -1,11 +1,10 @@
-<@php
-    $logoPath = 'storage/' . setting('parish.vertical_logo');
-    if (setting('parish.vertical_logo') && file_exists(public_path($logoPath))) {
-        $logo = public_path($logoPath);
-    } else {
-        $logo = public_path('images/logo-v.svg');
-    }
-    @endphp
+@php
+    $logoKey = setting('parish.vertical_logo');
+    $logoPath = 'storage/' . $logoKey;
+    $logo = $logoKey && file_exists(public_path($logoPath))
+        ? public_path($logoPath)
+        : public_path('images/logo-v.svg');
+@endphp
     
 <!DOCTYPE html>
 <html lang="es">

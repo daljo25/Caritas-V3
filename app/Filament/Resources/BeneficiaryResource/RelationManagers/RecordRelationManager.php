@@ -62,10 +62,13 @@ class RecordRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                // Cerrar al pulsar fuera del modal perdería todo lo escrito sin guardar.
+                CreateAction::make()
+                    ->closeModalByClickingAway(false),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->closeModalByClickingAway(false),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

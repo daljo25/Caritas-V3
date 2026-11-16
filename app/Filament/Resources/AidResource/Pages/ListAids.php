@@ -59,15 +59,11 @@ class ListAids extends ListRecords
                     Fieldset::make('Filtros')->columnSpan(2)->schema([
                         Select::make('type')
                             ->label('Tipo de Ayuda')
-                            ->options([
-                                Aid::query()->get()->pluck('type', 'type')->unique()->toArray(),
-                            ])
+                            ->options(fn (): array => Aid::query()->distinct()->pluck('type', 'type')->toArray())
                             ->multiple(),
                         Select::make('status')
                             ->label('Etapa')
-                            ->options([
-                                Aid::query()->get()->pluck('status', 'status')->unique()->toArray(),
-                            ]),
+                            ->options(fn (): array => Aid::query()->distinct()->pluck('status', 'status')->toArray()),
                         DatePicker::make('start_date')
                             ->label('Fecha de Inicio')
                             ->displayFormat('d-m-Y'),

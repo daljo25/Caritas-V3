@@ -37,6 +37,7 @@ class CollaboratorResource extends Resource
         return $schema
             ->components([
                 Fieldset::make('Datos de la Empresa u Organizmo')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('name')
                             ->maxLength(255)
@@ -59,6 +60,7 @@ class CollaboratorResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Fieldset::make('Persona Responsable')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('responsable')
                             ->maxLength(255)
@@ -76,6 +78,7 @@ class CollaboratorResource extends Resource
                             ->tel(),
                     ]),
                 Fieldset::make('Otro Contacto')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('responsable2')
                             ->maxLength(255)

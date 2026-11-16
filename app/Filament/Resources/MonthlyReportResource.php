@@ -41,6 +41,7 @@ class MonthlyReportResource extends Resource
         return $schema
             ->components([
                 Fieldset::make('Fecha del Reporte')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('month')
                             ->label('Mes')
@@ -70,6 +71,7 @@ class MonthlyReportResource extends Resource
                             ]),
                     ]),
                 Fieldset::make('Ingresos')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('collection')
                             ->numeric()
@@ -113,6 +115,7 @@ class MonthlyReportResource extends Resource
                             ->prefixIcon('heroicon-o-currency-euro'),
                     ]),
                 Fieldset::make('Gastos')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('transfer_collection')
                             ->label('Transferencia al Fondo Comun Diosesano por Colectas')
@@ -202,6 +205,7 @@ class MonthlyReportResource extends Resource
 
                     ]),
                 Fieldset::make('Mensaje')
+                    ->columnSpanFull()
                     ->schema([
                         RichEditor::make('message')
                             ->label('Mensaje')

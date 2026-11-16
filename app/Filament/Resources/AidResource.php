@@ -45,6 +45,7 @@ class AidResource extends Resource
         return $schema
             ->components([
                 Fieldset::make('Titular y Voluntario')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('beneficiary_id')
                             ->relationship('beneficiary', 'name')
@@ -145,6 +146,7 @@ class AidResource extends Resource
                             ->label('Importe Total'),
                     ]),
                 Fieldset::make('Notas')
+                    ->columnSpanFull()
                     ->schema([
                         Textarea::make('notes')
                             ->maxLength(255)
@@ -159,6 +161,13 @@ class AidResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Each row prints its beneficiary, collaborator and volunteer, so
+            // load them with the page instead of one query per row.
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with([
+                'beneficiary',
+                'collaborator',
+                'volunteer',
+            ]))
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')

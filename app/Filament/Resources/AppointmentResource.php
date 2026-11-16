@@ -41,6 +41,7 @@ class AppointmentResource extends Resource
         return $schema
             ->components([
                 Fieldset::make('Usuario')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('beneficiary_id')
                             ->relationship('beneficiary', 'name')
@@ -153,6 +154,7 @@ class AppointmentResource extends Resource
                     ])
                     ->columns(2),
                 Fieldset::make('Cita')
+                    ->columnSpanFull()
                     ->schema([
                         DatePicker::make('appointment_date')
                             ->label('Fecha de la Cita')

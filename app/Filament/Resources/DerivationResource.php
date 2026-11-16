@@ -38,6 +38,7 @@ class DerivationResource extends Resource
         return $schema
             ->components([
                 Fieldset::make('Titular y Voluntario')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('beneficiary_id')
                             ->label('Usuario')
@@ -53,6 +54,7 @@ class DerivationResource extends Resource
                             ->searchable(),
                     ]),
                 Fieldset::make('Derivación')
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('collaborator_id')
                             ->label('Colaborador')

@@ -1,10 +1,9 @@
-<@php
-    $logoPath = 'storage/' . setting('caritas.logo');
-    if (setting('caritas.logo') && file_exists(public_path($logoPath))) {
-        $logo = public_path($logoPath);
-    } else {
-        $logo = public_path('images/caritas-diosesana.png');
-    }
+@php
+    $logoKey = setting('caritas.logo');
+    $logoPath = 'storage/' . $logoKey;
+    $logo = $logoKey && file_exists(public_path($logoPath))
+        ? public_path($logoPath)
+        : public_path('images/caritas-diosesana.png');
 @endphp
 <!DOCTYPE html>
 <html lang="es">
@@ -288,7 +287,6 @@
             </tr>
         </table>
 
-        </div>
     </main>
 
     <footer>
