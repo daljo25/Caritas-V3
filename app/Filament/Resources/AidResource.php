@@ -17,6 +17,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -65,7 +67,21 @@ class AidResource extends Resource
                         Select::make('type')
                             ->label('Tipo de Ayuda')
                             ->required()
-                            ->options(self::typeOptions()),
+                            ->options(self::typeOptions())
+                            ->live()
+                            ->afterStateUpdated(function (Set $set, ?string $state): void {
+                                // Al salir de "otras necesidades" el detalle deja de aplicar.
+                                if (! self::isOtherNeed($state)) {
+                                    $set('type_detail', null);
+                                }
+                            }),
+                        TextInput::make('type_detail')
+                            ->label('Necesidad específica')
+                            ->helperText('Se añade entre paréntesis al concepto en el recibí.')
+                            ->maxLength(255)
+                            ->columnSpanFull()
+                            ->visible(fn (Get $get): bool => self::isOtherNeed($get('type')))
+                            ->required(fn (Get $get): bool => self::isOtherNeed($get('type'))),
                         Select::make('status')
                             ->label('Etapa')
                             ->options([
@@ -168,6 +184,29 @@ class AidResource extends Resource
                 'Otras necesidades básicas' => 'Otras necesidades básicas',
             ],
         ];
+    }
+
+    /**
+     * Tipos de ayuda que necesitan un detalle escrito a mano y que el recibí
+     * muestra entre paréntesis.
+     *
+     * @return list<string>
+     */
+    public static function otherNeedsTypes(): array
+    {
+        return [
+            'Otras necesidades básicas de energía',
+            'Otras necesidades básicas de vivienda',
+            'Otras necesidades básicas de la brecha digital',
+            'Otras necesidades básicas de educación',
+            'Otras necesidades básicas de salud',
+            'Otras necesidades básicas',
+        ];
+    }
+
+    public static function isOtherNeed(?string $type): bool
+    {
+        return in_array($type, self::otherNeedsTypes(), true);
     }
 
     public static function table(Table $table): Table

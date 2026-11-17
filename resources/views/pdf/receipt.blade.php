@@ -4,6 +4,11 @@
     $logo = $logoKey && file_exists(public_path($logoPath))
         ? public_path($logoPath)
         : public_path('images/caritas-diosesana.png');
+
+    // El detalle de "otras necesidades" se añade al concepto entre paréntesis.
+    $typeDetail = fn (string $concept): string => $record->type === $concept && filled($record->type_detail)
+        ? ' ('.$record->type_detail.')'
+        : '';
 @endphp
 <!DOCTYPE html>
 <html lang="es">
@@ -147,7 +152,7 @@
             <tr>
                 <td colspan="2" width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de energía' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas de energía</td>
+                        class="icon" />Otras necesidades básicas de energía{{ $typeDetail('Otras necesidades básicas de energía') }}</td>
             </tr>
         </table>
         <article class="text-justify">
@@ -193,7 +198,7 @@
                         class="icon" />Reparación de Vehiculo</td>
                 <td width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de vivienda' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas de vivienda</td>
+                        class="icon" />Otras necesidades básicas de vivienda{{ $typeDetail('Otras necesidades básicas de vivienda') }}</td>
             </tr>
         </table>
         <article class="text-justify">
@@ -212,7 +217,7 @@
             <tr>
                 <td colspan="2" width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de la brecha digital' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas de la brecha digital</td>
+                        class="icon" />Otras necesidades básicas de la brecha digital{{ $typeDetail('Otras necesidades básicas de la brecha digital') }}</td>
             </tr>
         </table>
         <article class="text-justify">
@@ -236,7 +241,7 @@
                         class="icon" />Gastos de Transporte</td>
                 <td width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de educación' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas de educación</td>
+                        class="icon" />Otras necesidades básicas de educación{{ $typeDetail('Otras necesidades básicas de educación') }}</td>
             </tr>
         </table>
         <article class="text-justify">
@@ -263,7 +268,7 @@
             <tr>
                 <td colspan="2" width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas de salud' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas de salud</td>
+                        class="icon" />Otras necesidades básicas de salud{{ $typeDetail('Otras necesidades básicas de salud') }}</td>
             </tr>
         </table>
         <article class="text-justify">
@@ -282,7 +287,7 @@
             <tr>
                 <td colspan="2" width="50%"><img
                         src="{{ public_path('images/' . ($record->type === 'Otras necesidades básicas' ? 'square-x' : 'square') . '.webp') }}"
-                        class="icon" />Otras necesidades básicas</td>
+                        class="icon" />Otras necesidades básicas{{ $typeDetail('Otras necesidades básicas') }}</td>
             </tr>
         </table>
 
