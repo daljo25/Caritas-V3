@@ -9,6 +9,7 @@ use App\Filament\Resources\BeneficiaryResource\Pages\ListBeneficiaries;
 use App\Filament\Resources\BeneficiaryResource\RelationManagers\FamilyRelationManager;
 use App\Filament\Resources\BeneficiaryResource\RelationManagers\RecordRelationManager;
 use App\Models\Beneficiary;
+use App\Models\WorkExperience;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
@@ -125,6 +126,19 @@ class BeneficiaryResource extends Resource
                                         TextInput::make('education')
                                             ->label('Nivel de Educación')
                                             ->maxLength(255),
+                                        Select::make('workExperiences')
+                                            ->label('Experiencia Laboral')
+                                            ->relationship('workExperiences', 'name')
+                                            ->multiple()
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                TextInput::make('name')
+                                                    ->label('Experiencia')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->unique(WorkExperience::class, 'name'),
+                                            ]),
                                     ]),
                                 Fieldset::make('Datos Socioeconomicos')
                                     ->schema([
@@ -343,6 +357,11 @@ class BeneficiaryResource extends Resource
                     ->label('Nivel de Educación')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('workExperiences.name')
+                    ->label('Experiencia Laboral')
+                    ->badge()
+                    ->separator(',')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('state')
                     ->label('Estado')
                     ->searchable()
@@ -359,6 +378,12 @@ class BeneficiaryResource extends Resource
                     ->label('Estado')
                     ->attribute('state')
                     ->multiple(),
+                SelectFilter::make('workExperiences')
+                    ->label('Experiencia Laboral')
+                    ->relationship('workExperiences', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 ViewAction::make(),

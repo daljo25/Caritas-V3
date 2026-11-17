@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Beneficiary extends Model
 {
@@ -42,6 +43,11 @@ class Beneficiary extends Model
     public function Attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function workExperiences(): MorphToMany
+    {
+        return $this->morphToMany(WorkExperience::class, 'person', 'person_work_experiences');
     }
 
     // cast
