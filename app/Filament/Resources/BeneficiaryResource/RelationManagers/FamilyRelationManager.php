@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\BeneficiaryResource\RelationManagers;
 
 use App\Models\Family;
+use App\Models\WorkExperience;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -84,6 +85,19 @@ class FamilyRelationManager extends RelationManager
                                         TextInput::make('education')
                                             ->label('Nivel de Educación')
                                             ->maxLength(255),
+                                        Select::make('workExperiences')
+                                            ->label('Experiencia Laboral')
+                                            ->relationship('workExperiences', 'name')
+                                            ->multiple()
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                TextInput::make('name')
+                                                    ->label('Experiencia')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->unique(WorkExperience::class, 'name'),
+                                            ]),
                                     ]),
                             ])
                             ->columns(2),
@@ -217,6 +231,11 @@ class FamilyRelationManager extends RelationManager
                     ->label('Correo Electrónico'),
                 TextColumn::make('education')
                     ->label('Nivel de Educación'),
+                TextColumn::make('workExperiences.name')
+                    ->label('Experiencia Laboral')
+                    ->badge()
+                    ->separator(',')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

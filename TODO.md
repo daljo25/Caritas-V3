@@ -102,7 +102,11 @@ devuelve 403 en cualquier otro entorno. `App\Models\User` ya lo implementa
 
 ## 7. Datos pendientes en producción
 
-- [ ] Ejecutar `database/queries/fix_aids_type.sql` en phpMyAdmin (tras exportar
-      la tabla `aids`): normaliza 142 ayudas cuyo `type` está mal escrito. Queda
-      1 fila dudosa, la aid 113 (362 €), que hay que confirmar con el director
-      antes de decidir entre el concepto de energía y el de vivienda.
+- [x] Ejecutar `database/queries/fix_aids_type.sql` en phpMyAdmin (tras exportar
+      la tabla `aids`): normaliza 142 ayudas cuyo `type` está mal escrito. Hecho
+      en producción el 17/11/2026: 397 filas intactas y 21 tipos distintos, todos
+      del catálogo. También se corrigió la fila dudosa (aid 113).
+- [ ] Confirmar a qué concepto fue la aid 113 (362 €): energía
+      (`…instalaciones y equipamientos`, 81 caracteres) o vivienda
+      (`…equipos NO relacionados con la eficiencia energética`, 120). Se eligió
+      el concepto de energía por la errata original.

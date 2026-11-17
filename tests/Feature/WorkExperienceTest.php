@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\BeneficiaryResource\Pages\EditBeneficiary;
 use App\Filament\Resources\BeneficiaryResource\Pages\ListBeneficiaries;
+use App\Filament\Resources\BeneficiaryResource\RelationManagers\FamilyRelationManager;
 use App\Filament\Resources\FamilyResource\Pages\ListFamilies;
 use App\Filament\Resources\WorkExperienceResource\Pages\CreateWorkExperience;
 use App\Filament\Resources\WorkExperienceResource\Pages\ListWorkExperiences;
@@ -10,6 +11,7 @@ use App\Models\Family;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\WorkExperience;
+use Filament\Actions\CreateAction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Livewire\Livewire;
 
@@ -98,6 +100,25 @@ it('guarda las experiencias elegidas en la ficha', function () {
 
     expect($beneficiario->fresh()->workExperiences()->pluck('work_experiences.id')->sort()->values()->all())
         ->toBe(collect([$this->pintura->id, $this->albanil->id])->sort()->values()->all());
+});
+
+it('guarda la experiencia laboral al crear un familiar desde la ficha del beneficiario', function () {
+    $beneficiario = ($this->nuevoBeneficiario)();
+
+    Livewire::test(FamilyRelationManager::class, [
+        'ownerRecord' => $beneficiario,
+        'pageClass' => EditBeneficiary::class,
+    ])
+        ->callTableAction(CreateAction::class, data: [
+            'name' => 'Familiar con oficio',
+            'workExperiences' => [$this->pintura->id],
+        ])
+        ->assertHasNoTableActionErrors();
+
+    $familiar = Family::query()->where('name', 'Familiar con oficio')->firstOrFail();
+
+    expect($familiar->workExperiences()->pluck('work_experiences.id')->all())
+        ->toBe([$this->pintura->id]);
 });
 
 it('crea una experiencia nueva desde el catálogo', function () {
