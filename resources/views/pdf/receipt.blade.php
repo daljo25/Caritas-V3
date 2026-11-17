@@ -171,8 +171,7 @@
                         src="{{ public_path(
                             'images/' .
                                 ($record->type ===
-                                'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO
-                                            relacionados con la eficiencia energética'
+                                'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética'
                                     ? 'square-x'
                                     : 'square') .
                                 '.webp',

@@ -65,48 +65,7 @@ class AidResource extends Resource
                         Select::make('type')
                             ->label('Tipo de Ayuda')
                             ->required()
-                            ->options([
-                                'Lucha Contra la Pobreza Energética' => [
-                                    'Pago de suministro' => 'Pago de suministro',
-                                    'Mejora de aislamiento' => 'Mejora de aislamiento',
-                                    'Adquisición y reposición de elementos luminosos de bajo consumo' => 'Adquisición y reposición de elementos luminosos de bajo consumo',
-                                    'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos',
-                                    'Otras necesidades básicas de energía' => 'Otras necesidades básicas de energía',
-                                ],
-                                'Gastos Relativos a la Vivienda' => [
-                                    'Impago de alquiler' => 'Impago de alquiler',
-                                    'Impago de crédito hipotecario' => 'Impago de crédito hipotecario',
-                                    'Gastos derivados de las alternativas al alquiler' => 'Gastos derivados de las alternativas al alquiler',
-                                    'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética',
-                                    'Equipamiento básico del hogar' => 'Equipamiento básico del hogar',
-                                    'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)' => 'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)',
-                                    'Reparación de vehículo' => 'Reparación de vehículo',
-                                    'Otras necesidades básicas de vivienda' => 'Otras necesidades básicas de vivienda',
-                                ],
-                                'Gastos Relativos a la Reducción de la Brecha Digital' => [
-                                    'Pago de telefonía e internet' => 'Pago de telefonía e internet',
-                                    'Equipamiento digital' => 'Equipamiento digital',
-                                    'Otras necesidades básicas de la brecha digital' => 'Otras necesidades básicas de la brecha digital',
-                                ],
-                                'Gastos Relativos a la Educación y Formación' => [
-                                    'Material escolar' => 'Material escolar',
-                                    'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)' => 'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)',
-                                    'Gastos de transporte' => 'Gastos de transporte',
-                                    'Otras necesidades básicas de educación' => 'Otras necesidades básicas de educación',
-                                ],
-                                'Gastos Relativos a la Salud' => [
-                                    'Material farmacéutico (fármacos, copagos, etc.)' => 'Material farmacéutico (fármacos, copagos, etc.)',
-                                    'Óptica y ortopedia' => 'Óptica y ortopedia',
-                                    'Odontología' => 'Odontología',
-                                    'Servicios terapéuticos' => 'Servicios terapéuticos',
-                                    'Otras necesidades básicas de salud' => 'Otras necesidades básicas de salud',
-                                ],
-                                'Otras Necesidades Básicas' => [
-                                    'Alimentación e higiene' => 'Alimentación e higiene',
-                                    'Gastos de transporte o viajes' => 'Gastos de transporte o viajes',
-                                    'Otras necesidades básicas' => 'Otras necesidades básicas',
-                                ],
-                            ]),
+                            ->options(self::typeOptions()),
                         Select::make('status')
                             ->label('Etapa')
                             ->options([
@@ -156,6 +115,59 @@ class AidResource extends Resource
                     ]),
 
             ]);
+    }
+
+    /**
+     * Catálogo único de tipos de ayuda. El recibo (`pdf.receipt`) marca su casilla
+     * comparando `Aid::type` contra estas mismas cadenas, así que cualquier cambio
+     * aquí tiene que ir acompañado del cambio en la vista.
+     *
+     * @return array<string, array<string, string>>
+     */
+    public static function typeOptions(): array
+    {
+        return [
+            'Lucha Contra la Pobreza Energética' => [
+                'Pago de suministro' => 'Pago de suministro',
+                'Mejora de aislamiento' => 'Mejora de aislamiento',
+                'Adquisición y reposición de elementos luminosos de bajo consumo' => 'Adquisición y reposición de elementos luminosos de bajo consumo',
+                'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipamientos',
+                'Otras necesidades básicas de energía' => 'Otras necesidades básicas de energía',
+            ],
+            'Gastos Relativos a la Vivienda' => [
+                'Impago de alquiler' => 'Impago de alquiler',
+                'Impago de crédito hipotecario' => 'Impago de crédito hipotecario',
+                'Gastos derivados de las alternativas al alquiler' => 'Gastos derivados de las alternativas al alquiler',
+                'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética' => 'Adecuación, mejora, reparación y/o mantenimiento de instalaciones y equipos NO relacionados con la eficiencia energética',
+                'Equipamiento básico del hogar' => 'Equipamiento básico del hogar',
+                'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)' => 'Ropero (Ropa, Zapatos, Uniformes, Lencería del hogar, etc.)',
+                'Reparación de vehículo' => 'Reparación de vehículo',
+                'Otras necesidades básicas de vivienda' => 'Otras necesidades básicas de vivienda',
+            ],
+            'Gastos Relativos a la Reducción de la Brecha Digital' => [
+                'Pago de telefonía e internet' => 'Pago de telefonía e internet',
+                'Equipamiento digital' => 'Equipamiento digital',
+                'Otras necesidades básicas de la brecha digital' => 'Otras necesidades básicas de la brecha digital',
+            ],
+            'Gastos Relativos a la Educación y Formación' => [
+                'Material escolar' => 'Material escolar',
+                'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)' => 'Servicios escolares (Aula matinal, aula de mediodía, comedor, extraescolares, etc.)',
+                'Gastos de transporte' => 'Gastos de transporte',
+                'Otras necesidades básicas de educación' => 'Otras necesidades básicas de educación',
+            ],
+            'Gastos Relativos a la Salud' => [
+                'Material farmacéutico (fármacos, copagos, etc.)' => 'Material farmacéutico (fármacos, copagos, etc.)',
+                'Óptica y ortopedia' => 'Óptica y ortopedia',
+                'Odontología' => 'Odontología',
+                'Servicios terapéuticos' => 'Servicios terapéuticos',
+                'Otras necesidades básicas de salud' => 'Otras necesidades básicas de salud',
+            ],
+            'Otras Necesidades Básicas' => [
+                'Alimentación e higiene' => 'Alimentación e higiene',
+                'Gastos de transporte o viajes' => 'Gastos de transporte o viajes',
+                'Otras necesidades básicas' => 'Otras necesidades básicas',
+            ],
+        ];
     }
 
     public static function table(Table $table): Table

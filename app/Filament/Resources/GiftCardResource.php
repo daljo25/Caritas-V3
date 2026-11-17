@@ -117,6 +117,7 @@ class GiftCardResource extends Resource
                     ->sortable(),
                 TextColumn::make('number')
                     ->label('Número')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('pin')
                     ->label('PIN')
