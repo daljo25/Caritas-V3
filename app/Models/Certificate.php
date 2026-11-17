@@ -48,6 +48,14 @@ class Certificate extends Model
     }
 
     /**
+     * Fecha de emisión en formato largo, la que se imprime bajo el membrete.
+     */
+    public function issuedDateLong(): string
+    {
+        return ($this->created_at ?? now())->locale('es')->translatedFormat('j \d\e F \d\e Y');
+    }
+
+    /**
      * @return array<string, string>
      */
     public static function recipientTypes(): array

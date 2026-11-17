@@ -5,6 +5,10 @@
     } else {
         $logo = public_path('images/logo-v.svg');
     }
+
+    // Lugar y fecha de emisión: "Sevilla, 17 de noviembre de 2026".
+    $ciudad = trim((string) setting('parish.city'));
+    $lugarYFecha = ($ciudad !== '' ? $ciudad . ', ' : '') . $record->issuedDateLong();
 @endphp
 <!DOCTYPE html>
 <html lang="es">
@@ -36,6 +40,11 @@
         .membrete .entidad {
             font-size: 13px;
             font-weight: bold;
+        }
+
+        .fecha {
+            margin-top: 14px;
+            font-size: 12px;
         }
 
         .titulo {
@@ -136,6 +145,8 @@
             {{ setting('parish.address') }}, {{ setting('parish.zip_code') }} {{ setting('parish.city') }}<br />
             Tel: {{ setting('parish.phone') }} | Email: {{ setting('parish.email') }}
         </div>
+
+        <div class="fecha">{{ $lugarYFecha }}</div>
     </header>
 
     <main>

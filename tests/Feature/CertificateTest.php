@@ -170,6 +170,24 @@ it('imprime el membrete, el título, el destinatario, el texto y el director', f
         ->and($html)->not->toContain('&lt;p&gt;');
 });
 
+it('imprime el lugar y la fecha larga entre el membrete y el título', function () {
+    $certificado = Certificate::query()->create([
+        'recipient_type' => 'externo',
+        'recipient_name' => 'Persona externa',
+        'title' => 'Certificado',
+        'body' => '<p>Texto.</p>',
+    ]);
+
+    $html = view('pdf.certificate', ['record' => $certificado])->render();
+
+    $fecha = $certificado->issuedDateLong();
+
+    expect($fecha)->toMatch('/^\d{1,2} de [a-záéíóú]+ de \d{4}$/u')
+        ->and($html)->toContain(setting('parish.city').', '.$fecha)
+        ->and(strpos($html, setting('parish.address')))->toBeLessThan(strpos($html, $fecha))
+        ->and(strpos($html, $fecha))->toBeLessThan(strpos($html, 'class="titulo"'));
+});
+
 it('sanea el html del editor antes de imprimirlo', function () {
     $certificado = Certificate::query()->create([
         'recipient_type' => 'externo',

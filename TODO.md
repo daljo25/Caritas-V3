@@ -75,9 +75,34 @@ devuelve 403 en cualquier otro entorno. `App\Models\User` ya lo implementa
 
 ## 6. Solicitudes de modificaciones
 
-- [ ] Verificar que todos los conceptos del recibi esten emparejados con la db.
-- [ ] Cuendo se seleccione otras necesidades, aparezca un campo de texto para agregar la necesidad especifica y luego aparezca en el pdf.
-- [ ] Crear un nuevo resource de certificados en blanco para certificados, solicitudes, autorizaciones, que incluya membrete y firma y a personas de la BD o no.
-- [ ] Buscar tarjeta de regalo por numero, colocarla como searshable().
-- [ ] Pensar la manera de poder filtrar a gente por trabajos 
-- [ ] peticiones y justificaciones.
+- [x] Verificar que todos los conceptos del recibí estén emparejados con la DB.
+      El catálogo único vive en `AidResource::typeOptions()` y lo protege
+      `tests/Feature/ReceiptConceptTest.php` (`4d9b315`). Falta normalizar los
+      datos antiguos de producción: 142 ayudas con el tipo mal escrito y 1
+      dudosa. El SQL está en `database/queries/fix_aids_type.sql` (§7).
+- [x] Cuando se seleccione otras necesidades, aparezca un campo de texto para
+      agregar la necesidad específica y luego aparezca en el PDF. Columna
+      `aids.type_detail`, campo condicional y ` (detalle)` en el recibo
+      (`0e00d38`).
+- [x] Crear un nuevo resource de certificados en blanco para certificados,
+      solicitudes, autorizaciones, que incluya membrete y firma y a personas de
+      la BD o no (`d570ba4`, `07f14a7`). El destinatario puede ser beneficiario,
+      familiar o un nombre libre con su DNI/NIE/PAS; el cuerpo se escribe con
+      editor enriquecido y el PDF lleva membrete, lugar y fecha, título, cuerpo
+      y firma con el cargo del director.
+- [x] Buscar tarjeta de regalo por número, colocarla como `searchable()`
+      (`4d9b315`).
+- [x] Pensar la manera de poder filtrar a gente por trabajos. Catálogo de 21
+      experiencias laborales (`work_experiences`) con pivot polimórfico, select
+      con creación al vuelo, columna de badges, filtro en beneficiarios y
+      familiares, y resource propio con contadores (`5095224`).
+- [ ] Peticiones y justificaciones. **Bloqueado**: pendiente de que el director
+      entregue el PDF modelo y el resto de datos que debe llevar. No se toca
+      hasta entonces.
+
+## 7. Datos pendientes en producción
+
+- [ ] Ejecutar `database/queries/fix_aids_type.sql` en phpMyAdmin (tras exportar
+      la tabla `aids`): normaliza 142 ayudas cuyo `type` está mal escrito. Queda
+      1 fila dudosa, la aid 113 (362 €), que hay que confirmar con el director
+      antes de decidir entre el concepto de energía y el de vivienda.
