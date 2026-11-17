@@ -18,6 +18,9 @@ return new class extends Migration
             // Copia del nombre, para que el listado y la búsqueda no dependan de
             // que la persona siga existiendo.
             $table->string('recipient_name');
+            // Documento de identidad, también copiado para que el impreso no
+            // dependa de la ficha de la persona.
+            $table->string('recipient_document')->nullable();
             $table->foreignId('beneficiary_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('family_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');

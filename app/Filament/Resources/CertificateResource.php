@@ -11,8 +11,8 @@ use App\Models\Family;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Fieldset;
@@ -58,6 +58,11 @@ class CertificateResource extends Resource
                             ->helperText('Para personas que no están en la base de datos.')
                             ->visible(fn (Get $get): bool => $get('recipient_type') === 'externo')
                             ->required(fn (Get $get): bool => $get('recipient_type') === 'externo'),
+                        TextInput::make('recipient_document')
+                            ->label('DNI / NIE / PAS')
+                            ->maxLength(255)
+                            ->helperText('Documento del destinatario. En beneficiarios y familiares se toma de su ficha.')
+                            ->visible(fn (Get $get): bool => $get('recipient_type') === 'externo'),
                         Select::make('beneficiary_id')
                             ->label('Beneficiario')
                             ->relationship('beneficiary', 'name')
@@ -92,10 +97,9 @@ class CertificateResource extends Resource
                                 'Solicitud',
                                 'Autorización',
                             ]),
-                        Textarea::make('body')
+                        RichEditor::make('body')
                             ->label('Texto del documento')
                             ->required()
-                            ->rows(12)
                             ->columnSpanFull(),
                     ]),
             ]);

@@ -18,42 +18,24 @@
             padding: 0;
             margin: 30px;
             font-family: helvetica, sans-serif;
-            font-size: 14px;
-        }
-
-        table {
-            width: 100%;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
-
-        td {
-            vertical-align: top;
-        }
-
-        .noborder {
-            border: none;
-        }
-
-        .datos {
-            width: 65%;
-            font-size: 11px;
-            line-height: 1.5;
-            padding-top: 4px;
-        }
-
-        .datos .entidad {
             font-size: 13px;
-            font-weight: bold;
-        }
-
-        .logo-cell {
-            width: 35%;
         }
 
         .logo {
-            width: 130px;
+            width: 120px;
             height: auto;
+        }
+
+        .membrete {
+            margin-top: 12px;
+            text-align: left;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .membrete .entidad {
+            font-size: 13px;
+            font-weight: bold;
         }
 
         .titulo {
@@ -66,11 +48,59 @@
             letter-spacing: 1px;
         }
 
+        .destinatario {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .destinatario .nombre {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .destinatario .documento {
+            font-size: 13px;
+        }
+
         .cuerpo {
-            margin-top: 35px;
+            margin-top: 25px;
             text-align: justify;
             line-height: 1.8;
             font-size: 14px;
+        }
+
+        .cuerpo p {
+            margin: 0 0 10px;
+        }
+
+        .cuerpo ul,
+        .cuerpo ol {
+            margin: 0 0 10px;
+            padding-left: 22px;
+        }
+
+        .cuerpo li {
+            margin-bottom: 4px;
+        }
+
+        .cuerpo h1,
+        .cuerpo h2,
+        .cuerpo h3,
+        .cuerpo h4 {
+            margin: 0 0 10px;
+            font-size: 15px;
+        }
+
+        .cuerpo blockquote {
+            margin: 0 0 10px;
+            padding-left: 10px;
+            border-left: 2px solid #999999;
+            color: #444444;
+        }
+
+        .cuerpo a {
+            color: #1a4f9c;
+            text-decoration: underline;
         }
 
         .firma {
@@ -99,24 +129,27 @@
 
 <body>
     <header>
-        <table>
-            <tr>
-                <td class="noborder logo-cell"><img src="{{ $logo }}" alt="Logo" class="logo" /></td>
-                <td class="noborder datos">
-                    <span class="entidad">{{ setting('parish.caritas_name') }}</span><br />
-                    {{ setting('parish.address') }}<br />
-                    {{ setting('parish.zip_code') }} {{ setting('parish.city') }}<br />
-                    Tel. {{ setting('parish.phone') }}<br />
-                    {{ setting('parish.email') }}
-                </td>
-            </tr>
-        </table>
+        <img src="{{ $logo }}" alt="Logo" class="logo" />
+
+        <div class="membrete">
+            <span class="entidad">{{ setting('parish.caritas_name') }}</span><br />
+            {{ setting('parish.address') }}, {{ setting('parish.zip_code') }} {{ setting('parish.city') }}<br />
+            Tel: {{ setting('parish.phone') }} | Email: {{ setting('parish.email') }}
+        </div>
     </header>
 
     <main>
         <h1 class="titulo">{{ $record->title }}</h1>
 
-        <div class="cuerpo">{!! nl2br(e($record->body)) !!}</div>
+        <div class="destinatario">
+            <span class="nombre">D./Dña. {{ $record->recipient_name }}</span>
+            @if (filled($record->recipient_document))
+                <br />
+                <span class="documento">DNI / NIE / PAS: {{ $record->recipient_document }}</span>
+            @endif
+        </div>
+
+        <div class="cuerpo">{!! $record->renderedBody() !!}</div>
 
         <div class="firma">
             <div class="firma-linea"></div>
