@@ -1,0 +1,22 @@
+{
+    "agents": [
+        "opencode",
+        "copilot",
+        "codex"
+    ],
+    "cloud": false,
+    "guidelines": true,
+    "packages": [
+        "maatwebsite/excel",
+        "filament/filament"
+    ],
+    "skills": [
+        "infer-conventions",
+        "laravel-best-practices",
+        "testing-best-practices",
+        "livewire-development",
+        "tailwindcss-development",
+        "filament-development",
+        "laravel-excel"
+    ]
+}

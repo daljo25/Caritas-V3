@@ -72,3 +72,12 @@ devuelve 403 en cualquier otro entorno. `App\Models\User` ya lo implementa
 
 - [ ] Si algún día hay que restringir quién entra, hacerlo en
       `canAccessPanel()` (email, rol…) en vez de quitar la interfaz.
+
+## 6. Solicitudes de modificaciones
+
+- [ ] Verificar que todos los conceptos del recibi esten emparejados con la db.
+- [ ] Cuendo se seleccione otras necesidades, aparezca un campo de texto para agregar la necesidad especifica y luego aparezca en el pdf.
+- [ ] Crear un nuevo resource de certificados en blanco para certificados, solicitudes, autorizaciones, que incluya membrete y firma y a personas de la BD o no.
+- [ ] Buscar tarjeta de regalo por numero, colocarla como searshable().
+- [ ] Pensar la manera de poder filtrar a gente por trabajos 
+- [ ] peticiones y justificaciones.
