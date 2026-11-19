@@ -45,9 +45,11 @@ class EditGiftCard extends EditRecord
         $aidMonth = $giftCard->delivery_date
             ? Str::ucfirst(Carbon::parse($giftCard->delivery_date)->locale('es')->translatedFormat('F'))
             : 'sin especificar';
+        $amount = number_format((float) $giftCard->amount, 2, ',', '');
         $message = sprintf(
-            'Tarjeta #%s entregada el día %s correspondiente a la ayuda del mes de %s.',
+            'Tarjeta #%s por %s € entregada el día %s correspondiente a la ayuda del mes de %s.',
             $giftCard->number,
+            $amount,
             $deliveredAt->format('d/m/Y'),
             $aidMonth
         );
